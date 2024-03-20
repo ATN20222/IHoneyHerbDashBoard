@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <g id="Group_746" data-name="Group 746" transform="translate(3425 9493)">
+    <g id="Google_Sign_In" data-name="Google Sign In" transform="translate(-3425 -9493)">
+      <circle id="google_login_area" data-name="google login area" cx="20" cy="20" r="20" fill="#f5f6f9"/>
+    </g>
+    <g id="Layer_2" data-name="Layer 2" transform="translate(-3418.164 -9486.087)">
+      <g id="Layer_1" data-name="Layer 1" transform="translate(0)">
+        <path id="Path_12" data-name="Path 12" d="M42.986,20.782l-.018.011-.018.011,2.84,4.584.037-.022Zm-11.3-3.077-.011-.019L27,20.386l.011.019.011.018,4.666-2.7C31.687,17.717,31.683,17.712,31.683,17.705ZM38.836,0V5.389h.043V0ZM27.024,6.854l-.011.018L27,6.891l4.666,2.7.011-.019.011-.018ZM38.836,21.887v5.39h.043v-5.39Z" transform="translate(-25.216)" fill="none"/>
+        <path id="Path_13" data-name="Path 13" d="M212.087,7.1a8.218,8.218,0,0,0-5.007-1.71V0a13.584,13.584,0,0,1,8.477,2.969.913.913,0,0,1,.092,1.337c-.735.791-1.917,2.045-2.582,2.725A.737.737,0,0,1,212.087,7.1Z" transform="translate(-193.419)" fill="#d93e21"/>
+        <path id="Path_14" data-name="Path 14" d="M39.182,0V5.389a8.244,8.244,0,0,0-7.146,4.163l-4.666-2.7A13.631,13.631,0,0,1,39.182,0Z" transform="translate(-25.562)" fill="#f94b26"/>
+        <path id="Path_15" data-name="Path 15" d="M5.347,111.227a8.2,8.2,0,0,0,1.061,4.048l-4.669,2.7a13.653,13.653,0,0,1,0-13.495l4.669,2.7a8.209,8.209,0,0,0-1.061,4.048Z" transform="translate(0.045 -97.589)" fill="#fed502"/>
+        <path id="Path_16" data-name="Path 16" d="M39.182,272.884v5.39A13.631,13.631,0,0,1,27.37,271.42l4.666-2.7a8.244,8.244,0,0,0,7.146,4.164Z" transform="translate(-25.562 -250.996)" fill="#2fb347"/>
+        <path id="Path_17" data-name="Path 17" d="M214.02,319.994a13.576,13.576,0,0,1-6.91,1.89v-5.39a8.21,8.21,0,0,0,4.07-1.084Z" transform="translate(-193.447 -294.607)" fill="#27993d"/>
+        <path id="Path_18" data-name="Path 18" d="M229.292,173.8a13.613,13.613,0,0,1-6.67,11.726l-2.84-4.583a8.276,8.276,0,0,0,3.55-4.126h-6.2a.857.857,0,0,1-.853-.852v-3.643a.857.857,0,0,1,.853-.852h10.962a1.437,1.437,0,0,1,1.074.483A13.735,13.735,0,0,1,229.292,173.8Z" transform="translate(-202.012 -160.161)" fill="#167ee6"/>
+      </g>
+    </g>
+  </g>
+</svg>

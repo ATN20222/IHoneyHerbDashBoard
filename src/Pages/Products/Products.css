@@ -1,0 +1,107 @@
+.SearchAndFilter{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-top: 40px;
+    
+}
+.SearchAndFilter .CategoryFormItem{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 40px;
+}
+.SearchContainer input{
+    border: 1px solid black;
+    border-radius: 15px !important;
+   
+}
+.SearchContainer {
+    position: relative;
+}
+.SearchContainer svg{
+    position: absolute;
+    top: 10px;
+    right: 8px;
+}
+.Filter button svg{
+    padding-right: 5px;
+}
+.VariationFormItem{
+    display: flex;
+    justify-content: space-evenly;
+}
+.VariationFormItem .CheckBoxes{
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.CheckBoxes{
+    display: flex;
+    justify-content: center !important;
+}
+.CheckBoxes label{
+    padding-left: 10px;
+}
+.ApplyBtn{
+    border-radius: 15px;
+}
+.VariationControl{
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.VariationControl label{
+    padding-right: 10px;
+}
+.VariationControl input{
+    border: 1px solid black;
+    border-radius: 12px !important;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.VariationControl button{
+    margin-left: 10px;
+}
+.AddingControl{
+    display: flex;
+    flex-direction: column;
+}
+.OptionContainer{
+    position: relative;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.OptionContainer button{
+    position:absolute;
+    right:  5px;
+    top: -2px;
+}
+.VariationTable{
+    width: 100%;
+}
+.ImageItem{
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.ContainerImagesUpload{
+    position: relative;
+    flex-direction: column;
+    text-align: center;
+    cursor: pointer;
+    
+    
+}
+.ImagesUpload{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}

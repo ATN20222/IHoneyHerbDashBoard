@@ -1,0 +1,42 @@
+@media (max-width : 900px) {
+    .MainCol {
+        width: 100% !important;
+    }
+    .MainCol >.row{
+        justify-content: center;
+    }
+    .SideMenu{
+        position: fixed !important;
+    z-index: 100000;
+    height: 100% !important;
+    transition: all 0.2s ease-in-out;
+    /* left: -100%; */
+    
+    /* right: -100%; */
+    right: -250px;
+    min-width: 250px !important;
+    max-width: 250px;
+    }
+    .InsideMenu{
+        position: relative !important;
+    }
+    
+    .MenuText {
+        text-align: center;
+        font-weight: 500;
+        color: white;
+        position: absolute;
+        background: #f4c015;
+        left: -74px;
+        top: 50%;
+        rotate: -90deg;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        cursor: pointer;
+    }
+    .ShowSideBar{
+        right: 0;
+    }
+}

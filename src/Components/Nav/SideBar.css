@@ -1,0 +1,57 @@
+.SideMenu{
+    background: linear-gradient( to bottom   , #f0b324, #fbd203);
+    border-radius: 0 !important;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    position: relative ;
+    top: 0;
+}
+.SideBarMenu{
+    height: 100%;
+    position: relative;
+
+}
+.InsideMenu{
+    position: fixed ;
+    top: 0;
+    left: 0;
+    min-height: 800px;
+    padding: 10px;
+    z-index: 100; 
+}
+
+.InSideBar{
+    color: white !important;
+}
+.LogoContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction:row ;
+
+}
+.LogoContainer .LogoWords{
+    padding-left: 5px;
+    font-size: 20px;
+}
+.MenuText{
+    text-align: start;
+    padding-left: 15px;
+    font-weight: 500;
+    color: white;
+}
+.SideBarItems{
+    padding-left: 15px;
+}
+.SideBarItems ul li{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.LinkItem{
+    color: black;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+}
