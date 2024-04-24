@@ -3,7 +3,7 @@ import VariationOptions from "./VariatioinOptions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import './Products.css'
-import { AddOption, AssignProduct, ListCategories, addProduct, listVariation, uploadImage } from "../../Services/Api";
+import { AddOption, AssignProduct, ListCategories, TestCats, addProduct, listVariation, uploadImage } from "../../Services/Api";
 const AddProduct = () =>{
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
     const [isApplied, setIsApplied] = useState(false);
@@ -54,15 +54,38 @@ const AddProduct = () =>{
     }, []);
 
 
+    function getCategoryList(data, parentId = '0', prefix = '') {
+        const categories = [];
+      
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                const item = data[key];
+                if (item.parent_id === parentId) {
+                    const category = `${prefix}${item.category}`;
+                    categories.push({ id: item.id, category });
+                    if (item.child) {
+                        const childCategories = getCategoryList(item.child, item.id, `${category} > `);
+                        categories.push(...childCategories);
+                    }
+                }
+            }
+        }
+      
+        return categories;
+      }
+
+
+
     useEffect(() => {
       const fetchData = async () => {
         try {
           const auth_key = localStorage.getItem('token');
           const user_id = localStorage.getItem('user_id');
-          const response = await ListCategories(auth_key, user_id);
-          if (response && response.status && response.categories_list) {
-            setCategories(response.categories_list);
-            console.log(response.categories_list);
+          const response = await TestCats(auth_key, user_id);
+          if (response && response.status && response.data) {
+           
+            setCategories( getCategoryList(response.data));
+            console.log(response.data);
           } else {
             console.error('Invalid response format:', response);
           }
@@ -570,7 +593,7 @@ const AddProduct = () =>{
                          >
                              <option value="">Choose...</option>
                              {categories.map(category => (
-                                 <option key={category.id} value={category.id}>{category.cat_name_en}</option>
+                                 <option key={category.id} value={category.id}>{category.category}</option>
                              ))}
                          </select>
                      </div>

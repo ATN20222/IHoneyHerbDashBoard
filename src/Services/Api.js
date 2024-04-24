@@ -149,8 +149,7 @@ export const uploadImage = async ( image ) => {
   }
 };
 
-export const addProduct = 
-    async (auth_key, user_id ,
+export const addProduct = async (auth_key, user_id ,
           name_en , name_ar ,
           short_desc_en ,short_desc_ar,
           description_en , description_ar,
@@ -216,8 +215,7 @@ export const AssignProduct = async ( auth_key,product_id , option_id) => {
 };
 
 
-export const EditProduct = 
-    async (auth_key, user_id ,record_id,
+export const EditProduct = async (auth_key, user_id ,record_id,
           name_en , name_ar ,
           short_desc_en ,short_desc_ar,
           description_en , description_ar,
@@ -237,7 +235,10 @@ export const EditProduct =
     formData.append('description_en', description_en);
     formData.append('description_ar', description_ar);
     formData.append('category_id', category_id);
-    formData.append('main_image', main_image);
+    if(main_image != null){
+
+      formData.append('main_image', main_image);
+    }
     formData.append('sku', sku);
     formData.append('list_price', list_price);
     formData.append('sale_price', sale_price);
@@ -297,6 +298,20 @@ export const RemoveOption = async (auth_key, product_id , option_id) => {
   } catch (error) {
     throw new Error('Faild to remove option'); 
   }
+};
+
+export const TestCats = async (auth_key, user_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+
+
+      const response = await axios.post(`https://ihoneyherb.com/app/products/cat-test.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to list Products'); 
+    }
 };
 
 //#endregion

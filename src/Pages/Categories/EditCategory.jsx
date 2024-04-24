@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { addCategory, editCategory, ListCategories } from "../../Services/Api";
+import { addCategory, editCategory, ListCategories, TestCats } from "../../Services/Api";
 
 const EditCategory = () => {
   const [catNameEn, setCatNameEn] = useState('');
@@ -36,20 +36,52 @@ const EditCategory = () => {
     }
 };
 
+
+function getCategoryList(data, parentId = '0', prefix = '') {
+  const categories = [];
+
+  for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+          const item = data[key];
+          if (item.parent_id === parentId) {
+              const category = `${prefix}${item.category}`;
+              categories.push({ id: item.id, category });
+              if (item.child) {
+                  const childCategories = getCategoryList(item.child, item.id, `${category} > `);
+                  categories.push(...childCategories);
+              }
+          }
+      }
+  }
+
+  return categories;
+}
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const auth_key = localStorage.getItem('token');
         const user_id = localStorage.getItem('user_id');
         const response = await ListCategories(auth_key, user_id);
-        if (response && response.status && response.categories_list) {
-          setCategories(response.categories_list);
-          const selectedCategory = response.categories_list.find(cat => cat.id === category_id);
-          setCategory(selectedCategory);
+        const resp = await TestCats(auth_key , user_id);
+        console.log(resp);
+        // console.log(response);
+        if (resp && resp.status && resp.data) {
+          // setCategories(response.categories_list);
+          console.log(resp.data)
+          var arr = getCategoryList(resp.data);
+          setCategories( getCategoryList(resp.data));
+
+          var selectedCategory = response.categories_list.find(cat => cat.id === category_id);
           setCatNameEn(selectedCategory.cat_name_en);
           setCatNameAr(selectedCategory.cat_name_ar);
           setParentId(selectedCategory.parent_id);
+          selectedCategory = arr.find(cat => cat.id === category_id);
+          setCategory(selectedCategory);
           console.log(selectedCategory)
+          
+
         } else {
           console.error('Invalid response format:', response);
         }
@@ -138,7 +170,7 @@ const EditCategory = () => {
             >
               <option value={0}>Choose...</option>
               {categories.map(category => (
-                <option key={category.id} value={category.id}>{category.cat_name_en}</option>
+                <option key={category.id} value={category.id}>{category.category}</option>
               ))}
             </select>
           </div>

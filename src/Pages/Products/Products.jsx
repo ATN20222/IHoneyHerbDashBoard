@@ -39,6 +39,10 @@ const Products = () => {
         fetchData();
     }, [page]);
 
+
+    
+
+
     const handleShowMore = async () => {
         // setPage(prevPage => prevPage + 1);
         try {

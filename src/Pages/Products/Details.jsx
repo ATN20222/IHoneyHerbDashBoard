@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { AddPhotos, ListCategories, ProductDetails, RemoveOption, uploadImage } from "../../Services/Api";
+import { AddPhotos, ListCategories, ProductDetails, RemoveOption, TestCats, uploadImage } from "../../Services/Api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTrash, faUpload } from "@fortawesome/free-solid-svg-icons";
 
@@ -87,9 +87,10 @@ const Details= ()=>{
             try {
                 const auth_key = localStorage.getItem('token');
                 const user_id = localStorage.getItem('user_id');
-                const response = await ListCategories(auth_key, user_id);
-                if (response && response.status && response.categories_list) {
-                    setCategories(response.categories_list);
+                const response = await TestCats(auth_key, user_id);
+                if (response && response.status && response.data) {
+                    setCategories( getCategoryList(response.data));
+                
                 } else {
                     console.error('Invalid response format:', response);
                 }
@@ -100,6 +101,29 @@ const Details= ()=>{
 
         fetchData();
     }, []);
+
+
+    function getCategoryList(data, parentId = '0', prefix = '') {
+        const categories = [];
+      
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                const item = data[key];
+                if (item.parent_id === parentId) {
+                    const category = `${prefix}${item.category}`;
+                    categories.push({ id: item.id, category });
+                    if (item.child) {
+                        const childCategories = getCategoryList(item.child, item.id, `${category} > `);
+                        categories.push(...childCategories);
+                    }
+                }
+            }
+        }
+      
+        return categories;
+      }
+
+
 
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
@@ -317,7 +341,7 @@ const Details= ()=>{
                                 >
                                     <option value="">Choose...</option>
                                     {categories.map(category => (
-                                        <option key={category.id} value={category.id}>{category.cat_name_en}</option>
+                                        <option key={category.id} value={category.id}>{category.category}</option>
                                     ))}
                                 </select>
                             </div>

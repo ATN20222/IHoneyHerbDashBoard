@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { addCategory, ListCategories } from "../../Services/Api";
+import { addCategory, ListCategories, TestCats } from "../../Services/Api";
 
 const AddCategory = () => {
   const [catNameEn, setCatNameEn] = useState('');
@@ -17,9 +17,10 @@ const AddCategory = () => {
       try {
         const auth_key = localStorage.getItem('token');
         const user_id = localStorage.getItem('user_id');
-        const response = await ListCategories(auth_key, user_id);
-        if (response && response.status && response.categories_list) {
-          setCategories(response.categories_list);
+        const response = await TestCats(auth_key, user_id);
+        if (response && response.status && response.data) {
+            setCategories( getCategoryList(response.data));
+
         } else {
           console.error('Invalid response format:', response);
         }
@@ -73,6 +74,25 @@ const AddCategory = () => {
     e.preventDefault();
     window.location.href = "/categories";
 }
+  function getCategoryList(data, parentId = '0', prefix = '') {
+    const categories = [];
+
+    for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+            const item = data[key];
+            if (item.parent_id === parentId) {
+                const category = `${prefix}${item.category}`;
+                categories.push({ id: item.id, category });
+                if (item.child) {
+                    const childCategories = getCategoryList(item.child, item.id, `${category} > `);
+                    categories.push(...childCategories);
+                }
+            }
+        }
+    }
+
+    return categories;
+  }
 
 
   return (
@@ -118,7 +138,7 @@ const AddCategory = () => {
             >
               <option value={0}>Choose...</option>
               {categories.map(category => (
-                <option key={category.id} value={category.id}>{category.cat_name_en}</option>
+                <option key={category.id} value={category.id}>{category.category}</option>
               ))}
             </select>
             

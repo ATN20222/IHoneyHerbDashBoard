@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { ListCategories, ProductDetails, EditProduct as EditProductApi, uploadImage } from "../../Services/Api";
+import { ListCategories, ProductDetails, EditProduct as EditProductApi, uploadImage, TestCats } from "../../Services/Api";
 
 const EditProduct = () => {
     const [product, setProduct] = useState({});
@@ -48,9 +48,10 @@ const EditProduct = () => {
             try {
                 const auth_key = localStorage.getItem('token');
                 const user_id = localStorage.getItem('user_id');
-                const response = await ListCategories(auth_key, user_id);
-                if (response && response.status && response.categories_list) {
-                    setCategories(response.categories_list);
+                const response = await TestCats(auth_key, user_id);
+                if (response && response.status && response.data) {
+                    setCategories( getCategoryList(response.data));
+                    console.log(response.data);
                 } else {
                     console.error('Invalid response format:', response);
                 }
@@ -62,6 +63,25 @@ const EditProduct = () => {
         fetchData();
     }, []);
 
+    function getCategoryList(data, parentId = '0', prefix = '') {
+        const categories = [];
+      
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                const item = data[key];
+                if (item.parent_id === parentId) {
+                    const category = `${prefix}${item.category}`;
+                    categories.push({ id: item.id, category });
+                    if (item.child) {
+                        const childCategories = getCategoryList(item.child, item.id, `${category} > `);
+                        categories.push(...childCategories);
+                    }
+                }
+            }
+        }
+      
+        return categories;
+      }
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -228,7 +248,7 @@ const EditProduct = () => {
                             >
                                 <option value="">Choose...</option>
                                 {categories.map(category => (
-                                    <option key={category.id} value={category.id}>{category.cat_name_en}</option>
+                                    <option key={category.id} value={category.id}>{category.category}</option>
                                 ))}
                             </select>
                         </div>
@@ -292,7 +312,7 @@ const EditProduct = () => {
                                 <h6 className="">Image</h6>
                             </label>
                             <input 
-                            required 
+                             
                             className="col-lg-12 form-control EmailInput" 
                             type="file" 
                             placeholder="name in english"
