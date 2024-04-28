@@ -56,38 +56,38 @@ const SideBar = () =>{
                         </li>
                         
                         <li className="list-item">
-                            <Link onClick={handleLinkClick} className="LinkItem" to="/WellnessQuiz"> <FontAwesomeIcon icon={faQuestion}/>  WellnessQuiz </Link>
+                            <button disabled onClick={handleLinkClick} className="LinkItem" to="/WellnessQuiz"> <FontAwesomeIcon icon={faQuestion}/>  WellnessQuiz </button>
                         </li>
 
                         <li className="list-item">
-                            <Link onClick={handleLinkClick} className="LinkItem" to="/Orders"> <FontAwesomeIcon icon={faTruckFast}/>  Orders </Link>
+                            <button disabled onClick={handleLinkClick} className="LinkItem" to="/Orders"> <FontAwesomeIcon icon={faTruckFast}/>  Orders </button>
                         </li>
 
                        
                         <li className="list-item">
-                            <Link onClick={handleLinkClick} className="LinkItem" to="/Chat"> <FontAwesomeIcon icon={faComments}/>  Chat </Link>
+                            <button disabled onClick={handleLinkClick} className="LinkItem" to="/Chat"> <FontAwesomeIcon icon={faComments}/>  Chat </button>
                         </li>
 
                         <li className="list-item">
-                            <Link onClick={handleLinkClick} className="LinkItem" to="/Coupons"> <FontAwesomeIcon icon={faTicket}/>  Coupons </Link>
+                            <button disabled onClick={handleLinkClick} className="LinkItem" to="/Coupons"> <FontAwesomeIcon icon={faTicket}/>  Coupons </button>
                         </li>
 
                         <li className="list-item">
-                            <Link onClick={handleLinkClick} className="LinkItem" to="/Reviews"> <FontAwesomeIcon icon={faComment}/>  Reviews </Link>
+                            <button disabled onClick={handleLinkClick} className="LinkItem" to="/Reviews"> <FontAwesomeIcon icon={faComment}/>  Reviews </button>
                         </li>
                         <li className="list-item">
-                            <Link onClick={handleLinkClick} className="LinkItem" to="/IntroScreens"> <FontAwesomeIcon icon={faMobile}/>  App Intro Screens </Link>
-                        </li>
-
-                        <li className="list-item">
-                            <Link onClick={handleLinkClick} className="LinkItem" to="/Users"> <FontAwesomeIcon icon={faUser}/>  Users </Link>
+                            <button disabled onClick={handleLinkClick} className="LinkItem" to="/IntroScreens"> <FontAwesomeIcon icon={faMobile}/>  App Intro Screens </button>
                         </li>
 
                         <li className="list-item">
-                            <Link onClick={handleLinkClick} className="LinkItem" to="/Notifications"> <FontAwesomeIcon icon={faBell}/>  Notifications </Link>
+                            <button disabled onClick={handleLinkClick} className="LinkItem" to="/Users"> <FontAwesomeIcon icon={faUser}/>  Users </button>
+                        </li>
+
+                        <li className="list-item">
+                            <button disabled onClick={handleLinkClick} className="LinkItem" to="/Notifications"> <FontAwesomeIcon icon={faBell}/>  Notifications </button>
                         </li>
                         <li className="list-item">
-                            <Link onClick={handleLinkClick} className="LinkItem" to="/Configuration"> <FontAwesomeIcon icon={faGear}/>  Configuration </Link>
+                            <button disabled onClick={handleLinkClick} className="LinkItem" to="/Configuration"> <FontAwesomeIcon icon={faGear}/>  Configuration </button>
                         </li>
 
 

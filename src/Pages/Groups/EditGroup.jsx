@@ -118,17 +118,6 @@ const EditGroup = () => {
           <h3 className="categoryheader">Group name</h3>
           <div className="col-lg-6 CategoryFormItem">
             <label htmlFor="">
-              <h6 className="">Arabic name</h6>
-            </label>
-            <input 
-              className="col-lg-12 form-control EmailInput" 
-              placeholder="Name in Arabic"
-              value={GroupNameAr}
-              onChange={(e) => setGroupNameAr(e.target.value)}
-            />
-          </div>
-          <div className="col-lg-6 CategoryFormItem">
-            <label htmlFor="">
               <h6  className="">English Name</h6>
             </label>
             <input 
@@ -138,10 +127,23 @@ const EditGroup = () => {
               onChange={(e) => setGroupNameEn(e.target.value)}
             />
           </div>
+
+          <div className="col-lg-6 CategoryFormItem">
+            <label htmlFor="">
+              <h6 className="">Arabic Name</h6>
+            </label>
+            <input 
+              className="col-lg-12 form-control EmailInput" 
+              placeholder="Name in Arabic"
+              value={GroupNameAr}
+              onChange={(e) => setGroupNameAr(e.target.value)}
+            />
+          </div>
+          
           <h3 className="categoryheader">Group Parent</h3>
           <div className="col-lg-12 CategoryFormItem">
             <label htmlFor="">
-              <h6  className="">Parent name</h6>
+              <h6  className="">Parent Name</h6>
             </label>
             <select 
               className="col-lg-12 form-select EmailInput"
@@ -162,7 +164,7 @@ const EditGroup = () => {
               <h6  className="">Icon</h6>
             </label>
                         <input 
-                            required 
+                             
                             className="col-lg-12 form-control EmailInput" 
                             type="file" 
                             placeholder="name in english"

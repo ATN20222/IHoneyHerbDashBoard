@@ -44,7 +44,10 @@ export const editCategory = async (auth_key, user_id,cat_id ,cat_name_en, cat_na
     formData.append('cat_name_ar', cat_name_ar);
     formData.append('cat_id', cat_id);
     formData.append('parent_id', parent_id);
-    formData.append('cat_icon', cat_icon);
+    if(cat_icon !=null){
+
+      formData.append('cat_icon', cat_icon);
+    }
 
     const response = await axios.post(`${BASE_URL}/categories/edit.php`, formData);
     return response.data; 
@@ -327,6 +330,50 @@ export const TestCats = async (auth_key, user_id) => {
     }
 };
 
+export const RemoveGroup = async (auth_key, user_id , group_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('group_id', group_id);
+
+
+      const response = await axios.post(`${BASE_URL}/groups/delete.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to remove group'); 
+    }
+};
+
+export const RemoveProduct = async (auth_key, user_id , product_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('product_id', product_id);
+
+
+      const response = await axios.post(`${BASE_URL}/products/hide.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to remove product'); 
+    }
+};
+export const RemoveCategory = async (auth_key, user_id , category_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('category_id', category_id);
+
+
+      const response = await axios.post(`${BASE_URL}/categories/hide.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to remove category'); 
+    }
+};
+
 
 //#endregion
 
@@ -334,6 +381,7 @@ export const TestCats = async (auth_key, user_id) => {
 
 
 //#region Groups Api's
+
 export const ListGroups = async (auth_key, user_id) => {
   try {
       const formData = new FormData();
@@ -388,7 +436,10 @@ export const EditGroups = async (auth_key, user_id,group_id, group_name_en, grou
     formData.append('group_name_en', group_name_en);
     formData.append('group_name_ar', group_name_ar);
     formData.append('parent_id', parent_id);
-    formData.append('group_icon', group_icon);
+
+    if(group_icon !=null){
+      formData.append('group_icon', group_icon);
+    }
 
     const response = await axios.post(`${BASE_URL}/groups/edit.php`, formData);
     return response.data; 

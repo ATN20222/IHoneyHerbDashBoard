@@ -75,23 +75,13 @@ const EditVariation = () => {
 
   return (
     <div className="col-lg-10 col-md-9 col-sm-9 MainCol HomeCol VariationsCol">
-      <div className="VariationsHeader">
+      <div className="CategoriesHeader">
         <h3>Edit Variation</h3>
       </div>
       <form onSubmit={handleSubmit} className="row">
+      
         <div className="row Center LoginWithRow">
-          <div className="col-lg-6 CategoryFormItem">
-            <label htmlFor="">
-              <h6 className="">Arabic name</h6>
-            </label>
-            <input 
-              className="col-lg-12 form-control EmailInput" 
-              placeholder="Name in Arabic"
-              value={variationNameAr}
-              onChange={(e) => setVariationNameAr(e.target.value)}
-            />
-          </div>
-          <div className="col-lg-6 CategoryFormItem">
+        <div className="col-lg-6 CategoryFormItem">
             <label htmlFor="">
               <h6  className="">English Name</h6>
             </label>
@@ -102,6 +92,18 @@ const EditVariation = () => {
               onChange={(e) => setVariationNameEn(e.target.value)}
             />
           </div>
+          <div className="col-lg-6 CategoryFormItem">
+            <label htmlFor="">
+              <h6 className="">Arabic Name</h6>
+            </label>
+            <input 
+              className="col-lg-12 form-control EmailInput" 
+              placeholder="Name in Arabic"
+              value={variationNameAr}
+              onChange={(e) => setVariationNameAr(e.target.value)}
+            />
+          </div>
+          
           {error && <div className="col-lg-12 text-danger">{error}</div>}
           <div className="col-lg-12 LoginWithCol CategoryFormBtns">
             <button type="submit" className={`btn btn-warning col-lg-1 col-md-2 col-5 LoginBtn SaveBtn ${loading ? 'WaitBtn' : ''}`} disabled={loading}>

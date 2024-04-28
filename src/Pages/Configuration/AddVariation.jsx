@@ -50,19 +50,9 @@ const AddVariation = () => {
       </div>
       <form onSubmit={handleSubmit} className="row">
         <div className="row Center LoginWithRow">
-          <h3 className="categoryheader">Variation name</h3>
-          <div className="col-lg-6 CategoryFormItem">
-            <label htmlFor="">
-              <h6 className="">Arabic name</h6>
-            </label>
-            <input 
-              className="col-lg-12 form-control EmailInput" 
-              placeholder="Name in Arabic"
-              value={nameAr}
-              onChange={(e) => setNameAr(e.target.value)}
-              required
-            />
-          </div>
+          <h3 className="categoryheader">Variation Name</h3>
+
+
           <div className="col-lg-6 CategoryFormItem">
             <label htmlFor="">
               <h6 className="">English Name</h6>
@@ -75,6 +65,20 @@ const AddVariation = () => {
               required
             />
           </div>
+
+          <div className="col-lg-6 CategoryFormItem">
+            <label htmlFor="">
+              <h6 className="">Arabic Name</h6>
+            </label>
+            <input 
+              className="col-lg-12 form-control EmailInput" 
+              placeholder="Name in Arabic"
+              value={nameAr}
+              onChange={(e) => setNameAr(e.target.value)}
+              required
+            />
+          </div>
+          
           {error && <div className="col-lg-12 text-danger">{error}</div>}
           <div className="col-lg-12 LoginWithCol CategoryFormBtns">
             <button 

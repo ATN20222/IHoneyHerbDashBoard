@@ -134,18 +134,8 @@ function getCategoryList(data, parentId = '0', prefix = '') {
       </div>
       <form onSubmit={handleSubmit} className="row">
         <div className="row Center LoginWithRow">
-          <h3 className="categoryheader">Category name</h3>
-          <div className="col-lg-6 CategoryFormItem">
-            <label htmlFor="">
-              <h6 className="">Arabic name</h6>
-            </label>
-            <input 
-              className="col-lg-12 form-control EmailInput" 
-              placeholder="Name in Arabic"
-              value={catNameAr}
-              onChange={(e) => setCatNameAr(e.target.value)}
-            />
-          </div>
+          <h3 className="categoryheader">Category Name</h3>
+          
           <div className="col-lg-6 CategoryFormItem">
             <label htmlFor="">
               <h6  className="">English Name</h6>
@@ -157,10 +147,22 @@ function getCategoryList(data, parentId = '0', prefix = '') {
               onChange={(e) => setCatNameEn(e.target.value)}
             />
           </div>
+
+          <div className="col-lg-6 CategoryFormItem">
+            <label htmlFor="">
+              <h6 className="">Arabic Name</h6>
+            </label>
+            <input 
+              className="col-lg-12 form-control EmailInput" 
+              placeholder="Name in Arabic"
+              value={catNameAr}
+              onChange={(e) => setCatNameAr(e.target.value)}
+            />
+          </div>
           <h3 className="categoryheader">Category Parent</h3>
           <div className="col-lg-12 CategoryFormItem">
             <label htmlFor="">
-              <h6  className="">Parent name</h6>
+              <h6  className="">Parent Name</h6>
             </label>
             <select 
               className="col-lg-12 form-select EmailInput"
@@ -180,7 +182,7 @@ function getCategoryList(data, parentId = '0', prefix = '') {
               <h6  className="">Icon</h6>
             </label>
              <input 
-                            required 
+                             
                             className="col-lg-12 form-control EmailInput" 
                             type="file" 
                             placeholder="name in english"

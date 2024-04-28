@@ -41,7 +41,58 @@
 }
 .SideBarItems{
     padding-left: 15px;
+    overflow-y: scroll;
+    height: 600px;
+    padding: 20px;
 }
+
+
+
+::-webkit-scrollbar {
+    width:7px;
+    background-color: #ffffff;
+  }
+  
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    /* border-radius: 10px; */
+    background-color: #fbd203;
+  }
+  
+  
+  ::-moz-scrollbar {
+    width:7px;
+    background-color: #fbd203;
+  }
+  
+  ::-moz-scrollbar-track {
+    border-radius: 10px;
+  }
+  
+  ::-moz-scrollbar-thumb {
+    /* border-radius: 10px; */
+    background-color: #fbd203;
+  }
+  
+  ::-ms-scrollbar {
+    width:7px;
+    background-color: white;
+  }
+  
+  ::-ms-scrollbar-track {
+    border-radius: 10px;
+  }
+  
+  ::-ms-scrollbar-thumb {
+    /* border-radius: 10px; */
+    background-color: #fbd203;
+  }
+  
+  
+
 .SideBarItems ul li{
     display: flex;
     justify-content: start;
@@ -54,4 +105,9 @@
     text-decoration: none;
     font-size: 18px;
     font-weight: 600;
+}
+.SideBarItems button{
+    background-color: transparent;
+    border: none;
+    cursor: not-allowed;
 }

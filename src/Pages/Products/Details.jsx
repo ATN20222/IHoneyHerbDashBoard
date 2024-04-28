@@ -560,7 +560,7 @@ const Details= ()=>{
                             <h3 className="categoryheader">Product Group</h3>
                         <div className="col-lg-12 CategoryFormItem">
                             <label htmlFor="">
-                            <h6  className="">group name</h6>
+                            <h6  className="">Group Name</h6>
                             </label>
                             <select 
                             className="col-lg-12 form-select EmailInput"
@@ -658,7 +658,7 @@ const Details= ()=>{
                                         <th>#</th>
                                         <th colSpan="2">{varNames[0]}</th>
                                         <th colSpan="2">{varNames[1]}</th>
-                                        <th>Product Id</th>
+                                        <th>Product ID</th>
                                         <th>Delete</th>
                                         </tr>
                                         <tr>

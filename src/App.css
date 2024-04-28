@@ -43,3 +43,292 @@
   /* margin-left: 20px; */
   margin-right: 20px;
 }
+.HomeCol {
+  position: relative;
+}
+
+
+/* for overlay */
+.MyProfileSection{
+  min-height: 700px;
+  margin-top: 50px;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.MyProfileRow{
+  display: flex;
+  justify-content: flex-end;
+}
+.MyProfileList{
+  text-align: end;
+  z-index: 100000000;
+
+}
+.MyProfileList li{
+  padding-bottom: 15px;
+}
+.activeLink{
+  font-weight: 700;
+  
+}
+.LefSideProfile{
+  padding-top: 20px;
+}
+
+.ItemInPersonalSettings{
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  position: relative;
+  padding-bottom: 5px;
+  padding-top: 10px;
+}
+.ItemInPersonalSettings::after{
+  content: "";
+  background-color: rgb(154, 154, 154);
+  position: absolute;
+  bottom: 0;
+  right: 0%;
+  width: 95%;
+  height: 1px;
+}
+.ItemInPersonalSettings svg{
+  width: 50px !important;
+  height: 40px !important;
+  color: #fbd203;
+}
+.CurrentLocationInProfile{
+  text-align: end;
+  padding-bottom: 40px;
+  padding-top: 8px;
+}
+.SideProfileMenu{
+  display: none;
+}
+.OpenSideMenu{
+  right: 0 !important;
+}
+.CurrentLocationInProfile svg{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.SaveEmail{
+  margin: 0;
+  margin-top: 50px !important;
+}
+.EditMailRow{
+  justify-content: end;
+}
+.EditEmailInput{
+  margin-top: 10px !important;
+  margin-bottom: 10px;
+}
+.EditEmailSpan{
+  font-size: 14px;
+  color: #a4a4a4;
+}
+.SavePasswordBtn{
+  margin: 0 ;
+  margin-top: 20px !important;
+}
+.EditEmailInput{
+  position: relative;
+}
+.EyeIcon{
+  position: absolute;
+  top: 15px;
+  cursor: pointer;
+  left: 40px;
+}
+
+.hr{
+  height: 1px;
+  background-color: black;
+}
+.HrRow{
+  display: flex;
+  justify-content: end;
+}
+.LabelInEditProfile{
+  text-align: end;
+  padding: 10px;
+  padding-left: 0;
+  padding-right: 0;
+}
+.ItemInEdit{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 0 !important;
+  padding-left: 30px !important;
+}
+
+.file-input {
+  display: none; 
+}
+
+.upload-btn {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 18px;
+
+  color: black;
+  cursor: pointer;
+}
+
+.AddressItem{
+  display: flex;
+  justify-content: end;
+  direction: ltr;
+  margin-bottom: 20px;
+}
+.AddressItem:nth-last-child(){
+  margin-bottom: 0px !important;
+
+}
+.AddressItem label{
+  padding-right: 10px;
+  font-weight: 600;
+}
+.AddCol{
+  display: flex;
+  justify-content: end;
+  padding-right: 35px;
+}
+
+.AddressCol ul{
+  width: 100%;
+
+  
+}
+.MainAdd{
+  padding-right: 10px;
+  padding-top: 5px;
+  font-size: 12px;
+  color: #a4a4a4;
+  
+}
+.AddressLi{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+.AddressLi span{
+  padding-left: 10px;
+  white-space: nowrap;
+}
+.AdddressBtnsCol{
+  display: flex;
+  align-items: center;
+
+}
+.AdddressBtnsCol button{
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width:768px) {
+  .AdddressBtnsCol{
+      order: 10;
+  }
+}
+.AddNewAddLi{
+  cursor: pointer;
+  color: #23ce95;
+}
+.AddNewAddLi span{
+  padding-right: 10px;
+}
+.SetDefaultCol{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+.SetDefaultCol label{
+  padding-left: 10px;
+}
+.AddLocTextArea textarea{
+  height: 150px;
+}
+.AddLocationTitle h4{
+  color: #a4a4a4;
+  font-weight: 400 !important;
+  margin-bottom: 20px;
+}
+.DeleteLocationTitle h4{
+  color: #797979;
+  font-size: 18px;
+  font-weight: 600 !important;
+  margin-bottom: 20px;
+}
+.EditLocatoinCol{
+  width: 75% !important;
+  padding-left: 0;
+  padding: 0;
+}
+.EditLocatoinCol button{
+  width: 100%;
+}
+.ConfirmDeleteBtns{
+  width: 100% !important;
+  display: flex;
+  justify-content: center;
+}
+.ConfirmDeleteBtns div{
+
+  width: 80px !important;
+  height: 60px !important;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+.ConfirmDeleteBtns div button{
+  border-radius: 15px !important;
+  height: 50px !important;
+  margin: 10px;
+
+}
+
+.SaveProfileData{
+  padding-right: 0 !important;
+  padding-left: 30px !important;
+}
+.LocationsForm{
+ width: 100%;
+}
+.Overlay{
+  width: 100%;
+  position: fixed;
+  height: 100%;
+  background-color: #58585846;
+  z-index: 80000;
+  left: 0;
+  top: 0;
+  padding-top: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 80px;
+}
+.OrderDetailsCard{
+  position: relative;
+  z-index: 80001;
+  padding: 40px;
+  justify-content: center !important;
+  align-items: center !important;
+}
+.CloseDetailsItem{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}

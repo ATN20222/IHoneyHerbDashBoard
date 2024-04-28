@@ -27,7 +27,7 @@ const Variations = () => {
         <div className="col-lg-10 col-md-9 col-sm-9 MainCol HomeCol CategoriesCol">
             <div className="CategoriesHeader">
                 <h3 >All Variations</h3>
-                <Link className="btn btn-warning" to="/addvariation" > <FontAwesomeIcon icon={faPlus}/> add new </Link>
+                <Link className="btn btn-warning" to="/addvariation" > <FontAwesomeIcon icon={faPlus}/> Add New </Link>
             </div>
             
             <div className="table-responsive TableContainer">

@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faPen, faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
 import ProductImage from '../../Assets/Images/ProductImage.png';
-import { listProducts } from "../../Services/Api";
+import { RemoveProduct, listProducts } from "../../Services/Api";
+import DeleteProduct from "./DeleteProduct";
 
 const Products = () => {
     const [products, setProducts] = useState([]);
@@ -15,7 +16,8 @@ const Products = () => {
     const [page, setPage] = useState(1);
     const [isLastPage, setIsLastPage] = useState(false);
     const [EnableShowMore, setEnableShowMore] = useState(false);
-
+    const [showDeleteProduct, setShowDeleteProduct] = useState(false);
+    const [selectedProductId, setSelectedProductId] = useState(null);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -75,8 +77,32 @@ const Products = () => {
         
     };
 
+
+    const handleDeleteProduct = (productId) => {
+        setSelectedProductId(productId);
+        setShowDeleteProduct(true);
+    };
+
+    const confirmDeleteProduct = async () => {
+        
+        try {
+            const auth_key = localStorage.getItem('token');
+            const user_id = localStorage.getItem('user_id');
+            
+            const response = await RemoveProduct(auth_key, user_id, selectedProductId);
+            console.log(response);
+            if (response.status) {
+                window.location.reload();
+            }
+        } catch (error) {
+            console.error('Error deleting product:', error);
+        }
+    };
+
     return (
         <div className="col-lg-10 col-md-9 col-sm-9 MainCol HomeCol CategoriesCol">
+            {showDeleteProduct && <DeleteProduct onClose={() => setShowDeleteProduct(false)} onConfirmDelete={confirmDeleteProduct} />}
+
             <div className="CategoriesHeader">
                 <h3>All Products</h3>
                 <Link className="btn btn-warning" to="/addproduct">
@@ -88,7 +114,7 @@ const Products = () => {
                 <table className="table table-bordered">
                     <thead className="table-dark">
                         <tr>
-                            <th>Id</th>
+                            <th>Product ID</th>
                             <th>Image</th>
                             <th>Name En </th>
                             <th>Name Ar </th>
@@ -98,6 +124,8 @@ const Products = () => {
                             <th>List Price</th>
                             <th>Edit</th>
                             <th>View</th>
+                            <th>Delete</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -128,6 +156,12 @@ const Products = () => {
                                             <FontAwesomeIcon icon={faEye}/>
                                         </Link>
                                     </td>
+                                     <td>
+                                        <button className="btn btn-warning" onClick={() => handleDeleteProduct(product.id)}>
+                                            <FontAwesomeIcon icon={faTrash}/>
+                                        </button>
+                                    </td>
+
                                 </tr>
                             ))
                         )}

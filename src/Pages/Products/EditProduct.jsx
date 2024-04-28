@@ -720,7 +720,7 @@ const EditProduct = () => {
                         <h3 className="categoryheader">Product Group</h3>
                         <div className="col-lg-12 CategoryFormItem">
                             <label htmlFor="">
-                            <h6  className="">group name</h6>
+                            <h6  className="">Group Name</h6>
                             </label>
                             <select 
                             className="col-lg-12 form-select EmailInput"
