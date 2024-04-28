@@ -118,6 +118,9 @@ export const addVariation = async (auth_key, user_id,name_en, name_ar) => {
 
 //#endregion
 
+
+
+
 //#region Product Api's
 
 export const listProducts = async (auth_key, user_id , limit , count) => {
@@ -149,13 +152,14 @@ export const uploadImage = async ( image ) => {
   }
 };
 
-export const addProduct = async (auth_key, user_id ,
+export const addProduct = 
+    async (auth_key, user_id ,
           name_en , name_ar ,
           short_desc_en ,short_desc_ar,
           description_en , description_ar,
           category_id,main_image,
           sku,list_price,
-          sale_price , barcode
+          sale_price , barcode ,quantity,group_id
           ) => {
   try {
     const formData = new FormData();
@@ -173,14 +177,17 @@ export const addProduct = async (auth_key, user_id ,
     formData.append('list_price', list_price);
     formData.append('sale_price', sale_price);
     formData.append('barcode', barcode);
+    formData.append('quantity', quantity);
+    formData.append('group_id', group_id);
 
 
     const response = await axios.post(`${BASE_URL}/products/add.php`, formData);
     return response.data; 
   } catch (error) {
-    throw new Error('Failed to list Products'); 
+    throw new Error('Failed to add Product'); 
   }
 };
+
 
 export const AddOption = async ( auth_key,product_id , variation_id,value_en , value_ar ) => {
   try {
@@ -215,13 +222,15 @@ export const AssignProduct = async ( auth_key,product_id , option_id) => {
 };
 
 
-export const EditProduct = async (auth_key, user_id ,record_id,
+export const EditProduct = 
+    async (auth_key, user_id ,record_id,
           name_en , name_ar ,
           short_desc_en ,short_desc_ar,
           description_en , description_ar,
           category_id,main_image,
           sku,list_price,
-          sale_price , barcode
+          sale_price , barcode,
+          quantity,group_id
           ) => {
   try {
     const formData = new FormData();
@@ -235,14 +244,19 @@ export const EditProduct = async (auth_key, user_id ,record_id,
     formData.append('description_en', description_en);
     formData.append('description_ar', description_ar);
     formData.append('category_id', category_id);
-    if(main_image != null){
+
+
+    if(main_image !=null){
 
       formData.append('main_image', main_image);
     }
+
     formData.append('sku', sku);
     formData.append('list_price', list_price);
     formData.append('sale_price', sale_price);
     formData.append('barcode', barcode);
+    formData.append('quantity', quantity);
+    formData.append('group_id', group_id);
 
 
     const response = await axios.post(`${BASE_URL}/products/edit.php`, formData);
@@ -266,7 +280,6 @@ export const ProductDetails = async (auth_key, product_id) => {
     throw new Error('Faild to get product'); 
   }
 };
-
 
 export const AddPhotos = async (auth_key, product_id,image_name) => {
   try {
@@ -314,10 +327,76 @@ export const TestCats = async (auth_key, user_id) => {
     }
 };
 
+
 //#endregion
 
 
 
+
+//#region Groups Api's
+export const ListGroups = async (auth_key, user_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+
+
+      const response = await axios.post(`${BASE_URL}/groups/list.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to list groups'); 
+    }
+};
+
+export const DropDown = async (auth_key, user_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+
+
+      const response = await axios.post(`${BASE_URL}/groups/dropdown.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to list groups'); 
+    }
+};
+
+export const AddGroup = async (auth_key, user_id, group_name_en, group_name_ar, parent_id, group_icon) => {
+  try {
+    const formData = new FormData();
+    formData.append('auth_key', auth_key);
+    formData.append('user_id', user_id);
+    formData.append('group_name_en', group_name_en);
+    formData.append('group_name_ar', group_name_ar);
+    formData.append('parent_id', parent_id);
+    formData.append('group_icon', group_icon);
+
+    const response = await axios.post(`${BASE_URL}/groups/add.php`, formData);
+    return response.data; 
+  } catch (error) {
+    throw new Error('Failed to add group'); 
+  }
+};
+
+export const EditGroups = async (auth_key, user_id,group_id, group_name_en, group_name_ar, parent_id, group_icon) => {
+  try {
+    const formData = new FormData();
+    formData.append('auth_key', auth_key);
+    formData.append('user_id', user_id);
+    formData.append('group_id', group_id);
+    formData.append('group_name_en', group_name_en);
+    formData.append('group_name_ar', group_name_ar);
+    formData.append('parent_id', parent_id);
+    formData.append('group_icon', group_icon);
+
+    const response = await axios.post(`${BASE_URL}/groups/edit.php`, formData);
+    return response.data; 
+  } catch (error) {
+    throw new Error('Failed to edit group'); 
+  }
+};
+//#endregion
 
 
 

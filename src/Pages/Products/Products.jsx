@@ -14,6 +14,7 @@ const Products = () => {
      
     const [page, setPage] = useState(1);
     const [isLastPage, setIsLastPage] = useState(false);
+    const [EnableShowMore, setEnableShowMore] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -25,7 +26,10 @@ const Products = () => {
                 if (response && response.status && response.products_list) {
                     
                         setProducts(response.products_list);
-                   
+                        if(response.products_list[0].total_products>50){
+                            setEnableShowMore(true);
+                        }
+                        
                 } else {
                     console.error('Invalid response format:', response);
                 }
@@ -38,10 +42,6 @@ const Products = () => {
 
         fetchData();
     }, [page]);
-
-
-    
-
 
     const handleShowMore = async () => {
         // setPage(prevPage => prevPage + 1);
@@ -88,13 +88,14 @@ const Products = () => {
                 <table className="table table-bordered">
                     <thead className="table-dark">
                         <tr>
-                            <th>#</th>
+                            <th>Id</th>
                             <th>Image</th>
-                            <th>En Name</th>
-                            <th>Ar Name</th>
+                            <th>Name En </th>
+                            <th>Name Ar </th>
                             <th>Category</th>
-                            <th>List Price</th>
+                            <th>Group</th>
                             <th>Sale Price</th>
+                            <th>List Price</th>
                             <th>Edit</th>
                             <th>View</th>
                         </tr>
@@ -107,13 +108,14 @@ const Products = () => {
                         ) : (
                             products.map((product, index) => (
                                 <tr key={index}>
-                                    <td>{index + 1}</td>
+                                    <td>{product.id}</td>
                                     <td>
                                         <img src={product.thumb_image} width="40px" alt="" />
                                     </td>
                                     <td>{product.name_en}</td>
                                     <td>{product.name_ar}</td>
                                     <td>{product.category_id}</td>
+                                    <td>{product.group_id||"______"}</td>
                                     <td>{product.sale_price}</td>
                                     <td>{product.list_price}</td>
                                     <td>
@@ -131,7 +133,7 @@ const Products = () => {
                         )}
                     </tbody>
                 </table>
-                {!loading && !isLastPage && (
+                {!loading && !isLastPage&&EnableShowMore && (
                     <div className="text-center">
                         <button className="btn btn-warning" onClick={handleShowMore}>Show More</button>
                     </div>

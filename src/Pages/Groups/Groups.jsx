@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from "react";
-import './Categories.css';
+import './Groups.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faPlus, faRecycle, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import HoneyImage from '../../Assets/Images/Honey.png';
-import HerbsImage from '../../Assets/Images/Herbs.png';
-import { ListCategories } from "../../Services/Api"; // Importing ListCategories function
+
+import { ListGroups } from "../../Services/Api"; 
 import { useLocation } from "react-router-dom";
-const Categories = () => {
-    const [categories, setCategories] = useState([]);
+const Groups = () => {
+    const [groups, setGroups] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Assuming auth_key and user_id are available in local storage
+
                 const auth_key = localStorage.getItem('token');
                 const user_id = localStorage.getItem('user_id');
-                const response = await ListCategories(auth_key, user_id);
-                setCategories(response.categories_list); 
+                const response = await ListGroups(auth_key, user_id);
+                setGroups(response.groups_list); 
             } catch (error) {
-                console.error('Error fetching categories:', error);
+                console.error('Error fetching groups:', error);
             }
         };
 
@@ -29,8 +28,8 @@ const Categories = () => {
     return (
         <div className="col-lg-10 col-md-9 col-sm-9 MainCol HomeCol CategoriesCol">
             <div className="CategoriesHeader">
-                <h3 >All Categories</h3>
-                <Link className="btn btn-warning" to="/addcategory" > <FontAwesomeIcon icon={faPlus}/> add new </Link>
+                <h3 >All Groups</h3>
+                <Link className="btn btn-warning" to="/addgroup" > <FontAwesomeIcon icon={faPlus}/> Add New </Link>
             </div>
             
             <div className="table-responsive TableContainer">
@@ -46,18 +45,18 @@ const Categories = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {categories.map((category, index) => (
+                        {groups.map((group, index) => (
                             <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>
-                                    <img src={category.icon} width="40px" alt="" /> 
+                                    <img src={group.icon} width="40px" alt="" /> 
                                 </td>
-                                <td>{category.cat_name_en}</td>
-                                <td>{category.cat_name_ar}</td> 
+                                <td>{group.group_name_en}</td>
+                                <td>{group.group_name_ar}</td> 
                                 <td>
                                 <Link 
                                         className="btn btn-warning" 
-                                        to={`/editcategory/${category.id}`}
+                                        to={`/editgroup/${group.id}`}
                                     >
                                         <FontAwesomeIcon icon={faPen}/>
                                     </Link>
@@ -77,4 +76,4 @@ const Categories = () => {
     );
 };
 
-export default Categories;
+export default Groups;

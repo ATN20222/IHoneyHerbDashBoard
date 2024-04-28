@@ -105,3 +105,21 @@
     opacity: 0;
     cursor: pointer;
 }
+
+.EnableVariations{
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+.EnableVariations label{
+    padding-top: 5px;
+}
+.EnableVariations input{
+    width: 20px;
+    height: 20px;
+}
+
+.AddRecord{
+    display: flex;
+    justify-content: end;
+}

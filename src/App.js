@@ -17,6 +17,9 @@ import EditVariation from './Pages/Configuration/EditVariations.jsx';
 import AddProduct from './Pages/Products/AddProduct.jsx';
 import EditProduct from './Pages/Products/EditProduct.jsx';
 import Details from './Pages/Products/Details.jsx';
+import Groups from './Pages/Groups/Groups.jsx';
+import AddGroups from './Pages/Groups/AddGroup.jsx';
+import EditGroup from './Pages/Groups/EditGroup.jsx';
 
 function App() {
   const isLoggedIn = localStorage.getItem('token');
@@ -33,6 +36,10 @@ function App() {
               <Route path="/login" element={!isLoggedIn ? <Login /> : <Navigate to="/" />} />
               <Route path="/categories" element={isLoggedIn ? <Categories /> : <Navigate to="/login" />} />
               <Route path="/addcategory" element={isLoggedIn ? <AddCategory /> : <Navigate to="/login" />} />
+              <Route path="/groups" element={isLoggedIn ? <Groups /> : <Navigate to="/login" />} /> 
+              <Route path="/addgroup" element={isLoggedIn ? <AddGroups /> : <Navigate to="/login" />} />
+              <Route path="/editgroup/:id" element={isLoggedIn ? <EditGroup /> : <Navigate to="/login" />} />
+
               <Route path="/products" element={isLoggedIn ? <Products /> : <Navigate to="/login" />} />
               <Route path="/addproduct" element={isLoggedIn ? <AddProduct /> : <Navigate to="/login" />} />
               <Route path="/editproduct/:id" element={isLoggedIn ? <EditProduct /> : <Navigate to="/login" />} />

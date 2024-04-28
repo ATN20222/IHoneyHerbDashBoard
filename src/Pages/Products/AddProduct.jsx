@@ -3,7 +3,7 @@ import VariationOptions from "./VariatioinOptions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import './Products.css'
-import { AddOption, AssignProduct, ListCategories, TestCats, addProduct, listVariation, uploadImage } from "../../Services/Api";
+import { AddOption, AssignProduct, DropDown, ListCategories, TestCats, addProduct, listVariation, uploadImage } from "../../Services/Api";
 const AddProduct = () =>{
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
     const [isApplied, setIsApplied] = useState(false);
@@ -24,6 +24,7 @@ const AddProduct = () =>{
     const [sku, setSku] = useState('');
     const [listPrice, setListPrice] = useState('');
     const [salePrice, setSalePrice] = useState('');
+    const [quantity , setQuantity]  = useState(0);
 
 
     const [ProductImage, setProductImage] = useState(null);
@@ -36,6 +37,54 @@ const AddProduct = () =>{
     const [newProductId, setnewProductId] = useState('');
     const [ProductFlag, setProductFlag] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
+    const [groups, setGroups] = useState([]);
+    const [group, setGroup] = useState(0);
+
+
+
+    function getGroupsList(data, parentId = '0', prefix = '') {
+        const categories = [];
+    
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                const item = data[key];
+                if (item.parent_id === parentId) {
+                    const category = `${prefix}${item.group_name_en}`;
+                    categories.push({ id: item.id, category });
+                    if (item.children) {
+                        const childCategories = getGroupsList(item.children, item.id, `${category} > `);
+                        categories.push(...childCategories);
+                    }
+                }
+            }
+        }
+        console.log(categories);
+        return categories;
+      }
+
+      const getGroups = async () => {
+        try {
+          const auth_key = localStorage.getItem('token');
+          const user_id = localStorage.getItem('user_id');
+          // const response = await TestCats(auth_key, user_id);
+          const response = await DropDown(auth_key, user_id);
+          if (response && response.status && response.groups_list) {
+              console.log(response);
+              setGroups( getGroupsList(response.groups_list));
+              // setGroups(response.groups_list)
+  
+          } else {
+            console.error('Invalid response format:', response);
+          }
+        } catch (error) {
+          console.error('Error fetching group:', error);
+        }
+      };
+
+
+
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -85,6 +134,7 @@ const AddProduct = () =>{
           if (response && response.status && response.data) {
            
             setCategories( getCategoryList(response.data));
+            
             console.log(response.data);
           } else {
             console.error('Invalid response format:', response);
@@ -93,7 +143,7 @@ const AddProduct = () =>{
           console.error('Error fetching categories:', error);
         }
       };
-  
+      getGroups();
       fetchData();
     }, []);
 
@@ -121,16 +171,43 @@ const AddProduct = () =>{
 
 
   var Variations={};
-  const handleSave = () => {
+  const handleSave = async () => {
     if( selectedCheckboxes.length > 0){
         Variations = selectedCheckboxes;
         console.log("Selected Checkboxes:", selectedCheckboxes);
         console.log("Selected Variations:", Variations);
 
+        const auth_key = localStorage.getItem('token');
+        var flag = true;
+        try{
+            for(const item of Variations){
+                console.log(item);
+                var response= await AddOption(auth_key, newProductId, item, "_________", "_________");
+                console.log(response);
+                
+                    flag = response.status;
+                
+            }
+
+            if(flag){
+                alert("added succefully");
+                setIsApplied(true);
+                window.location.href='/products';
+
+            }else{
+                alert("error")
+                return;
+            }
+        }catch{
+            alert("error")
+            return;
+        }
+        
+        
+        
 
 
 
-        setIsApplied(true);
     }
     
   };
@@ -331,12 +408,23 @@ const AddProduct = () =>{
     //submit
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
+        // setLoading(true);
         try {
     
+            
     
             const auth_key = localStorage.getItem('token');
             const user_id = localStorage.getItem('user_id');
+            // console.log(auth_key, user_id,
+            //     englishName , arabicName,
+            //     shortDescriptionEn,shortDescriptionAr,
+            //     descriptionEn,descriptionAr,
+            //     SelectedCat,
+            //     sku,listPrice,
+            //     salePrice,barcode, 
+            //     quantity,
+            //     group);
+            //     return;
             const response = await uploadImage(ProductImage);
             if(response.status==false){
                 alert("Error Uploading Image");
@@ -345,7 +433,11 @@ const AddProduct = () =>{
             }
             
             const image_name= response.image_name;
-            console.log(image_name);
+            // console.log(image_name);
+
+            
+
+            console.log("group" ,group);
             const AddProductResponse = await addProduct(
                 auth_key, user_id,
                 englishName , arabicName,
@@ -353,13 +445,21 @@ const AddProduct = () =>{
                 descriptionEn,descriptionAr,
                 SelectedCat,response.image_name,
                 sku,listPrice,
-                salePrice,barcode
+                salePrice,barcode, 
+                quantity,
+                group
             );
             console.log(AddProductResponse);
             if(AddProductResponse.status===true){
                 setProductFlag(true);
                 setnewProductId(AddProductResponse.products_id);
+
+                
                 alert('Product added successfully');
+
+                if(!isChecked){
+                    window.location.href='/products'
+                }
             }else{
                 alert('Faild to add product');
             }
@@ -484,20 +584,7 @@ const AddProduct = () =>{
                     {!ProductFlag&&
                      <form onSubmit={handleSubmit} className="row">
 
-                     <h3 className="categoryheader">Product name</h3>
-                     <div className="col-lg-6 CategoryFormItem">
-                         <label htmlFor="">
-                             <h6 className="">Arabic name</h6>
- 
-                         </label>
-                         <input 
-                             required 
-                             className="col-lg-12 form-control EmailInput" 
-                             placeholder="name in arabic"
-                             value={arabicName}
-                             onChange={(e) => setArabicName(e.target.value)}
-                         ></input>
-                     </div>
+                     <h3 className="categoryheader">Product Name</h3>
                      <div className="col-lg-6 CategoryFormItem">
                          <label htmlFor="">
                              <h6  className="">
@@ -512,12 +599,27 @@ const AddProduct = () =>{
                              onChange={(e) => setEnglishName(e.target.value)}
                          ></input>
                      </div>
+
+                     <div className="col-lg-6 CategoryFormItem">
+                         <label htmlFor="">
+                             <h6 className="">Arabic Name</h6>
+ 
+                         </label>
+                         <input 
+                             required 
+                             className="col-lg-12 form-control EmailInput" 
+                             placeholder="name in arabic"
+                             value={arabicName}
+                             onChange={(e) => setArabicName(e.target.value)}
+                         ></input>
+                     </div>
+                     
  
                      <h3 className="categoryheader">Description</h3>
  
                      <div className="col-lg-6 CategoryFormItem">
                          <label htmlFor="">
-                             <h6 className="">Short description en</h6>
+                             <h6 className="">Short Description En</h6>
                          
                          </label>
                          <input 
@@ -532,7 +634,7 @@ const AddProduct = () =>{
                          <label htmlFor="">
                              <h6  className="">
  
-                             Short description ar
+                             Short Description Ar
                              </h6>
                          </label>
                          <input 
@@ -550,7 +652,7 @@ const AddProduct = () =>{
                          <label htmlFor="">
                              <h6  className="">
  
-                              description en
+                              Description En
                              </h6>
                          </label>
                          <textarea 
@@ -565,7 +667,7 @@ const AddProduct = () =>{
                          <label htmlFor="">
                              <h6  className="">
  
-                              description ar
+                              Description Ar
                              </h6>
                          </label>
                          <textarea 
@@ -583,7 +685,7 @@ const AddProduct = () =>{
                      <div className="col-lg-12 CategoryFormItem">
                          <label htmlFor="">
                              <h6  className="">
-                                 category name 
+                                 Category Name 
                              </h6>
                          </label>
                          <select
@@ -597,13 +699,34 @@ const AddProduct = () =>{
                              ))}
                          </select>
                      </div>
+
+
+
+                    <h3 className="categoryheader">Product Group</h3>
+                    <div className="col-lg-12 CategoryFormItem">
+                        <label htmlFor="">
+                        <h6  className="">group name</h6>
+                        </label>
+                        <select 
+                        className="col-lg-12 form-select EmailInput"
+                        value={group}
+                        onChange={(e) => setGroup(e.target.value)}
+                        
+                        >
+                        <option value={0}>Choose...</option>
+                        {groups.map(group => (
+                            <option key={group.id} value={group.id}>{group.category}</option>
+                        ))}
+                        </select>
+                        
+                    </div>
  
                      <h3 className="categoryheader">Codes</h3>
                      <div className="col-lg-6 CategoryFormItem">
                          <label htmlFor="">
                              <h6  className="">
  
-                              BARCODE
+                              Barcode
                              </h6>
                          </label>
                          <input 
@@ -663,6 +786,22 @@ const AddProduct = () =>{
                              onChange={(e) => setSalePrice(e.target.value)}
                          ></input>
                      </div>
+                     <h3 className="categoryheader">Product Quantity</h3>
+                     <div className="col-lg-6 CategoryFormItem">
+                         <label htmlFor="">
+                             <h6  className="">
+                                 Quantity
+                             </h6>
+                         </label>
+                         <input 
+                             required 
+                             type="number" 
+                             className="col-lg-12 form-control EmailInput" 
+                             placeholder="quantity"
+                             value={quantity}
+                             onChange={(e) => setQuantity(e.target.value)}
+                         ></input>
+                     </div>
  
                      <h3 className="categoryheader">Product Image</h3>
                      <div className="col-lg-12 CategoryFormItem">
@@ -679,6 +818,27 @@ const AddProduct = () =>{
     
                      </div>
  
+
+                     <div className="col-lg-4 EnableVariations CategoryFormItem">
+                     <input 
+                              
+                             id="enablevariations"
+                             type="checkbox" 
+                             className="col-lg-12 form-checkbox" 
+                             placeholder="sale price in UAD"
+                            //  value={salePrice}
+                            //  onChange={(e) => setSalePrice(e.target.value)}
+                            onChange={(e)=>setIsChecked(e.target.checked)}
+                         ></input>
+                         <label htmlFor="enablevariations">
+                             <h6  className="">
+                                Enable Variations
+                             </h6>
+                         </label>
+                         
+                     </div>
+
+
                      <div className="col-lg-12 LoginWithCol CategoryFormBtns">
                      <button className={`btn btn-warning col-lg-1 col-md-2 col-5 LoginBtn SaveBtn ${loading ? 'disabled' : ''}`} disabled={loading}>
                                 <span className="Login">{loading ? 'Loading...' : 'Save'}</span>
@@ -698,7 +858,7 @@ const AddProduct = () =>{
 
 
 
-                    {ProductFlag&& 
+                    {ProductFlag&&isChecked&& 
                         <div className="row">
 
                     <h3 className="categoryheader">Product Variations</h3>
@@ -724,7 +884,7 @@ const AddProduct = () =>{
                         <button className="btn col-lg-1 col-md-2 col-5 btn-outline-dark ApplyBtn" onClick={handleSave} disabled={isApplied}>Apply</button>
 
                     </div>
-                    <h3 className="categoryheader">Variation Options</h3>
+                    {/* <h3 className="categoryheader">Variation Options</h3>
                         { isApplied&&(
                             <VariationOptions Variations={selectedCheckboxes}  onApply={handleApply} />
                         )}
@@ -762,7 +922,7 @@ const AddProduct = () =>{
                                                 <input
                                                     required
                                                     className="form-control"
-                                                    type="text"
+                                                    type="number"
                                                     placeholder="product id"
                                                     value={productIds[index] || ''}
                                                     onChange={(e) => handleProductIdChange(index, e.target.value)}
@@ -781,7 +941,7 @@ const AddProduct = () =>{
                                                 <input
                                                     required
                                                     className="form-control"
-                                                    type="text"
+                                                    type="number"
                                                     placeholder="product id"
                                                     value={productIds[index] || ''}
                                                     onChange={(e) => handleProductIdChange(index, e.target.value)}
@@ -825,7 +985,7 @@ const AddProduct = () =>{
                                 
 
                         </div>
-                    </div>
+                    </div> */}
                     
                         </div>
 
