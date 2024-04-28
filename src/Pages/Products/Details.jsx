@@ -663,10 +663,10 @@ const Details= ()=>{
                                         </tr>
                                         <tr>
                                         <th></th>
-                                        <th>Ar</th>
                                         <th>En</th>
                                         <th>Ar</th>
                                         <th>En</th>
+                                        <th>Ar</th>
                                         <th></th>
                                         <th></th>
                                         </tr>
@@ -693,19 +693,7 @@ const Details= ()=>{
 
                                             <tr key={index}>
                                                 <td>#</td>
-                                                <td>
-                                                    <input
-                                                        required
-                                                        className="form-control"
-                                                        type="text"
-                                                        value={record.option1Ar}
-                                                        onChange={(e) => {
-                                                            const updatedRecords = [...newRecords];
-                                                            updatedRecords[index].option1Ar = e.target.value;
-                                                            setNewRecords(updatedRecords);
-                                                        }}
-                                                    />
-                                                </td>
+                                                
                                                 <td>
                                                     <input
                                                         required
@@ -719,20 +707,24 @@ const Details= ()=>{
                                                         }}
                                                     />
                                                 </td>
+
+
                                                 <td>
-                                                <input
-                                                        disabled={OneVar}
+                                                    <input
                                                         required
                                                         className="form-control"
                                                         type="text"
-                                                        value={record.option2Ar}
+                                                        value={record.option1Ar}
                                                         onChange={(e) => {
                                                             const updatedRecords = [...newRecords];
-                                                            updatedRecords[index].option2Ar = e.target.value;
+                                                            updatedRecords[index].option1Ar = e.target.value;
                                                             setNewRecords(updatedRecords);
                                                         }}
                                                     />
                                                 </td>
+
+
+                                                
                                                 <td>
                                                 <input
                                                         disabled = {OneVar}
@@ -747,6 +739,23 @@ const Details= ()=>{
                                                         }}
                                                     />
                                                 </td>
+
+
+                                                <td>
+                                                <input
+                                                        disabled={OneVar}
+                                                        required
+                                                        className="form-control"
+                                                        type="text"
+                                                        value={record.option2Ar}
+                                                        onChange={(e) => {
+                                                            const updatedRecords = [...newRecords];
+                                                            updatedRecords[index].option2Ar = e.target.value;
+                                                            setNewRecords(updatedRecords);
+                                                        }}
+                                                    />
+                                                </td>
+
                                                 <td>
                                                     <input
                                                         required
@@ -799,6 +808,21 @@ const Details= ()=>{
 
                                         <tr key={index}>
                                             <td>#</td>
+                                           
+                                            <td>
+                                                <input
+                                                    required
+                                                    className="form-control"
+                                                    type="text"
+                                                    value={record.option1En}
+                                                    onChange={(e) => {
+                                                        const updatedRecords = [...newRecords];
+                                                        updatedRecords[index].option1En = e.target.value;
+                                                        setNewRecords(updatedRecords);
+                                                    }}
+                                                />
+                                            </td>
+
                                             <td>
                                                 <input
                                                     required
@@ -813,19 +837,7 @@ const Details= ()=>{
                                                     }}
                                                 />
                                             </td>
-                                            <td>
-                                                <input
-                                                    required
-                                                    className="form-control"
-                                                    type="text"
-                                                    value={record.option1En}
-                                                    onChange={(e) => {
-                                                        const updatedRecords = [...newRecords];
-                                                        updatedRecords[index].option1En = e.target.value;
-                                                        setNewRecords(updatedRecords);
-                                                    }}
-                                                />
-                                            </td>
+
                                             <td>
                                                ____________
                                             </td>

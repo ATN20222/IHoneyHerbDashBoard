@@ -42,7 +42,7 @@ const Categories = () => {
                             <th>En Name</th>
                             <th>Ar Name</th>
                             <th>Edit</th>
-                            <th>Delete</th>
+                            {/* <th>Delete</th> */}
                         </tr>
                     </thead>
                     <tbody>
@@ -63,11 +63,11 @@ const Categories = () => {
                                     </Link>
                                     
                                 </td>
-                                <td>
+                                {/* <td>
                                     <button className="btn btn-warning">
                                         <FontAwesomeIcon icon={faTrash}/>
                                     </button>
-                                </td>
+                                </td> */}
                             </tr>
                         ))}
                     </tbody>

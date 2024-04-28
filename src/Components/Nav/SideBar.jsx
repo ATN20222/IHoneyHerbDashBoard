@@ -56,38 +56,38 @@ const SideBar = () =>{
                         </li>
                         
                         <li className="list-item">
-                            <Link onClick={handleLinkClick} className="LinkItem" to="/variations"> <FontAwesomeIcon icon={faQuestion}/>  WellnessQuiz </Link>
+                            <Link onClick={handleLinkClick} className="LinkItem" to="/WellnessQuiz"> <FontAwesomeIcon icon={faQuestion}/>  WellnessQuiz </Link>
                         </li>
 
                         <li className="list-item">
-                            <Link onClick={handleLinkClick} className="LinkItem" to="/variations"> <FontAwesomeIcon icon={faTruckFast}/>  Orders </Link>
+                            <Link onClick={handleLinkClick} className="LinkItem" to="/Orders"> <FontAwesomeIcon icon={faTruckFast}/>  Orders </Link>
                         </li>
 
                        
                         <li className="list-item">
-                            <Link onClick={handleLinkClick} className="LinkItem" to="/variations"> <FontAwesomeIcon icon={faComments}/>  Chat </Link>
+                            <Link onClick={handleLinkClick} className="LinkItem" to="/Chat"> <FontAwesomeIcon icon={faComments}/>  Chat </Link>
                         </li>
 
                         <li className="list-item">
-                            <Link onClick={handleLinkClick} className="LinkItem" to="/variations"> <FontAwesomeIcon icon={faTicket}/>  Coupons </Link>
+                            <Link onClick={handleLinkClick} className="LinkItem" to="/Coupons"> <FontAwesomeIcon icon={faTicket}/>  Coupons </Link>
                         </li>
 
                         <li className="list-item">
-                            <Link onClick={handleLinkClick} className="LinkItem" to="/variations"> <FontAwesomeIcon icon={faComment}/>  Reviews </Link>
+                            <Link onClick={handleLinkClick} className="LinkItem" to="/Reviews"> <FontAwesomeIcon icon={faComment}/>  Reviews </Link>
                         </li>
                         <li className="list-item">
-                            <Link onClick={handleLinkClick} className="LinkItem" to="/variations"> <FontAwesomeIcon icon={faMobile}/>  App Intro Screens </Link>
-                        </li>
-
-                        <li className="list-item">
-                            <Link onClick={handleLinkClick} className="LinkItem" to="/variations"> <FontAwesomeIcon icon={faUser}/>  Users </Link>
+                            <Link onClick={handleLinkClick} className="LinkItem" to="/IntroScreens"> <FontAwesomeIcon icon={faMobile}/>  App Intro Screens </Link>
                         </li>
 
                         <li className="list-item">
-                            <Link onClick={handleLinkClick} className="LinkItem" to="/variations"> <FontAwesomeIcon icon={faBell}/>  Notifications </Link>
+                            <Link onClick={handleLinkClick} className="LinkItem" to="/Users"> <FontAwesomeIcon icon={faUser}/>  Users </Link>
+                        </li>
+
+                        <li className="list-item">
+                            <Link onClick={handleLinkClick} className="LinkItem" to="/Notifications"> <FontAwesomeIcon icon={faBell}/>  Notifications </Link>
                         </li>
                         <li className="list-item">
-                            <Link onClick={handleLinkClick} className="LinkItem" to="/variations"> <FontAwesomeIcon icon={faGear}/>  Configuration </Link>
+                            <Link onClick={handleLinkClick} className="LinkItem" to="/Configuration"> <FontAwesomeIcon icon={faGear}/>  Configuration </Link>
                         </li>
 
 
