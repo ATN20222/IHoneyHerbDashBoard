@@ -76,7 +76,7 @@ const SideBar = () =>{
                             <button disabled onClick={handleLinkClick} className="LinkItem" to="/Reviews"> <FontAwesomeIcon icon={faComment}/>  Reviews </button>
                         </li>
                         <li className="list-item">
-                            <button disabled onClick={handleLinkClick} className="LinkItem" to="/IntroScreens"> <FontAwesomeIcon icon={faMobile}/>  App Intro Screens </button>
+                            <button disabled onClick={handleLinkClick} className="LinkItem" to="/IntroScreens"> <FontAwesomeIcon icon={faMobile}/> Intro Screens </button>
                         </li>
 
                         <li className="list-item">

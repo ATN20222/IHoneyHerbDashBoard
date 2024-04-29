@@ -25,6 +25,7 @@ const Products = () => {
                 const user_id = localStorage.getItem('user_id');
                 
                 const response = await listProducts(auth_key, user_id, limit, start);
+                console.log("response" , response);
                 if (response && response.status && response.products_list) {
                     
                         setProducts(response.products_list);
@@ -142,8 +143,8 @@ const Products = () => {
                                     </td>
                                     <td>{product.name_en}</td>
                                     <td>{product.name_ar}</td>
-                                    <td>{product.category_id}</td>
-                                    <td>{product.group_id||"______"}</td>
+                                    <td>{product.category_name}</td>
+                                    <td>{product.group_name||"______"}</td>
                                     <td>{product.sale_price}</td>
                                     <td>{product.list_price}</td>
                                     <td>

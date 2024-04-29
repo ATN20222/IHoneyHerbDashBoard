@@ -56,6 +56,32 @@ const EditProduct = () => {
     
     const newProductId=productId;
 
+    const [selectedGroups, setSelectedGroups] = useState([]);
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [categoryError, setCategoryError] = useState(false);
+
+    const handleGroupCheckboxChange = (groupId, isChecked) => {
+        if (isChecked) {
+            setSelectedGroups([...selectedGroups, groupId]);
+        } else {
+            setSelectedGroups(selectedGroups.filter(id => id !== groupId));
+        }
+    };
+
+
+
+
+    const handleCategoryCheckboxChange = (categoryId, isChecked) => {
+        if (isChecked) {
+            setSelectedCategories([...selectedCategories, categoryId]);
+        } else {
+            setSelectedCategories(selectedCategories.filter(id => id !== categoryId));
+        }
+        
+        // setCategoryError(selectedCategories.length === 0);
+    };
+    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -476,12 +502,19 @@ const EditProduct = () => {
                 const auth_key = localStorage.getItem('token');
                 const user_id = localStorage.getItem('user_id');
                 const response = await ProductDetails(auth_key, productId);
+                console.log("response",response        );
                 if (response && response.status && response.product_view) {
                     setIsExist(true);
                     const productData = response.product_view;
                     setProduct(productData);
-                    setSelectedCat(productData.category_id);
-                    setGroup(productData.group_id);
+                    // setSelectedCat(productData.category_id);
+                    // setGroup(productData.group_id);
+                    var CIds =  response.product_view.category_id.split(",");
+                    var GIds = response.product_view.group_id.split(",");
+                    console.log("CIds", GIds);
+                    console.log("GIds" , GIds);
+                    setSelectedCategories(CIds)
+                    setSelectedGroups(GIds);
                     setSku(productData.sku);
                     setBarcode(productData.barcode);
                     setListPrice(productData.list_price);
@@ -509,9 +542,9 @@ const EditProduct = () => {
             const auth_key = localStorage.getItem('token');
             const user_id = localStorage.getItem('user_id');
             const response = await TestCats(auth_key, user_id);
-            if (response && response.status && response.data) {
-                setCategories( getCategoryList(response.data));
-                console.log(response.data);
+            if (response && response.status && response.categories_list) {
+                setCategories( getCategoryList(response.categories_list));
+                console.log(response.categories_list);
             } else {
                 console.error('Invalid response format:', response);
             }
@@ -527,16 +560,16 @@ const EditProduct = () => {
             if (data.hasOwnProperty(key)) {
                 const item = data[key];
                 if (item.parent_id === parentId) {
-                    const category = `${prefix}${item.category}`;
+                    const category = `${prefix}${item.cat_name_en}`;
                     categories.push({ id: item.id, category });
-                    if (item.child) {
-                        const childCategories = getCategoryList(item.child, item.id, `${category} > `);
+                    if (item.children) {
+                        const childCategories = getCategoryList(item.children, item.id, `${category} > `);
                         categories.push(...childCategories);
                     }
                 }
             }
         }
-      
+        // console.log("categories", categories);
         return categories;
       }
 
@@ -555,6 +588,10 @@ const EditProduct = () => {
         e.preventDefault();
 
         if (loading) return;
+        if (selectedCategories.length === 0) {
+            setCategoryError(true); 
+            return; 
+        }
 
         setLoading(true);
 
@@ -566,6 +603,8 @@ const EditProduct = () => {
                 return;
             } else {
                 const image_name = resp.image_name;
+                const finalCats = selectedCategories.join(',');
+                const finalGroups = selectedGroups.join(',');
 
                 const auth_key = localStorage.getItem('token');
                 const user_id = localStorage.getItem('user_id');
@@ -581,14 +620,14 @@ const EditProduct = () => {
                     product.short_desc_ar,
                     product.description_en,
                     product.description_ar,
-                    selectedCat,
+                    finalCats,
                     image_name,
                     sku,
                     listPrice,
                     salePrice,
                     barcode,
                     quantity,
-                    group
+                    finalGroups
                 );
                 if (response.status === true) {
                     alert("Product edited successfully");
@@ -698,43 +737,59 @@ const EditProduct = () => {
                         </div>
 
                         <h3 className="categoryheader">Product Category</h3>
-                        <div className="col-lg-12 CategoryFormItem">
-                            <label htmlFor="">
-                                <h6 className="">Category name</h6>
-                            </label>
-                            <select
-                                required
-                                className="col-lg-12 form-select EmailInput"
-                                value={selectedCat}
-                                onChange={(e) => setSelectedCat(e.target.value)}
-                            >
-                                <option value="">Choose...</option>
-                                {categories.map(category => (
-                                    <option key={category.id} value={category.id}>{category.category}</option>
-                                ))}
-                            </select>
-                        </div>
+                            <div className="col-lg-12 CategoryFormItem">
+                                <h6 className="">Category Name</h6>
+                                <div className="dropdown">
+                                    {categories.map(category => (
+                                        <div key={category.id} className="form-check">
+                                            <input
+                                                type="checkbox"
+                                                className="form-check-input"
+                                                id={`category-${category.id}`}
+                                                value={category.id}
+                                                checked={selectedCategories.includes(category.id)}
+                                                
+                                                onChange={(e) => handleCategoryCheckboxChange(category.id, e.target.checked)}
+                                                
+                                            />
+                                            <label className="form-check-label" htmlFor={`category-${category.id}`}>
+                                                {category.category}
+                                            </label>
+                                        </div>
+                                    ))}
+                                </div>
+                                {categoryError && <p className="text-danger">Please select at least one category.</p>}
+
+                            </div>
 
 
+                            <h3 className="categoryheader">Product Group</h3>
+                            <div className="col-lg-12 CategoryFormItem">
+                                <h6 className="">Group Name</h6>
+                                
+                                    <div className="dropdown">
+                                        {groups.map(group => (
+                                        <div key={group.id} className="form-check">
+                                            <input
+                                                type="checkbox"
+                                                className="form-check-input"
+                                                id={`group-${group.id}`}
+                                                value={group.id}
+                                                checked={selectedGroups.includes(group.id)}
+                                                onChange={(e) => handleGroupCheckboxChange(group.id, e.target.checked)}
+                                                
+                                            />
+                                            <label className="form-check-label" htmlFor={`group-${group.id}`}>
+                                                {group.category}
+                                            </label>
+                                        </div>
+                                    ))}
 
-                        <h3 className="categoryheader">Product Group</h3>
-                        <div className="col-lg-12 CategoryFormItem">
-                            <label htmlFor="">
-                            <h6  className="">Group Name</h6>
-                            </label>
-                            <select 
-                            className="col-lg-12 form-select EmailInput"
-                            value={group}
-                            onChange={(e) => setGroup(e.target.value)}
-                            
-                            >
-                            <option value={0}>Choose...</option>
-                            {groups.map(group => (
-                                <option key={group.id} value={group.id}>{group.category}</option>
-                            ))}
-                            </select>
-                            
-                        </div>
+                                    </div>
+                                
+                                
+                                
+                            </div>
 
 
                         <h3 className="categoryheader">Codes</h3>

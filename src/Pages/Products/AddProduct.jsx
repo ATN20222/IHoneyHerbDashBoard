@@ -40,8 +40,32 @@ const AddProduct = () =>{
     const [isChecked, setIsChecked] = useState(false);
     const [groups, setGroups] = useState([]);
     const [group, setGroup] = useState(0);
+    
+    const [selectedGroups, setSelectedGroups] = useState([]);
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [categoryError, setCategoryError] = useState(false);
+
+    const handleGroupCheckboxChange = (groupId, isChecked) => {
+        if (isChecked) {
+            setSelectedGroups([...selectedGroups, groupId]);
+        } else {
+            setSelectedGroups(selectedGroups.filter(id => id !== groupId));
+        }
+    };
 
 
+
+
+    const handleCategoryCheckboxChange = (categoryId, isChecked) => {
+        if (isChecked) {
+            setSelectedCategories([...selectedCategories, categoryId]);
+        } else {
+            setSelectedCategories(selectedCategories.filter(id => id !== categoryId));
+        }
+        
+        // setCategoryError(selectedCategories.length === 0);
+    };
+    
 
     function getGroupsList(data, parentId = '0', prefix = '') {
         const categories = [];
@@ -110,18 +134,19 @@ const AddProduct = () =>{
             if (data.hasOwnProperty(key)) {
                 const item = data[key];
                 if (item.parent_id === parentId) {
-                    const category = `${prefix}${item.category}`;
+                    const category = `${prefix}${item.cat_name_en}`;
                     categories.push({ id: item.id, category });
-                    if (item.child) {
-                        const childCategories = getCategoryList(item.child, item.id, `${category} > `);
+                    if (item.children) {
+                        const childCategories = getCategoryList(item.children, item.id, `${category} > `);
                         categories.push(...childCategories);
                     }
                 }
             }
         }
-      
+        // console.log("categories", categories);
         return categories;
       }
+
 
 
 
@@ -131,11 +156,11 @@ const AddProduct = () =>{
           const auth_key = localStorage.getItem('token');
           const user_id = localStorage.getItem('user_id');
           const response = await TestCats(auth_key, user_id);
-          if (response && response.status && response.data) {
+          if (response && response.status && response.categories_list) {
            
-            setCategories( getCategoryList(response.data));
+            setCategories( getCategoryList(response.categories_list));
             
-            console.log(response.data);
+            console.log(response.categories_list);
           } else {
             console.error('Invalid response format:', response);
           }
@@ -408,23 +433,28 @@ const AddProduct = () =>{
     //submit
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // setLoading(true);
+        
+        
+
+
+        if (selectedCategories.length === 0) {
+            setCategoryError(true); 
+            return; 
+        }
+        setLoading(true);
+
+
         try {
     
             
     
             const auth_key = localStorage.getItem('token');
             const user_id = localStorage.getItem('user_id');
-            // console.log(auth_key, user_id,
-            //     englishName , arabicName,
-            //     shortDescriptionEn,shortDescriptionAr,
-            //     descriptionEn,descriptionAr,
-            //     SelectedCat,
-            //     sku,listPrice,
-            //     salePrice,barcode, 
-            //     quantity,
-            //     group);
-            //     return;
+            
+
+            const finalCats = selectedCategories.join(',');
+            const finalGroups = selectedGroups.join(',');
+            
             const response = await uploadImage(ProductImage);
             if(response.status==false){
                 alert("Error Uploading Image");
@@ -443,11 +473,11 @@ const AddProduct = () =>{
                 englishName , arabicName,
                 shortDescriptionEn,shortDescriptionAr,
                 descriptionEn,descriptionAr,
-                SelectedCat,response.image_name,
+                finalCats,response.image_name,
                 sku,listPrice,
                 salePrice,barcode, 
                 quantity,
-                group
+                finalGroups
             );
             console.log(AddProductResponse);
             if(AddProductResponse.status===true){
@@ -683,43 +713,58 @@ const AddProduct = () =>{
                      <h3 className="categoryheader">Product Category</h3>
  
                      <div className="col-lg-12 CategoryFormItem">
-                         <label htmlFor="">
-                             <h6  className="">
-                                 Category Name 
-                             </h6>
-                         </label>
-                         <select
-                             required
-                             className="col-lg-12 form-select EmailInput"
-                             onChange={(e) => setSelectedCat(e.target.value)}
-                         >
-                             <option value="">Choose...</option>
-                             {categories.map(category => (
-                                 <option key={category.id} value={category.id}>{category.category}</option>
-                             ))}
-                         </select>
-                     </div>
+                        <h6 className="">Category Name</h6>
+                        <div className="dropdown">
+                            {categories.map(category => (
+                                <div key={category.id} className="form-check">
+                                    <input
+                                        type="checkbox"
+                                        className="form-check-input"
+                                        id={`category-${category.id}`}
+                                        value={category.id}
+                                        checked={selectedCategories.includes(category.id)}
+                                        
+                                        onChange={(e) => handleCategoryCheckboxChange(category.id, e.target.checked)}
+                                    />
+                                    <label className="form-check-label" htmlFor={`category-${category.id}`}>
+                                        {category.category}
+                                    </label>
+                                </div>
+                            ))}
+                        </div>
+                        {categoryError && <p className="text-danger">Please select at least one category.</p>}
+
+                    </div>
 
 
 
                     <h3 className="categoryheader">Product Group</h3>
                     <div className="col-lg-12 CategoryFormItem">
-                        <label htmlFor="">
-                        <h6  className="">Group Name</h6>
-                        </label>
-                        <select 
-                        className="col-lg-12 form-select EmailInput"
-                        value={group}
-                        onChange={(e) => setGroup(e.target.value)}
+                        <h6 className="">Group Name</h6>
                         
-                        >
-                        <option value={0}>Choose...</option>
-                        {groups.map(group => (
-                            <option key={group.id} value={group.id}>{group.category}</option>
-                        ))}
-                        </select>
+                            <div className="dropdown">
+                                {groups.map(group => (
+                                <div key={group.id} className="form-check">
+                                    <input
+                                        type="checkbox"
+                                        className="form-check-input"
+                                        id={`group-${group.id}`}
+                                        value={group.id}
+                                        checked={selectedGroups.includes(group.id)}
+                                        onChange={(e) => handleGroupCheckboxChange(group.id, e.target.checked)}
+                                    />
+                                    <label className="form-check-label" htmlFor={`group-${group.id}`}>
+                                        {group.category}
+                                    </label>
+                                </div>
+                            ))}
+
+                            </div>
+                        
+                        
                         
                     </div>
+
  
                      <h3 className="categoryheader">Codes</h3>
                      <div className="col-lg-6 CategoryFormItem">
@@ -872,9 +917,9 @@ const AddProduct = () =>{
                             type="checkbox"
                             name={variation}
                             id={variation.id}
-                            value={variation.id} // Use variation ID as value
+                            value={variation.id} 
                             onChange={handleCheckboxChange}
-                            checked={selectedCheckboxes.includes(variation.id)} // Check against variation ID
+                            checked={selectedCheckboxes.includes(variation.id)} 
                             disabled={isApplied}
                             />
                             <label htmlFor={variation.id}>{variation.name_en}</label>

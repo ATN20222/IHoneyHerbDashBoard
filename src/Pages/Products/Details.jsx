@@ -28,6 +28,9 @@ const Details= ()=>{
     const [groups, setGroups] = useState([]);
     const [group, setGroup] = useState(0);
     const [loading, setLoading] = useState(false); 
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [selectedGroups, setSelectedGroups] = useState([]);
+
     const location = useLocation();
     const pathname = location.pathname.split('/');
     const productId = pathname[pathname.length-1];  
@@ -65,8 +68,17 @@ const Details= ()=>{
                     setIsExist(true);
                     const productData = response.product_view;
                     setProduct(productData);
-                    setSelectedCat(productData.category_id);
-                    setGroup(productData.group_id);
+                    // setSelectedCat(productData.category_id);
+                    
+                    // setGroup(productData.group_id);
+
+                    var CIds =  response.product_view.category_id.split(",");
+                    var GIds = response.product_view.group_id.split(",");
+                    console.log("CIds", GIds);
+                    console.log("GIds" , GIds);
+                    setSelectedCategories(CIds)
+                    setSelectedGroups(GIds);
+
 
                     setSku(productData.sku);
                     setBarcode(productData.barcode);
@@ -217,9 +229,9 @@ const Details= ()=>{
             const auth_key = localStorage.getItem('token');
             const user_id = localStorage.getItem('user_id');
             const response = await TestCats(auth_key, user_id);
-            if (response && response.status && response.data) {
-                setCategories( getCategoryList(response.data));
-                console.log(response.data);
+            if (response && response.status && response.categories_list) {
+                setCategories( getCategoryList(response.categories_list));
+                console.log(response.categories_list);
             } else {
                 console.error('Invalid response format:', response);
             }
@@ -235,10 +247,10 @@ const Details= ()=>{
             if (data.hasOwnProperty(key)) {
                 const item = data[key];
                 if (item.parent_id === parentId) {
-                    const category = `${prefix}${item.category}`;
+                    const category = `${prefix}${item.cat_name_en}`;
                     categories.push({ id: item.id, category });
-                    if (item.child) {
-                        const childCategories = getCategoryList(item.child, item.id, `${category} > `);
+                    if (item.children) {
+                        const childCategories = getCategoryList(item.children, item.id, `${category} > `);
                         categories.push(...childCategories);
                     }
                 }
@@ -539,43 +551,58 @@ const Details= ()=>{
 
                             <h3 className="categoryheader">Product Category</h3>
                             <div className="col-lg-12 CategoryFormItem">
-                                <label htmlFor="">
-                                    <h6 className="">Category Name</h6>
-                                </label>
-                                <select
-                                    required
-                                    disabled
-                                    className="col-lg-12 form-select EmailInput"
-                                    value={selectedCat}
-                                    
-                                >
-                                    <option value="">Choose...</option>
+                                <h6 className="">Category Name</h6>
+                                <div className="dropdown">
                                     {categories.map(category => (
-                                        <option key={category.id} value={category.id}>{category.category}</option>
+                                        <div key={category.id} className="form-check">
+                                            <input
+                                                type="checkbox"
+                                                className="form-check-input"
+                                                id={`category-${category.id}`}
+                                                value={category.id}
+                                                checked={selectedCategories.includes(category.id)}
+                                                
+                                                // onChange={(e) => handleCategoryCheckboxChange(category.id, e.target.checked)}
+                                                disabled
+                                            />
+                                            <label className="form-check-label" htmlFor={`category-${category.id}`}>
+                                                {category.category}
+                                            </label>
+                                        </div>
                                     ))}
-                                </select>
+                                </div>
+                                {/* {categoryError && <p className="text-danger">Please select at least one category.</p>} */}
+
                             </div>
 
 
                             <h3 className="categoryheader">Product Group</h3>
-                        <div className="col-lg-12 CategoryFormItem">
-                            <label htmlFor="">
-                            <h6  className="">Group Name</h6>
-                            </label>
-                            <select 
-                            className="col-lg-12 form-select EmailInput"
-                            value={group}
-                            // onChange={(e) => setGroup(e.target.value)}
-                            disabled
-                            
-                            >
-                            <option value={0}>Choose...</option>
-                            {groups.map(group => (
-                                <option key={group.id} value={group.id}>{group.category}</option>
-                            ))}
-                            </select>
-                            
-                        </div>
+                            <div className="col-lg-12 CategoryFormItem">
+                                <h6 className="">Group Name</h6>
+                                
+                                    <div className="dropdown">
+                                        {groups.map(group => (
+                                        <div key={group.id} className="form-check">
+                                            <input
+                                                type="checkbox"
+                                                className="form-check-input"
+                                                id={`group-${group.id}`}
+                                                value={group.id}
+                                                checked={selectedGroups.includes(group.id)}
+                                                // onChange={(e) => handleGroupCheckboxChange(group.id, e.target.checked)}
+                                                disabled
+                                            />
+                                            <label className="form-check-label" htmlFor={`group-${group.id}`}>
+                                                {group.category}
+                                            </label>
+                                        </div>
+                                    ))}
+
+                                    </div>
+                                
+                                
+                                
+                            </div>
 
 
                             <h3 className="categoryheader">Codes</h3>

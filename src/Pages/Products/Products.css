@@ -123,3 +123,13 @@
     display: flex;
     justify-content: end;
 }
+.dropdown{
+    height: 100px;
+    overflow: hidden;
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 20px;
+    overflow-y: scroll;
+    /* border-top-right-radius:0px ;
+    border-bottom-right-radius:0px ; */
+}
