@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const BASE_URL = 'https://admin.ihoneyherb.com/'; 
 
-
 //#region Login Api's
 export const login = async (username, password) => {
   try {
@@ -68,6 +67,7 @@ export const ListCategories = async (auth_key, user_id) => {
     throw new Error('List filed'); 
   }
 };
+
 
 //#endregion
 
@@ -323,7 +323,7 @@ export const TestCats = async (auth_key, user_id) => {
       formData.append('user_id', user_id);
 
 
-      const response = await axios.post(`https://admin.ihoneyherb.com/categories/dropdown.php`, formData);
+      const response = await axios.post(`${BASE_URL}/categories/dropdown.php`, formData);
     return response.data; 
     } catch (error) {
       throw new Error('Failed to list Products'); 

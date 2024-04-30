@@ -19,7 +19,16 @@ const Groups = () => {
                 const auth_key = localStorage.getItem('token');
                 const user_id = localStorage.getItem('user_id');
                 const response = await ListGroups(auth_key, user_id);
-                setGroups(response.groups_list); 
+                if(response.status){
+
+                    setGroups(response.groups_list); 
+                }else{
+                    if(response.msg === "Wrong key"){
+                        localStorage.removeItem('token');
+                        
+                        window.location.href = '/login';
+                      }
+                }
             } catch (error) {
                 console.error('Error fetching groups:', error);
             }
@@ -41,6 +50,13 @@ const Groups = () => {
             console.log(response);
             if (response.status) {
                 window.location.reload();
+            }else{
+                if(response.msg === "Wrong key"){
+                    localStorage.removeItem('token');
+                    alert("session exprired ");
+                    
+                    window.location.href = '/login';
+                  }
             }
         } catch (error) {
             console.error('Error:', error);

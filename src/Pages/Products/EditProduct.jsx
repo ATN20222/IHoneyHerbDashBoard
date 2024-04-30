@@ -88,8 +88,18 @@ const EditProduct = () => {
                 const auth_key = localStorage.getItem('token');
                 const user_id = localStorage.getItem('user_id');
                 const response = await listVariation(auth_key, user_id);
-                console.log(response);
-                setVariationsList(response.variation_list); 
+                if(response.status){
+                    console.log(response);
+                    setVariationsList(response.variation_list); 
+
+                }else{
+                    if(response.msg === "Wrong key"){
+                        localStorage.removeItem('token');
+                        alert("session exprired ");
+                        
+                        window.location.href = '/login';
+                      }
+                }
             } catch (error) {
                 console.error('Error fetching categories:', error);
             }
@@ -546,6 +556,12 @@ const EditProduct = () => {
                 setCategories( getCategoryList(response.categories_list));
                 console.log(response.categories_list);
             } else {
+                if(response.msg === "Wrong key"){
+                    localStorage.removeItem('token');
+                    alert("session exprired ");
+                    
+                    window.location.href = '/login';
+                  }
                 console.error('Invalid response format:', response);
             }
         } catch (error) {
@@ -600,6 +616,12 @@ const EditProduct = () => {
             if (resp.status === false) {
                 alert("Error Uploading Image");
                 setLoading(false);
+                if(resp.msg === "Wrong key"){
+                    localStorage.removeItem('token');
+                    alert("session exprired ");
+                    
+                    window.location.href = '/login';
+                  }
                 return;
             } else {
                 const image_name = resp.image_name;

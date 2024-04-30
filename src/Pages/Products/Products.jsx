@@ -34,6 +34,12 @@ const Products = () => {
                         }
                         
                 } else {
+                    if(response.msg === "Wrong key"){
+                        localStorage.removeItem('token');
+                        alert("session exprired ");
+                        
+                        window.location.href = '/login';
+                      }
                     console.error('Invalid response format:', response);
                 }
             } catch (error) {
@@ -68,6 +74,12 @@ const Products = () => {
                         return;
                     }
             } else {
+                if(response.msg === "Wrong key"){
+                    localStorage.removeItem('token');
+                    alert("session exprired ");
+                    
+                    window.location.href = '/login';
+                  }
                 console.error('Invalid response format:', response);
             }
         } catch (error) {
@@ -94,6 +106,13 @@ const Products = () => {
             console.log(response);
             if (response.status) {
                 window.location.reload();
+            }else{
+                if(response.msg === "Wrong key"){
+                    localStorage.removeItem('token');
+                    alert("session exprired ");
+                    
+                    window.location.href = '/login';
+                  }
             }
         } catch (error) {
             console.error('Error deleting product:', error);

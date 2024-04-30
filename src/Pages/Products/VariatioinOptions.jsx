@@ -54,6 +54,14 @@ const VariationOptions = ({ Variations, onApply }) => {
                 const auth_key = localStorage.getItem('token');
                 const user_id = localStorage.getItem('user_id');
                 const response = await listVariation(auth_key, user_id);
+                if(!response.status){
+                  if(response.msg === "Wrong key"){
+                    localStorage.removeItem('token');
+                    alert("session exprired ");
+                    
+                    window.location.href = '/login';
+                  }
+                }
                 console.log(Variations);
                 names.push(response.variation_list.find(vid => vid.id === Variations[0]));
                 names[0] = names[0].name_en;

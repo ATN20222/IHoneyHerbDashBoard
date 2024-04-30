@@ -25,6 +25,12 @@ const AddGroups = () => {
             // setGroups(response.groups_list)
 
         } else {
+          if(response.msg === "Wrong key"){
+            localStorage.removeItem('token');
+            alert("session exprired ");
+            
+            window.location.href = '/login';
+          }
           console.error('Invalid response format:', response);
         }
       } catch (error) {
@@ -58,12 +64,21 @@ const AddGroups = () => {
       const user_id = localStorage.getItem('user_id');
       console.log(auth_key, user_id, GroupNameEn, GroupNameAr, parentId, GroupIcon);
       const response = await AddGroup(auth_key, user_id, GroupNameEn, GroupNameAr, parentId, GroupIcon);   
-      console.log('Group added successfully:', response);
+
+      if(response.status){
+        window.location.href = "/groups";
+        alert('Group added successfully');
+      }else{
+        if(response.msg === "Wrong key"){
+          localStorage.removeItem('token');
+          alert("session exprired ");
+          
+          window.location.href = '/login';
+        }
+      }
 
 
-      alert('Group added successfully');
 
-      window.location.href = "/groups";
     } catch (error) {
       setError('Failed to add group');
       console.error('Error adding group:', error);

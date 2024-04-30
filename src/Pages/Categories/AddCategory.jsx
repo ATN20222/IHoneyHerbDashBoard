@@ -18,10 +18,18 @@ const AddCategory = () => {
         const auth_key = localStorage.getItem('token');
         const user_id = localStorage.getItem('user_id');
         const response = await TestCats(auth_key, user_id);
+
+
         if (response && response.status && response.categories_list) {
             setCategories( getCategoryList(response.categories_list));
 
         } else {
+          if(response.msg === "Wrong key"){
+            localStorage.removeItem('token');
+            alert("session exprired ");
+            
+            window.location.href = '/login';
+          }
           console.error('Invalid response format:', response);
         }
       } catch (error) {
@@ -54,12 +62,22 @@ const AddCategory = () => {
       const auth_key = localStorage.getItem('token');
       const user_id = localStorage.getItem('user_id');
       const response = await addCategory(auth_key, user_id, catNameEn, catNameAr, parentId, catIcon);   
-      console.log('Category added successfully:', response);
+      if(response.status){
+
+        alert('Category added successfully');
+
+        window.location.href = "/categories";
+        console.log('Category added successfully:', response);
+      }else{
+        if(response.msg === "Wrong key"){
+          localStorage.removeItem('token');
+          alert("session exprired ");
+          
+          window.location.href = '/login';
+        }
+      }
 
 
-      alert('Category added successfully');
-
-      window.location.href = "/categories";
     } catch (error) {
       setError('Failed to add category');
       console.error('Error adding category:', error);

@@ -99,6 +99,12 @@ const AddProduct = () =>{
               // setGroups(response.groups_list)
   
           } else {
+            if(response.msg === "Wrong key"){
+                localStorage.removeItem('token');
+                alert("session exprired ");
+                
+                window.location.href = '/login';
+              }
             console.error('Invalid response format:', response);
           }
         } catch (error) {
@@ -116,8 +122,18 @@ const AddProduct = () =>{
                 const auth_key = localStorage.getItem('token');
                 const user_id = localStorage.getItem('user_id');
                 const response = await listVariation(auth_key, user_id);
-                console.log(response);
-                setVariationsList(response.variation_list); 
+                if(response.status){
+                    console.log(response);
+                    setVariationsList(response.variation_list); 
+                    
+                }else{
+                    if(response.msg === "Wrong key"){
+                        localStorage.removeItem('token');
+                        alert("session exprired ");
+                        
+                        window.location.href = '/login';
+                      }
+                }
             } catch (error) {
                 console.error('Error fetching categories:', error);
             }
@@ -162,6 +178,7 @@ const AddProduct = () =>{
             
             console.log(response.categories_list);
           } else {
+            
             console.error('Invalid response format:', response);
           }
         } catch (error) {

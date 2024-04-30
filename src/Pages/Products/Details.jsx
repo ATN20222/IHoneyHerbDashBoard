@@ -151,6 +151,12 @@ const Details= ()=>{
                         setphotos(productData.photos);
                     }
                 } else {
+                    if(response.msg === "Wrong key"){
+                        localStorage.removeItem('token');
+                        alert("session exprired ");
+                        
+                        window.location.href = '/login';
+                      }
                     console.error('Invalid response format:', response);
                 }
             } catch (error) {
@@ -196,6 +202,12 @@ const Details= ()=>{
               // setGroups(response.groups_list)
   
           } else {
+            if(response.msg === "Wrong key"){
+                localStorage.removeItem('token');
+                alert("session exprired ");
+                
+                window.location.href = '/login';
+              }
             console.error('Invalid response format:', response);
           }
         } catch (error) {

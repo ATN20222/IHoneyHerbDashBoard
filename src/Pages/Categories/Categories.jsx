@@ -18,7 +18,17 @@ const Categories = () => {
                 const auth_key = localStorage.getItem('token');
                 const user_id = localStorage.getItem('user_id');
                 const response = await ListCategories(auth_key, user_id);
-                setCategories(response.categories_list); 
+                if(response.status){
+                    
+                    setCategories(response.categories_list); 
+                }else{
+                    if(response.msg === "Wrong key"){
+                        localStorage.removeItem('token');
+                        alert("session exprired ");
+                        
+                        window.location.href = '/login';
+                      }
+                }
             } catch (error) {
                 console.error('Error fetching categories:', error);
             }
@@ -40,6 +50,13 @@ const Categories = () => {
             if (response.status) {
                 window.location.reload();
 
+            }else{
+                if(response.msg === "Wrong key"){
+                    localStorage.removeItem('token');
+                    alert("session exprired ");
+                    
+                    window.location.href = '/login';
+                  }
             }
         } catch (error) {
             console.error('Error deleting category:', error);

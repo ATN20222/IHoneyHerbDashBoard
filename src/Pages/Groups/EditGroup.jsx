@@ -34,6 +34,12 @@ const EditGroup = () => {
             // setGroups(response.groups_list)
 
         } else {
+          if(response.msg === "Wrong key"){
+            localStorage.removeItem('token');
+            alert("session exprired ");
+            
+            window.location.href = '/login';
+          }
           console.error('Invalid response format:', response);
         }
       } catch (error) {
@@ -68,11 +74,21 @@ const EditGroup = () => {
       console.log(auth_key, user_id, GroupNameEn, GroupNameAr, parentId, GroupIcon);
       const response = await EditGroups (auth_key, user_id,id, GroupNameEn, GroupNameAr, parentId, GroupIcon);   
       console.log('Group added successfully:', response);
-
+      if(response.status){
+        
 
       alert('Group edited successfully');
 
       window.location.href = "/groups";
+      }else{
+        if(response.msg === "Wrong key"){
+          localStorage.removeItem('token');
+          alert("session exprired ");
+          
+          window.location.href = '/login';
+        }
+      }
+
     } catch (error) {
       setError('Failed to edit group');
       console.error('Error editing group:', error);

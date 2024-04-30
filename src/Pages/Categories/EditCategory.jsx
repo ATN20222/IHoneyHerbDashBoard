@@ -83,6 +83,12 @@ function getCategoryList(data, parentId = '0', prefix = '') {
           
 
         } else {
+          if(response.msg === "Wrong key"){
+            localStorage.removeItem('token');
+            alert("session exprired ");
+            
+            window.location.href = '/login';
+          }
           console.error('Invalid response format:', response);
         }
       } catch (error) {
@@ -110,6 +116,12 @@ function getCategoryList(data, parentId = '0', prefix = '') {
         alert('Category edited successfully');
         window.location.href = "/categories";
       }else{
+        if(response.msg === "Wrong key"){
+          localStorage.removeItem('token');
+          alert("session exprired ");
+          
+          window.location.href = '/login';
+        }
         alert('Error editing category');
       }
 
@@ -182,7 +194,7 @@ function getCategoryList(data, parentId = '0', prefix = '') {
               <h6  className="">Icon</h6>
             </label>
              <input
-                             
+
                             required={parentId == ''||parentId==0} 
                             className="col-lg-12 form-control EmailInput" 
                             type="file" 
