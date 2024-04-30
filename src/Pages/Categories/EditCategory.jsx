@@ -44,16 +44,16 @@ function getCategoryList(data, parentId = '0', prefix = '') {
       if (data.hasOwnProperty(key)) {
           const item = data[key];
           if (item.parent_id === parentId) {
-              const category = `${prefix}${item.category}`;
+              const category = `${prefix}${item.cat_name_en}`;
               categories.push({ id: item.id, category });
-              if (item.child) {
-                  const childCategories = getCategoryList(item.child, item.id, `${category} > `);
+              if (item.children) {
+                  const childCategories = getCategoryList(item.children, item.id, `${category} > `);
                   categories.push(...childCategories);
               }
           }
       }
   }
-
+  // console.log("categories", categories);
   return categories;
 }
 
@@ -67,11 +67,11 @@ function getCategoryList(data, parentId = '0', prefix = '') {
         const resp = await TestCats(auth_key , user_id);
         console.log(resp);
         // console.log(response);
-        if (resp && resp.status && resp.data) {
+        if (resp && resp.status && resp.categories_list) {
           // setCategories(response.categories_list);
-          console.log(resp.data)
-          var arr = getCategoryList(resp.data);
-          setCategories( getCategoryList(resp.data));
+          console.log(resp.categories_list)
+          var arr = getCategoryList(resp.categories_list);
+          setCategories( getCategoryList(resp.categories_list));
 
           var selectedCategory = response.categories_list.find(cat => cat.id === category_id);
           setCatNameEn(selectedCategory.cat_name_en);
@@ -130,7 +130,7 @@ function getCategoryList(data, parentId = '0', prefix = '') {
   return (
     <div className="col-lg-10 col-md-9 col-sm-9 MainCol HomeCol CategoriesCol">
       <div className="CategoriesHeader">
-        <h3>New Category</h3>
+        <h3>Edit Category</h3>
       </div>
       <form onSubmit={handleSubmit} className="row">
         <div className="row Center LoginWithRow">
@@ -181,8 +181,9 @@ function getCategoryList(data, parentId = '0', prefix = '') {
             <label htmlFor="">
               <h6  className="">Icon</h6>
             </label>
-             <input 
+             <input
                              
+                            required={parentId == ''||parentId==0} 
                             className="col-lg-12 form-control EmailInput" 
                             type="file" 
                             placeholder="name in english"

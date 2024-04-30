@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://ihoneyherb.com/admin-test/'; 
+const BASE_URL = 'https://admin.ihoneyherb.com/'; 
 
 
 //#region Login Api's
@@ -323,7 +323,7 @@ export const TestCats = async (auth_key, user_id) => {
       formData.append('user_id', user_id);
 
 
-      const response = await axios.post(`https://ihoneyherb.com/admin-test/categories/dropdown.php`, formData);
+      const response = await axios.post(`https://admin.ihoneyherb.com/categories/dropdown.php`, formData);
     return response.data; 
     } catch (error) {
       throw new Error('Failed to list Products'); 

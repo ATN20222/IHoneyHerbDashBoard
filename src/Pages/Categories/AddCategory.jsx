@@ -18,8 +18,8 @@ const AddCategory = () => {
         const auth_key = localStorage.getItem('token');
         const user_id = localStorage.getItem('user_id');
         const response = await TestCats(auth_key, user_id);
-        if (response && response.status && response.data) {
-            setCategories( getCategoryList(response.data));
+        if (response && response.status && response.categories_list) {
+            setCategories( getCategoryList(response.categories_list));
 
         } else {
           console.error('Invalid response format:', response);
@@ -74,25 +74,26 @@ const AddCategory = () => {
     e.preventDefault();
     window.location.href = "/categories";
 }
-  function getCategoryList(data, parentId = '0', prefix = '') {
-    const categories = [];
+function getCategoryList(data, parentId = '0', prefix = '') {
+  const categories = [];
 
-    for (const key in data) {
-        if (data.hasOwnProperty(key)) {
-            const item = data[key];
-            if (item.parent_id === parentId) {
-                const category = `${prefix}${item.category}`;
-                categories.push({ id: item.id, category });
-                if (item.child) {
-                    const childCategories = getCategoryList(item.child, item.id, `${category} > `);
-                    categories.push(...childCategories);
-                }
-            }
-        }
-    }
-
-    return categories;
+  for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+          const item = data[key];
+          if (item.parent_id === parentId) {
+              const category = `${prefix}${item.cat_name_en}`;
+              categories.push({ id: item.id, category });
+              if (item.children) {
+                  const childCategories = getCategoryList(item.children, item.id, `${category} > `);
+                  categories.push(...childCategories);
+              }
+          }
+      }
   }
+  // console.log("categories", categories);
+  return categories;
+}
+
 
 
   return (
@@ -150,7 +151,7 @@ const AddCategory = () => {
               <h6  className="">Icon</h6>
             </label>
                         <input 
-                            required 
+                            required={parentId==''||parentId==0} 
                             className="col-lg-12 form-control EmailInput" 
                             type="file" 
                             placeholder="name in english"
