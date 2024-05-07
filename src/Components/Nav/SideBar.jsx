@@ -56,7 +56,7 @@ const SideBar = () =>{
                         </li>
                         
                         <li className="list-item">
-                            <button disabled onClick={handleLinkClick} className="LinkItem" to="/WellnessQuiz"> <FontAwesomeIcon icon={faQuestion}/>  WellnessQuiz </button>
+                            <Link disabled onClick={handleLinkClick} className="LinkItem" to="/WellnessQuiz"> <FontAwesomeIcon icon={faQuestion}/>  WellnessQuiz </Link>
                         </li>
 
                         <li className="list-item">

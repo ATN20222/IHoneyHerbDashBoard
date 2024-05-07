@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://admin.ihoneyherb.com/'; 
+const BASE_URL = 'https://ihoneyherb.com/admin-test'; 
 
 //#region Login Api's
 export const login = async (username, password) => {
@@ -452,8 +452,158 @@ export const EditGroups = async (auth_key, user_id,group_id, group_name_en, grou
 
 
 
+// #region WellnessQuiz Api's
+
+export const ListQuestions = async (auth_key, user_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
 
 
+      const response = await axios.post(`${BASE_URL}/wellness_quiz/list.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to list questions'); 
+    }
+};
+export const DeleteWellnessQuestion = async (auth_key, user_id,q_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('q_id', q_id);
+
+
+      const response = await axios.post(`${BASE_URL}/wellness_quiz/delete.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to delete question'); 
+    }
+};
+
+export const ListAges = async (auth_key, user_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+
+
+
+      const response = await axios.post(`${BASE_URL}/wellness_quiz/ages_dropdown.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to load data'); 
+    }
+};
+export const QuestionById = async (auth_key, user_id , q_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('q_id', q_id);
+
+
+
+      const response = await axios.post(`${BASE_URL}/wellness_quiz/view.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to load data'); 
+    }
+};
+
+export const AddWellnessQuestion = async (auth_key, user_id , question_en , question_ar , gender , age, image) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('question_en', question_en);
+      formData.append('question_ar', question_ar);
+      formData.append('gender', gender);
+      formData.append('age', age);
+      formData.append('image', image);
+
+
+
+      const response = await axios.post(`${BASE_URL}/wellness_quiz/add.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to add question'); 
+    }
+};
+export const EditWellnessQuestion = async (auth_key, user_id, q_id, question_en , question_ar , gender , age, image) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('q_id', q_id);
+      formData.append('question_en', question_en);
+      formData.append('question_ar', question_ar);
+      formData.append('gender', gender);
+      formData.append('age', age);
+      if(image != null){
+
+        formData.append('image', image);
+      }
+
+
+
+      const response = await axios.post(`${BASE_URL}/wellness_quiz/edit.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to edit question'); 
+    }
+};
+export const WellnessQuestionProducts = async (auth_key, user_id , q_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('q_id', q_id);
+
+
+
+      const response = await axios.post(`${BASE_URL}/wellness_quiz/list_products.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to load data'); 
+    }
+};
+export const AssignQuestionProduct = async (auth_key, user_id , q_id ,product_id ) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('q_id', q_id);
+      formData.append('product_id', product_id);
+
+
+
+      const response = await axios.post(`${BASE_URL}/wellness_quiz/assign_product.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to load data'); 
+    }
+};
+export const RemoveAssignQuestionProduct = async (auth_key, user_id , q_id ,product_id ) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('q_id', q_id);
+      formData.append('product_id', product_id);
+
+
+
+      const response = await axios.post(`${BASE_URL}/wellness_quiz/delete_product.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to load data'); 
+    }
+};
+
+
+//#endregion
 
 
 

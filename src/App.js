@@ -20,6 +20,9 @@ import Details from './Pages/Products/Details.jsx';
 import Groups from './Pages/Groups/Groups.jsx';
 import AddGroups from './Pages/Groups/AddGroup.jsx';
 import EditGroup from './Pages/Groups/EditGroup.jsx';
+import WellnessQuiz from './Pages/WellnessQuiz/WellnessQuiz.jsx';
+import AddQuestion from './Pages/WellnessQuiz/AddQuestion.jsx';
+import EditQuestion from './Pages/WellnessQuiz/EditQuestion.jsx';
 
 function App() {
   const isLoggedIn = localStorage.getItem('token');
@@ -39,6 +42,10 @@ function App() {
               <Route path="/groups" element={isLoggedIn ? <Groups /> : <Navigate to="/login" />} /> 
               <Route path="/addgroup" element={isLoggedIn ? <AddGroups /> : <Navigate to="/login" />} />
               <Route path="/editgroup/:id" element={isLoggedIn ? <EditGroup /> : <Navigate to="/login" />} />
+
+              <Route path="/wellnessquiz" element={isLoggedIn ? <WellnessQuiz /> : <Navigate to="/login" />} /> 
+              <Route path="/addquestion" element={isLoggedIn ? <AddQuestion /> : <Navigate to="/login" />} />
+              <Route path="/editquestion/:id" element={isLoggedIn ? <EditQuestion /> : <Navigate to="/login" />} />
 
               <Route path="/products" element={isLoggedIn ? <Products /> : <Navigate to="/login" />} />
               <Route path="/addproduct" element={isLoggedIn ? <AddProduct /> : <Navigate to="/login" />} />
