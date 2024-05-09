@@ -27,7 +27,7 @@ thead{
 .CategoryFormBtns{
     display: flex;
     justify-content: end !important;
-    align-items: flex-end;
+    align-items: end;
 }
 .CategoryFormBtns button{ 
     margin: 10px;
@@ -38,4 +38,3 @@ thead{
 .CancelBtn{
     background-color: transparent !important;
 }
-

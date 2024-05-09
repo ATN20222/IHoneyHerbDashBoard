@@ -605,7 +605,55 @@ export const RemoveAssignQuestionProduct = async (auth_key, user_id , q_id ,prod
 
 //#endregion
 
+// #region Intro Screens 
+export const ListScreens = async (auth_key, user_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
 
+
+      const response = await axios.post(`${BASE_URL}/intro_screens/list.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to list screens'); 
+    }
+};
+
+export const AddAppScreen = async (auth_key, user_id , title_en ,title_ar , desc_en , desc_ar , photo ) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('title_en', title_en);
+      formData.append('title_ar', title_ar);
+      formData.append('desc_en', desc_en);
+      formData.append('desc_ar', desc_ar);
+      formData.append('photo', photo);
+
+
+      const response = await axios.post(`${BASE_URL}/intro_screens/add.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to add screen'); 
+    }
+};
+
+export const DeleteAppScreen = async (auth_key, user_id , intro_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('intro_id', intro_id);
+
+
+      const response = await axios.post(`${BASE_URL}/intro_screens/delete.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to delete screen'); 
+    }
+};
+// #endregion
 
 
 
