@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faPen, faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faPen, faTrash, faEye, faClone } from "@fortawesome/free-solid-svg-icons";
 import ProductImage from '../../Assets/Images/ProductImage.png';
-import { RemoveProduct, listProducts } from "../../Services/Api";
+import { RemoveProduct, addProduct, listProducts } from "../../Services/Api";
 import DeleteProduct from "./DeleteProduct";
 
 const Products = () => {
@@ -96,6 +96,8 @@ const Products = () => {
         setShowDeleteProduct(true);
     };
 
+
+
     const confirmDeleteProduct = async () => {
         
         try {
@@ -118,6 +120,39 @@ const Products = () => {
             console.error('Error deleting product:', error);
         }
     };
+
+    const DuplicateProduct = async (product)=>{
+        try {
+            const auth_key = localStorage.getItem('token');
+            const user_id = localStorage.getItem('user_id');
+            
+            const response = await addProduct(auth_key, user_id,
+                product.name_en ,product.name_ar ,
+                product.short_desc_en , product.short_desc_ar,
+                product.description_en,product.description_ar,
+                product.category_id,null,
+                product.sku,product.list_price,
+                product.sale_price,product.barcode,
+                product.quantity,product.group_id
+                
+            );
+            console.log("Product cloned successfully!",response);
+            if (response.status) {
+                alert("Product cloned successfully!");
+                window.location.href=`/editproduct/${response.products_id}`
+
+            }else{
+                if(response.msg === "Wrong key"){
+                    localStorage.removeItem('token');
+                    alert("session exprired ");
+                    
+                    window.location.href = '/login';
+                  }
+            }
+        } catch (error) {
+            console.error('Error cloning product:', error);
+        }
+    }
 
     return (
         <div className="col-lg-10 col-md-9 col-sm-9 MainCol HomeCol CategoriesCol">
@@ -144,6 +179,7 @@ const Products = () => {
                             <th>List Price</th>
                             <th>Edit</th>
                             <th>View</th>
+                            <th>Duplicate</th>
                             <th>Delete</th>
 
                         </tr>
@@ -176,6 +212,14 @@ const Products = () => {
                                             <FontAwesomeIcon icon={faEye}/>
                                         </Link>
                                     </td>
+                            
+                                    <td>
+                                        <button onClick={()=>DuplicateProduct(product)} className="btn btn-warning">
+                                            <FontAwesomeIcon icon={faClone}/>
+                                        </button>
+                                    </td>
+
+
                                      <td>
                                         <button className="btn btn-warning" onClick={() => handleDeleteProduct(product.id)}>
                                             <FontAwesomeIcon icon={faTrash}/>
