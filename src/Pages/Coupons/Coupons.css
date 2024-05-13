@@ -1,0 +1,40 @@
+.CategoriesHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.CategoriesCol{
+    padding: 40px;
+}
+thead{
+    background: black !important;
+}
+.TableContainer{
+    margin-top: 25px;
+}
+.categoryheader{
+    text-align: start;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+.CategoryFormItem{
+    text-align: start !important;
+
+}
+.CategoryFormItem label{
+    padding-left: 5px;
+}
+.CategoryFormBtns{
+    display: flex;
+    justify-content: end !important;
+    align-items: end;
+}
+.CategoryFormBtns button{ 
+    margin: 10px;
+}
+.CategoryFormBtns button span{
+    color: black !important;
+}
+.CancelBtn{
+    background-color: transparent !important;
+}

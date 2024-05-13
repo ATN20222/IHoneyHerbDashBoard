@@ -25,6 +25,11 @@ import AddQuestion from './Pages/WellnessQuiz/AddQuestion.jsx';
 import EditQuestion from './Pages/WellnessQuiz/EditQuestion.jsx';
 import Screens from './Pages/AppScreens/Screens.jsx';
 import AddScreen from './Pages/AppScreens/AddScreen.jsx';
+import Coupons from './Pages/Coupons/Coupons.jsx';
+import AddCoupon from './Pages/Coupons/AddCoupon.jsx';
+import EditCoupon from './Pages/Coupons/EditCoupon.jsx';
+import Users from './Pages/Users/Users.jsx';
+import Reviews from './Pages/Reviews/Reviews.jsx';
 
 function App() {
   const isLoggedIn = localStorage.getItem('token');
@@ -52,6 +57,14 @@ function App() {
 
               <Route path="/screens" element={isLoggedIn ? <Screens /> : <Navigate to="/login" />} /> 
               <Route path="/addscreen" element={isLoggedIn ? <AddScreen /> : <Navigate to="/login" />} />
+
+              <Route path="/coupons" element={isLoggedIn ? <Coupons /> : <Navigate to="/login" />} /> 
+              <Route path="/addcoupon" element={isLoggedIn ? <AddCoupon /> : <Navigate to="/login" />} /> 
+              <Route path="/editcoupon/:id" element={isLoggedIn ? <EditCoupon /> : <Navigate to="/login" />} /> 
+
+              <Route path="/users" element={isLoggedIn ? <Users /> : <Navigate to="/login" />} /> 
+
+              <Route path="/reviews" element={isLoggedIn ? <Reviews /> : <Navigate to="/login" />} /> 
 
 
               <Route path="/products" element={isLoggedIn ? <Products /> : <Navigate to="/login" />} />

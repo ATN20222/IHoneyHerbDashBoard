@@ -280,7 +280,7 @@ export const ProductDetails = async (auth_key, product_id) => {
     const response = await axios.post(`${BASE_URL}/products/view.php`, formData);
     return response.data; 
   } catch (error) {
-    throw new Error('Faild to get product'); 
+    throw new Error('Failed to get product'); 
   }
 };
 
@@ -296,7 +296,7 @@ export const AddPhotos = async (auth_key, product_id,image_name) => {
     const response = await axios.post(`${BASE_URL}/products/add_photo.php`, formData);
     return response.data; 
   } catch (error) {
-    throw new Error('Faild to get product'); 
+    throw new Error('Failed to get product'); 
   }
 };
 
@@ -312,7 +312,7 @@ export const RemoveOption = async (auth_key, product_id , option_id) => {
     const response = await axios.post(`${BASE_URL}/products/variations/delete.php`, formData);
     return response.data; 
   } catch (error) {
-    throw new Error('Faild to remove option'); 
+    throw new Error('Failed to remove option'); 
   }
 };
 
@@ -655,6 +655,115 @@ export const DeleteAppScreen = async (auth_key, user_id , intro_id) => {
 };
 // #endregion
 
+// #region Coupons Api's
+export const ListCoupons = async (auth_key, user_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
 
 
+      const response = await axios.post(`${BASE_URL}/coupons/list.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to list Coupons'); 
+    }
+};
 
+export const AddCoupons = async (auth_key, user_id,coupon, discount , status) => {
+  try {
+    const formData = new FormData();
+    formData.append('auth_key', auth_key);
+    formData.append('user_id', user_id);
+    formData.append('coupon', coupon);
+    formData.append('discount', discount);
+    formData.append('is_active', status);
+
+
+    const response = await axios.post(`${BASE_URL}/coupons/add.php`, formData);
+    return response.data; 
+  } catch (error) {
+    throw new Error('Failed to add coupon'); 
+  }
+};
+export const EditCoupons = async (auth_key, user_id,coupon_id,coupon, discount , status) => {
+  try {
+    const formData = new FormData();
+    formData.append('auth_key', auth_key);
+    formData.append('user_id', user_id);
+    formData.append('coupon_id', coupon_id);
+    formData.append('coupon', coupon);
+    formData.append('discount', discount);
+    formData.append('is_active', status);
+
+
+    const response = await axios.post(`${BASE_URL}/coupons/edit.php`, formData);
+    return response.data; 
+  } catch (error) {
+    throw new Error('Failed to add coupon'); 
+  }
+};
+// #endregion
+
+
+// #region Users Api's
+export const ListUsers = async (auth_key, user_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+
+
+      const response = await axios.post(`${BASE_URL}/users/list.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to list Users'); 
+    }
+};
+export const EditUsers = async (auth_key, user_id,email, active ) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('email', email);
+      formData.append('active', active);
+
+
+      const response = await axios.post(`${BASE_URL}/users/edit.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed'); 
+    }
+};
+// #endregoin
+
+// #region Reviews Api's
+export const ListReviews = async (auth_key, user_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+
+
+      const response = await axios.post(`${BASE_URL}/reviews/list.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to list Users'); 
+    }
+};
+export const EditReviews = async (auth_key, user_id,id, active ) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('id', id);
+      formData.append('active', active);
+
+
+      const response = await axios.post(`${BASE_URL}/reviews/edit.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to show/hide review'); 
+    }
+};
+// #endregoin

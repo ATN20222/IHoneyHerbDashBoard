@@ -69,18 +69,18 @@ const SideBar = () =>{
                         </li>
 
                         <li className="list-item">
-                            <button disabled onClick={handleLinkClick} className="LinkItem" to="/Coupons"> <FontAwesomeIcon icon={faTicket}/>  Coupons </button>
+                            <Link  onClick={handleLinkClick} className="LinkItem" to="/Coupons"> <FontAwesomeIcon icon={faTicket}/>  Coupons </Link>
                         </li>
 
                         <li className="list-item">
-                            <button disabled onClick={handleLinkClick} className="LinkItem" to="/Reviews"> <FontAwesomeIcon icon={faComment}/>  Reviews </button>
+                            <Link disabled onClick={handleLinkClick} className="LinkItem" to="/Reviews"> <FontAwesomeIcon icon={faComment}/>  Reviews </Link>
                         </li>
                         <li className="list-item">
                             <Link  onClick={handleLinkClick} className="LinkItem" to="/screens"> <FontAwesomeIcon icon={faMobile}/> Intro Screens </Link>
                         </li>
 
                         <li className="list-item">
-                            <button disabled onClick={handleLinkClick} className="LinkItem" to="/Users"> <FontAwesomeIcon icon={faUser}/>  Users </button>
+                            <Link disabled onClick={handleLinkClick} className="LinkItem" to="/Users"> <FontAwesomeIcon icon={faUser}/>  Users </Link>
                         </li>
 
                         <li className="list-item">
