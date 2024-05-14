@@ -605,7 +605,7 @@ export const RemoveAssignQuestionProduct = async (auth_key, user_id , q_id ,prod
 
 //#endregion
 
-// #region Intro Screens 
+//#region Intro Screens 
 export const ListScreens = async (auth_key, user_id) => {
   try {
       const formData = new FormData();
@@ -653,7 +653,7 @@ export const DeleteAppScreen = async (auth_key, user_id , intro_id) => {
       throw new Error('Failed to delete screen'); 
     }
 };
-// #endregion
+//#endregion
 
 // #region Coupons Api's
 export const ListCoupons = async (auth_key, user_id) => {
@@ -706,7 +706,7 @@ export const EditCoupons = async (auth_key, user_id,coupon_id,coupon, discount ,
 // #endregion
 
 
-// #region Users Api's
+//#region Users Api's
 export const ListUsers = async (auth_key, user_id) => {
   try {
       const formData = new FormData();
@@ -737,7 +737,7 @@ export const EditUsers = async (auth_key, user_id,email, active ) => {
 };
 // #endregoin
 
-// #region Reviews Api's
+//#region Reviews Api's
 export const ListReviews = async (auth_key, user_id) => {
   try {
       const formData = new FormData();
@@ -766,4 +766,99 @@ export const EditReviews = async (auth_key, user_id,id, active ) => {
       throw new Error('Failed to show/hide review'); 
     }
 };
-// #endregoin
+//#endregion
+
+
+//#region Notifications Api's
+export const ListNotifications = async (auth_key, user_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+
+
+      const response = await axios.post(`${BASE_URL}/notifications/list.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to list notifications'); 
+    }
+};
+export const AddNotifications = async (auth_key, user_id, title_en , title_ar, body_en,body_ar ) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', '0');
+      formData.append('title_en', title_en);
+      formData.append('title_ar', title_ar);
+      formData.append('body_en', body_en);
+      formData.append('body_ar', body_ar);
+
+
+      const response = await axios.post(`${BASE_URL}/notifications/add.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to send notification'); 
+    }
+};
+//#endregion
+
+
+//#region Notifications Api's
+export const ListOrders = async (auth_key, user_id,status_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('status_id', status_id);
+
+
+      const response = await axios.post(`${BASE_URL}/orders/list.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to list orders'); 
+    }
+};
+export const OrderById = async (auth_key, user_id , order_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('order_id', order_id);
+
+
+      const response = await axios.post(`${BASE_URL}/orders/order_details.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to get order'); 
+    }
+};
+export const ListOrderStatus = async (auth_key, user_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+
+
+      const response = await axios.post(`${BASE_URL}/orders/list_status.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to list status'); 
+    }
+};
+export const EditOrder = async (auth_key, user_id, order_id , order_status, arrival_date) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('order_id', order_id);
+      formData.append('order_status', order_status);
+      formData.append('arrival_date', arrival_date);
+
+      const response = await axios.post(`${BASE_URL}/orders/update_order_data.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to send notification'); 
+    }
+};
+//#endregion
+

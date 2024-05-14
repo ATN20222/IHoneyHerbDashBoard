@@ -60,7 +60,7 @@ const SideBar = () =>{
                         </li>
 
                         <li className="list-item">
-                            <button disabled onClick={handleLinkClick} className="LinkItem" to="/Orders"> <FontAwesomeIcon icon={faTruckFast}/>  Orders </button>
+                            <Link disabled onClick={handleLinkClick} className="LinkItem" to="/Orders"> <FontAwesomeIcon icon={faTruckFast}/>  Orders </Link>
                         </li>
 
                        
@@ -84,7 +84,7 @@ const SideBar = () =>{
                         </li>
 
                         <li className="list-item">
-                            <button disabled onClick={handleLinkClick} className="LinkItem" to="/Notifications"> <FontAwesomeIcon icon={faBell}/>  Notifications </button>
+                            <Link disabled onClick={handleLinkClick} className="LinkItem" to="/Notifications"> <FontAwesomeIcon icon={faBell}/>  Notifications </Link>
                         </li>
                         <li className="list-item">
                             <button disabled onClick={handleLinkClick} className="LinkItem" to="/Configuration"> <FontAwesomeIcon icon={faGear}/>  Configuration </button>

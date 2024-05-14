@@ -30,6 +30,10 @@ import AddCoupon from './Pages/Coupons/AddCoupon.jsx';
 import EditCoupon from './Pages/Coupons/EditCoupon.jsx';
 import Users from './Pages/Users/Users.jsx';
 import Reviews from './Pages/Reviews/Reviews.jsx';
+import Notifications from './Pages/Notification/Notifications.jsx';
+import AddNotification from './Pages/Notification/AddNotification.jsx';
+import Orders from './Pages/Orders/Orders.jsx';
+import EditOrders from './Pages/Orders/EditOrders.jsx';
 
 function App() {
   const isLoggedIn = localStorage.getItem('token');
@@ -65,6 +69,13 @@ function App() {
               <Route path="/users" element={isLoggedIn ? <Users /> : <Navigate to="/login" />} /> 
 
               <Route path="/reviews" element={isLoggedIn ? <Reviews /> : <Navigate to="/login" />} /> 
+
+              <Route path="/notifications" element={isLoggedIn ? <Notifications /> : <Navigate to="/login" />} /> 
+              <Route path="/addnotification" element={isLoggedIn ? <AddNotification /> : <Navigate to="/login" />} /> 
+
+
+              <Route path="/orders" element={isLoggedIn ? <Orders /> : <Navigate to="/login" />} /> 
+              <Route path="/editorder/:id" element={isLoggedIn ? <EditOrders /> : <Navigate to="/login" />} /> 
 
 
               <Route path="/products" element={isLoggedIn ? <Products /> : <Navigate to="/login" />} />
