@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { addCategory, EditOrder, ListCategories, ListOrders, ListOrderStatus, OrderById, TestCats } from "../../Services/Api";
+import { faL, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { addCategory, EditOrder, ListCategories, ListOrders, ListOrderStatus, OrderById, TestCats, UpdateItemStatus } from "../../Services/Api";
 import { useParams } from "react-router-dom";
 
 const EditOrders = () => {
@@ -12,6 +12,9 @@ const EditOrders = () => {
     const [Apply , SetApply] = useState(false);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [itemStatuses, setItemStatuses] = useState([]);
+    const [changedStatuses , setChangedStatuses] = useState([]);
+
     const {id} = useParams();
 
     useEffect(() => {
@@ -32,7 +35,9 @@ const EditOrders = () => {
                     } else {
                         setArrivalDate(OrderResponse.arrival_date);
                     }
-                   
+
+                    
+                    
                     if(OrderResponse.order_status=='3')
                         SetApply(true);
 
@@ -55,15 +60,27 @@ const EditOrders = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    
     try {
 
+
       if (loading) return;
-      
+     
 
       setLoading(true);
-
+    
+      
       const auth_key = localStorage.getItem('token');
       const user_id = localStorage.getItem('user_id');
+      for(const item in changedStatuses){
+        const response = await UpdateItemStatus(auth_key , user_id ,  id,changedStatuses[item].id , changedStatuses[item].status)
+        if(!response.status)
+            alert(`error editing Item ID : ${changedStatuses[item].id}`)
+
+    }
+    
+
+
         console.log(auth_key , user_id , id , selectedState ,arrivalDate);
         const date=arrivalDate;
         if(date=="0000-00-00")
@@ -108,6 +125,29 @@ const ChangeState =(e)=>{
         SetApply(false);
 
     setselectedState(e);
+}
+const ChangeItemStatus = (status, itemId) => {
+    var orderItem = order ;
+    orderItem.order_items.find(i=>i.id === itemId).status = status;
+    setOrder(orderItem);
+    
+    const updatedItemStatuses = itemStatuses.map(item => 
+        item.id === itemId ? { ...item, status: status } : item
+    );
+    
+    setItemStatuses(updatedItemStatuses);
+    if(changedStatuses.find(i=>i.id === itemId)){
+        setChangedStatuses(changedStatuses.find(i=>i.id === itemId).status = status);
+    }else{
+        var item = changedStatuses;
+        
+        item.push({
+            id:itemId,
+            status : status
+        })
+        setChangedStatuses(item);
+    }
+    console.log(changedStatuses);
 }
   return (
     <div className="col-lg-10 col-md-9 col-sm-9 MainCol HomeCol CategoriesCol">
@@ -279,13 +319,14 @@ const ChangeState =(e)=>{
                 <table className="table table-bordered">
                     <thead className="table-dark">
                         <tr>
-                            
+                            <th>Item ID</th>
                             <th className="OrderstTh">Product ID</th>
                             <th className="OrderstTh">En Name</th>
                             <th className="OrderstTh">Ar Name</th>
                             <th className="OrderstTh">En Description</th>
                             <th className="OrderstTh">Ar Description</th>
                             
+                            <th className="OrderstTh">Order Item Status</th>
                             
                            
                         </tr>
@@ -294,13 +335,28 @@ const ChangeState =(e)=>{
                         {order.order_items&&order.order_items.map((order, index) => (
                             <tr key={index}>
                                 
-                                
+                                <td>{order.id}</td>
                                 <td>{order.product_id}</td>
                                 <td>{order.product_name_en}</td> 
                                 <td>{order.product_name_ar}</td> 
                                 <td>{order.product_description_en}</td> 
                                 <td>{order.product_description_ar}</td> 
+                                <td>
+
+                                <select 
                                 
+                                    className="col-lg-12 form-select EmailInput"
+                                    value={order.status}
+                                    onChange={(e) => ChangeItemStatus(e.target.value , order.id)}
+                                    
+                                >
+                                    
+                                    {OrderStatus.map(OrderState => (
+                                        <option key={OrderState.id} value={OrderState.id}>{OrderState.status_en}</option>
+                                    ))}
+                                </select>
+
+                                </td>
                                 
                                 
                                

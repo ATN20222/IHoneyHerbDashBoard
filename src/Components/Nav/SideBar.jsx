@@ -3,7 +3,7 @@ import './SideBar.css';
 import Logo from '../../Assets/Images/I_H_H_LOGO.png';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell, faBox, faBoxArchive, faComment, faComments, faCubesStacked, faDoorOpen, faGear, faHome, faLayerGroup, faMobile, faQuestion, faScrewdriverWrench, faTicket, faTruckFast, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faBox, faBoxArchive, faBullhorn, faComment, faComments, faCubesStacked, faDoorOpen, faGear, faHand, faHome, faLayerGroup, faMobile, faQuestion, faScrewdriverWrench, faTicket, faTruckFast, faUser } from "@fortawesome/free-solid-svg-icons";
 
 const SideBar = () =>{
     const [ShowSideBar, setShowSideBar] = useState(false);
@@ -65,7 +65,7 @@ const SideBar = () =>{
 
                        
                         <li className="list-item">
-                            <button disabled onClick={handleLinkClick} className="LinkItem" to="/Chat"> <FontAwesomeIcon icon={faComments}/>  Chat </button>
+                            <button disabled onClick={handleLinkClick} className="LinkItem" to="/Chat"> <FontAwesomeIcon icon={faComments}/> Chat </button>
                         </li>
 
                         <li className="list-item">
@@ -87,7 +87,7 @@ const SideBar = () =>{
                             <Link disabled onClick={handleLinkClick} className="LinkItem" to="/Notifications"> <FontAwesomeIcon icon={faBell}/>  Notifications </Link>
                         </li>
                         <li className="list-item">
-                            <button disabled onClick={handleLinkClick} className="LinkItem" to="/Configuration"> <FontAwesomeIcon icon={faGear}/>  Configuration </button>
+                            <Link disabled onClick={handleLinkClick} className="LinkItem" to="/returnrequests"> <FontAwesomeIcon icon={faBullhorn}/>  Return Requests </Link>
                         </li>
 
 

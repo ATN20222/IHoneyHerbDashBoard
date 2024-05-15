@@ -735,7 +735,7 @@ export const EditUsers = async (auth_key, user_id,email, active ) => {
       throw new Error('Failed'); 
     }
 };
-// #endregoin
+//#endregoin
 
 //#region Reviews Api's
 export const ListReviews = async (auth_key, user_id) => {
@@ -803,7 +803,7 @@ export const AddNotifications = async (auth_key, user_id, title_en , title_ar, b
 //#endregion
 
 
-//#region Notifications Api's
+//#region Orders Api's
 export const ListOrders = async (auth_key, user_id,status_id) => {
   try {
       const formData = new FormData();
@@ -860,5 +860,93 @@ export const EditOrder = async (auth_key, user_id, order_id , order_status, arri
       throw new Error('Failed to send notification'); 
     }
 };
+
+export const ListReturnedItems = async (auth_key, user_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+
+
+      const response = await axios.post(`${BASE_URL}/orders/return_order_request.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to list items'); 
+    }
+};
+export const UpdateItemStatus = async (auth_key, user_id ,order_id , id , status) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('order_id', order_id);
+      formData.append('id', id);
+      formData.append('status', status);
+
+
+      const response = await axios.post(`${BASE_URL}/orders/update_items_status.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed to edit status'); 
+    }
+};
+
 //#endregion
 
+//#region Home Api's
+export const ListActivities = async (auth_key, user_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+
+
+      const response = await axios.post(`${BASE_URL}/reports/users_activity.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed'); 
+    }
+};
+
+export const ListOrdersStatus = async (auth_key, user_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+
+
+      const response = await axios.post(`${BASE_URL}/reports/orders_status.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed'); 
+    }
+};
+
+export const ListProducts = async (auth_key, user_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+
+
+      const response = await axios.post(`${BASE_URL}/reports/categories_products.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed'); 
+    }
+};
+
+export const ListCategoriesOrders = async (auth_key, user_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+
+
+      const response = await axios.post(`${BASE_URL}/reports/orders_categories.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed'); 
+    }
+};
+//#endregion

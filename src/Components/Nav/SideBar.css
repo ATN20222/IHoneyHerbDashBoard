@@ -42,8 +42,8 @@
 }
 .SideBarItems{
     padding-left: 15px;
-    overflow-y: scroll;
-    height: 600px;
+    /* overflow-y: scroll; */
+    /* height: 600px; */
     padding: 20px;
 }
 

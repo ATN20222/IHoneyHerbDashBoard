@@ -34,6 +34,7 @@ import Notifications from './Pages/Notification/Notifications.jsx';
 import AddNotification from './Pages/Notification/AddNotification.jsx';
 import Orders from './Pages/Orders/Orders.jsx';
 import EditOrders from './Pages/Orders/EditOrders.jsx';
+import ReturnedItems from './Pages/Orders/ReturnedItems.jsx';
 
 function App() {
   const isLoggedIn = localStorage.getItem('token');
@@ -76,6 +77,7 @@ function App() {
 
               <Route path="/orders" element={isLoggedIn ? <Orders /> : <Navigate to="/login" />} /> 
               <Route path="/editorder/:id" element={isLoggedIn ? <EditOrders /> : <Navigate to="/login" />} /> 
+              <Route path="/returnrequests" element={isLoggedIn ? <ReturnedItems /> : <Navigate to="/login" />} /> 
 
 
               <Route path="/products" element={isLoggedIn ? <Products /> : <Navigate to="/login" />} />
