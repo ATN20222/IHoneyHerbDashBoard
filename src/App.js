@@ -35,6 +35,8 @@ import AddNotification from './Pages/Notification/AddNotification.jsx';
 import Orders from './Pages/Orders/Orders.jsx';
 import EditOrders from './Pages/Orders/EditOrders.jsx';
 import ReturnedItems from './Pages/Orders/ReturnedItems.jsx';
+import WebsiteSlider from './Pages/WebsiteSlider/WebsiteSlider.jsx';
+import AddSliderImage from './Pages/WebsiteSlider/AddSliderImage.jsx';
 
 function App() {
   const isLoggedIn = localStorage.getItem('token');
@@ -62,6 +64,10 @@ function App() {
 
               <Route path="/screens" element={isLoggedIn ? <Screens /> : <Navigate to="/login" />} /> 
               <Route path="/addscreen" element={isLoggedIn ? <AddScreen /> : <Navigate to="/login" />} />
+
+              <Route path="/websiteslider" element={isLoggedIn ? <WebsiteSlider /> : <Navigate to="/login" />} /> 
+              <Route path="/addslide" element={isLoggedIn ? <AddSliderImage /> : <Navigate to="/login" />} />
+
 
               <Route path="/coupons" element={isLoggedIn ? <Coupons /> : <Navigate to="/login" />} /> 
               <Route path="/addcoupon" element={isLoggedIn ? <AddCoupon /> : <Navigate to="/login" />} /> 

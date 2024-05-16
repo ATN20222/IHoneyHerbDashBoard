@@ -3,7 +3,7 @@ import './SideBar.css';
 import Logo from '../../Assets/Images/I_H_H_LOGO.png';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell, faBox, faBoxArchive, faBullhorn, faComment, faComments, faCubesStacked, faDoorOpen, faGear, faHand, faHome, faLayerGroup, faMobile, faQuestion, faScrewdriverWrench, faTicket, faTruckFast, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faBox, faBoxArchive, faBullhorn, faComment, faComments, faCubesStacked, faDoorOpen, faGear, faHand, faHome, faImages, faLayerGroup, faMobile, faQuestion, faScrewdriverWrench, faTicket, faTruckFast, faUser } from "@fortawesome/free-solid-svg-icons";
 
 const SideBar = () =>{
     const [ShowSideBar, setShowSideBar] = useState(false);
@@ -64,9 +64,9 @@ const SideBar = () =>{
                         </li>
 
                        
-                        <li className="list-item">
+                        {/* <li className="list-item">
                             <button disabled onClick={handleLinkClick} className="LinkItem" to="/Chat"> <FontAwesomeIcon icon={faComments}/> Chat </button>
-                        </li>
+                        </li> */}
 
                         <li className="list-item">
                             <Link  onClick={handleLinkClick} className="LinkItem" to="/Coupons"> <FontAwesomeIcon icon={faTicket}/>  Coupons </Link>
@@ -78,7 +78,9 @@ const SideBar = () =>{
                         <li className="list-item">
                             <Link  onClick={handleLinkClick} className="LinkItem" to="/screens"> <FontAwesomeIcon icon={faMobile}/> Intro Screens </Link>
                         </li>
-
+                        <li className="list-item">
+                            <Link  onClick={handleLinkClick} className="LinkItem" to="/websiteslider"> <FontAwesomeIcon icon={faImages}/> Website Slider </Link>
+                        </li>
                         <li className="list-item">
                             <Link disabled onClick={handleLinkClick} className="LinkItem" to="/Users"> <FontAwesomeIcon icon={faUser}/>  Users </Link>
                         </li>

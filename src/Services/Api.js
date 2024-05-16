@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://ihoneyherb.com/admin-test'; 
+const BASE_URL = 'https://admin.ihoneyherb.com/'; 
 
 //#region Login Api's
 export const login = async (username, password) => {
@@ -944,6 +944,54 @@ export const ListCategoriesOrders = async (auth_key, user_id) => {
 
 
       const response = await axios.post(`${BASE_URL}/reports/orders_categories.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed'); 
+    }
+};
+//#endregion
+
+//#region WebsiteSlide Api's
+export const ListSlides = async (auth_key, user_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+
+
+      const response = await axios.post(`${BASE_URL}/slider/list.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed'); 
+    }
+};
+export const AddSlides = async (auth_key, user_id , product_id , image_en,image_ar) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('product_id', product_id);
+      formData.append('image_en', image_en);
+      formData.append('image_ar', image_ar);
+
+
+
+      const response = await axios.post(`${BASE_URL}/slider/add.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed'); 
+    }
+};
+export const DeleteSlides = async (auth_key, user_id , slider_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('slider_id', slider_id);
+
+
+
+      const response = await axios.post(`${BASE_URL}/slider/delete.php`, formData);
     return response.data; 
     } catch (error) {
       throw new Error('Failed'); 
