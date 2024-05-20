@@ -6,6 +6,7 @@ import { AddAppScreen, addCategory, AddSlides, ListCategories, TestCats } from "
 const AddSliderImage = () => {
   const [ProductId, setProductId] = useState('');
   const [ScreenImage, setScreenImage] = useState(null);
+  const [ScreenArImage, setScreenArImage] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -20,6 +21,19 @@ const AddSliderImage = () => {
       setScreenImage(file);
     }
 };
+
+const handleFileChange2 = (e) => {
+  const file = e.target.files[0];
+  if (file && file.size > 8 * 1024 * 1024) {
+      alert("File size exceeds the limit of 8MB.");
+      e.target.value = null; 
+      setScreenArImage(null); 
+  } else {
+    setScreenArImage(file);
+  }
+};
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -32,7 +46,7 @@ const AddSliderImage = () => {
 
       const auth_key = localStorage.getItem('token');
       const user_id = localStorage.getItem('user_id');
-      const response = await AddSlides(auth_key, user_id, ProductId, ScreenImage);   
+      const response = await AddSlides(auth_key, user_id, ProductId, ScreenImage ,ScreenArImage);   
       if(response.status){
 
         alert('Sscreen added successfully');
@@ -90,9 +104,9 @@ const AddSliderImage = () => {
         
           
           <h3 className="categoryheader">Slide Image</h3>
-          <div className="col-lg-12 CategoryFormItem">
+          <div className="col-lg-6 CategoryFormItem">
             <label htmlFor="">
-              <h6  className="">Image</h6>
+              <h6  className="">Image En</h6>
             </label>
                         <input 
                             required
@@ -102,6 +116,20 @@ const AddSliderImage = () => {
                             onChange={handleFileChange} 
                         />
           </div>
+
+          <div className="col-lg-6 CategoryFormItem">
+            <label htmlFor="">
+              <h6  className="">Image Ar</h6>
+            </label>
+                        <input 
+                            required
+                            className="col-lg-12 form-control EmailInput" 
+                            type="file" 
+                            placeholder="name in english"
+                            onChange={handleFileChange2} 
+                        />
+          </div>
+          
           {error && <div className="col-lg-12 text-danger">{error}</div>}
           <div className="col-lg-12 LoginWithCol CategoryFormBtns">
             <button type="submit" className={`btn btn-warning col-lg-1 col-md-2 col-5 LoginBtn SaveBtn ${loading ? 'WaitBtn' : ''}`} disabled={loading}>

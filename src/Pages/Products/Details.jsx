@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { AddOption, AddPhotos, AssignProduct, DropDown, ListCategories, ProductDetails, RemoveOption, TestCats, uploadImage } from "../../Services/Api";
+import { AddOption, AddPhotos, AssignProduct, DeleteProductImage, DropDown, EditProductMainImage, ListCategories, ProductDetails, RemoveOption, TestCats, uploadImage } from "../../Services/Api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTrash, faUpload } from "@fortawesome/free-solid-svg-icons";
 
@@ -30,6 +30,8 @@ const Details= ()=>{
     const [loading, setLoading] = useState(false); 
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedGroups, setSelectedGroups] = useState([]);
+    const [mainImage, setMainImage] = useState(null);
+    const [mainImageFile, setmainImageFile] = useState(null);
 
     const location = useLocation();
     const pathname = location.pathname.split('/');
@@ -78,7 +80,7 @@ const Details= ()=>{
                     console.log("GIds" , GIds);
                     setSelectedCategories(CIds)
                     setSelectedGroups(GIds);
-
+                    setMainImage(productData.main_image)
 
                     setSku(productData.sku);
                     setBarcode(productData.barcode);
@@ -214,25 +216,7 @@ const Details= ()=>{
           console.error('Error fetching group:', error);
         }
       };
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const auth_key = localStorage.getItem('token');
-    //             const user_id = localStorage.getItem('user_id');
-    //             const response = await ListCategories(auth_key, user_id);
-    //             if (response && response.status && response.categories_list) {
-    //                 setCategories(response.categories_list);
-    //             } else {
-    //                 console.error('Invalid response format:', response);
-    //             }
-    //         } catch (error) {
-    //             console.error('Error fetching categories:', error);
-    //         }
-    //     };
-
-    //     fetchData();
-    // }, []);
-
+    
 
 
 
@@ -311,14 +295,98 @@ const Details= ()=>{
             alert("Failed to delete");
         }
     };
+    const handleMainImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file && file.size > 8 * 1024 * 1024) {
+          alert('File size exceeds the limit of 8MB.');
+          e.target.value = null;
+          setmainImageFile(null);
+        } else {
+            setmainImageFile(file);
+        //   alert('Please, click save to set the main image');
+          SetToMain(file);
+        }
+      };
+    
+      const SetToMain = async (file) => {
+        
+        setLoading(true);
+        
+        try {
+          const auth_key = localStorage.getItem('token');
+          const user_id = localStorage.getItem('user_id');
+          if (file) {
+            const resp = await uploadImage(file);
+            if (resp.status === false) {
+              alert('Error Uploading Image');
+              setLoading(false);
+              return;
+            }
+    
+            const image_name = resp.image_name;
+            const response = await EditProductMainImage(auth_key, user_id ,product.id, image_name);
+            if (response.status === false) {
+              alert('Error setting main image');
+              setLoading(false);
+              return;
+            }
+    
+            setLoading(false);
+            alert('Main image has been changed');
+            window.location.reload();
+          } else {
+            console.log('image is null');
+            setLoading(false);
+          }
+        } catch (e) {
+          alert('Error setting main image');
+          setLoading(false);
+        }
+      };
+    
 
+    const HandleDeleteImage = async(id)=>{
+        setLoading(true);
+
+
+        try {
+            const auth_key = localStorage.getItem('token');
+            const user_id = localStorage.getItem('user_id');
+            
+            const response = await DeleteProductImage(auth_key , user_id , id);
+            if(response.status){
+                alert("Image deleted successfully");
+                window.location.reload();
+            }else{
+                alert("Failed to delete image");
+
+            }
+            setLoading(false);
+        
+        }catch(e){
+            alert("error delete image")
+        }
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
             if (!loading) { 
+
+
+
+
                 setLoading(true); 
+
+
+                
+                
+
+
+
+
+
                 let ImageNames = [];
                 for (const image of productImages) {
                     const response = await uploadImage(image);
@@ -444,16 +512,27 @@ const Details= ()=>{
 
                             <h3 className="categoryheader">Product Image</h3>
                             <h3 className="categoryheader">Product ID : {productId}</h3>
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-12 CategoryFormItem">
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-12 CategoryFormItem DetailsImages">
                                 <div className="row">
-                                    <div className="col-lg-3 col-md-5 col-sm-5 col-5 ImageItem card">
-                                        <img src={productImage} width="100%" alt="" />
-                                    </div>
+                                <div className="col-lg-3 col-md-5 col-sm-5 col-5 ImageItem card">
+                                    <label htmlFor="SetMain" className="btn HomeImage">
+                                        <FontAwesomeIcon icon={faUpload} />
+                                    </label>
+                                    <input
+                                        type="file"
+                                        id="SetMain"
+                                        className="btn HomeImage"
+                                        onChange={handleMainImageChange}
+                                    />
+                                    <img src={product.main_image} width="100%" alt="" />
+                                </div>
                                     
 
                                     {photos.length>0&&
                                         photos.map((photo, index) => (
                                             <div key={index} className="col-lg-3 col-md-5 col-sm-5 col-5 card Center ImageItem ContainerImagesUpload">
+                                            <button className="btn DeleteImage" onClick={()=>HandleDeleteImage(photo.id)}><FontAwesomeIcon icon={faTrash}/></button>
+                                                
                                                 <img src={photo.photo} width="100%" alt="" />
                                             </div>
                                         ))

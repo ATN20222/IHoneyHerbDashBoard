@@ -126,6 +126,37 @@ export const addVariation = async (auth_key, user_id,name_en, name_ar) => {
 
 //#region Product Api's
 
+export const DeleteProductImage = async(auth_key , user_id , image_id)=>{
+  try {
+    const formData = new FormData();
+    formData.append('auth_key', auth_key);
+    formData.append('user_id', user_id);
+    formData.append('image_id', image_id);
+
+
+
+    const response = await axios.post(`${BASE_URL}/products/delete_photo.php`, formData);
+    return response.data; 
+  } catch (error) {
+    throw new Error('Failed'); 
+  }
+}
+export const EditProductMainImage = async(auth_key , user_id , product_id , main_image)=>{
+  try {
+    const formData = new FormData();
+    formData.append('auth_key', auth_key);
+    formData.append('user_id', user_id);
+    formData.append('main_image', main_image);
+    formData.append('product_id', product_id);
+
+
+
+    const response = await axios.post(`${BASE_URL}/products/edit_photo.php`, formData);
+    return response.data; 
+  } catch (error) {
+    throw new Error('Failed'); 
+  }
+}
 export const listProducts = async (auth_key, user_id , limit , count) => {
   try {
     const formData = new FormData();

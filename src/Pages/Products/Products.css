@@ -134,3 +134,33 @@
     /* border-top-right-radius:0px ;
     border-bottom-right-radius:0px ; */
 }
+.ContainerImagesUpload{
+    position: relative;
+}
+.DeleteImage{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: white;
+    border: 1px solid rgb(204, 204, 204);
+}
+.DeleteImage:hover
+,.HomeImage:hover{
+    background-color: white !important;
+    border: 1px solid rgb(164, 164, 164);
+
+}
+.HomeImage{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: white;
+    border: 1px solid rgb(204, 204, 204);
+    display: flex;
+    justify-content:center ;
+    align-items: center;
+    padding: 10px !important;
+}
+#SetMain{
+    display: none;
+}
