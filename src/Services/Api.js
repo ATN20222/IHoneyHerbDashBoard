@@ -125,6 +125,21 @@ export const addVariation = async (auth_key, user_id,name_en, name_ar) => {
 
 
 //#region Product Api's
+ export const SearchProduct = async(auth_key , user_id , keyword)=>{
+  try {
+    const formData = new FormData();
+    formData.append('auth_key', auth_key);
+    formData.append('user_id', user_id);
+    formData.append('keyword', keyword);
+
+
+
+    const response = await axios.post(`${BASE_URL}/products/search.php`, formData);
+    return response.data; 
+  } catch (error) {
+    throw new Error('Failed'); 
+  }
+}
 
 export const DeleteProductImage = async(auth_key , user_id , image_id)=>{
   try {

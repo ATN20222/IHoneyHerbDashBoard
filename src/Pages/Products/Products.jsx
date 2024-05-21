@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faPen, faTrash, faEye, faClone } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faPen, faTrash, faEye, faClone, faSearch } from "@fortawesome/free-solid-svg-icons";
 import ProductImage from '../../Assets/Images/ProductImage.png';
-import { RemoveProduct, addProduct, listProducts } from "../../Services/Api";
+import { RemoveProduct, SearchProduct, addProduct, listProducts } from "../../Services/Api";
 import DeleteProduct from "./DeleteProduct";
 
 const Products = () => {
     const [products, setProducts] = useState([]);
+    const [SearchProducts, setSearchProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [start, setstart] = useState(0);
     const [limit, setlimit] = useState(50);
@@ -18,6 +19,8 @@ const Products = () => {
     const [EnableShowMore, setEnableShowMore] = useState(false);
     const [showDeleteProduct, setShowDeleteProduct] = useState(false);
     const [selectedProductId, setSelectedProductId] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -154,6 +157,45 @@ const Products = () => {
         }
     }
 
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value);
+        if(event.target.value==""){
+            setSearchProducts([]);
+        }
+    };
+    const Filter = async ()=>{
+        // const filteredProducts = products.filter((product) =>
+        //     product.name_en.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        //     product.name_ar.toLowerCase().includes(searchQuery.toLowerCase())
+        // );
+        try {
+            const auth_key = localStorage.getItem('token');
+            const user_id = localStorage.getItem('user_id');
+            
+            const response = await SearchProduct(auth_key, user_id, searchQuery);
+            console.log(response);
+            if (response.status) {
+                setSearchProducts(response.products);
+                
+            }else{
+                if(response.msg === "Wrong key"){
+                    localStorage.removeItem('token');
+                    alert("session exprired ");
+                    
+                    window.location.href = '/login';
+                  }
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
+        
+
+
+        
+    }
+
+
     return (
         <div className="col-lg-10 col-md-9 col-sm-9 MainCol HomeCol CategoriesCol">
             {showDeleteProduct && <DeleteProduct onClose={() => setShowDeleteProduct(false)} onConfirmDelete={confirmDeleteProduct} />}
@@ -165,9 +207,33 @@ const Products = () => {
                 </Link>
             </div>
 
+            <div className="12 Search ">
+                <div className="row">
+                        <div className="col-12 SearchItem">
+                        <input 
+                        className=" form-control " 
+                        placeholder="Search"
+                        value={searchQuery} 
+                        onChange={handleSearchChange} 
+                    />
+                        <button className="btn btn-warning" onClick={Filter} >
+                            <FontAwesomeIcon icon={faSearch}/> 
+                        </button>
+                    </div>
+                    
+                </div>
+            
+            
+
+
+        
+
+
+            </div>
             <div className="table-responsive TableContainer">
                 <table className="table table-bordered">
                     <thead className="table-dark">
+                        
                         <tr>
                             <th>Product ID</th>
                             <th>Image</th>
@@ -183,6 +249,7 @@ const Products = () => {
                             <th>Delete</th>
 
                         </tr>
+                        
                     </thead>
                     <tbody>
                         {loading ? (
@@ -190,6 +257,7 @@ const Products = () => {
                                 <td colSpan="8">Loading...</td>
                             </tr>
                         ) : (
+                            searchQuery.length==0?
                             products.map((product, index) => (
                                 <tr key={index}>
                                     <td>{product.id}</td>
@@ -228,6 +296,47 @@ const Products = () => {
 
                                 </tr>
                             ))
+                            :
+                            SearchProducts.map((product, index) => (
+                                <tr key={index}>
+                                    <td>{product.id}</td>
+                                    <td>
+                                        <img src={product.thumb_image} width="40px" alt="" />
+                                    </td>
+                                    <td>{product.name_en}</td>
+                                    <td>{product.name_ar}</td>
+                                    <td>{product.category_name}</td>
+                                    <td>{product.group_name||"______"}</td>
+                                    <td>{product.sale_price}</td>
+                                    <td>{product.list_price}</td>
+                                    <td>
+                                        <Link to={`/editproduct/${product.id}`} className="btn btn-warning">
+                                            <FontAwesomeIcon icon={faPen}/>
+                                        </Link>
+                                    </td>
+                                    <td>
+                                        <Link to={`/productdetails/${product.id}`} className="btn btn-warning">
+                                            <FontAwesomeIcon icon={faEye}/>
+                                        </Link>
+                                    </td>
+                            
+                                    <td>
+                                        <button onClick={()=>DuplicateProduct(product)} className="btn btn-warning">
+                                            <FontAwesomeIcon icon={faClone}/>
+                                        </button>
+                                    </td>
+
+
+                                     <td>
+                                        <button className="btn btn-warning" onClick={() => handleDeleteProduct(product.id)}>
+                                            <FontAwesomeIcon icon={faTrash}/>
+                                        </button>
+                                    </td>
+
+                                </tr>
+                            ))
+
+
                         )}
                     </tbody>
                 </table>

@@ -164,3 +164,22 @@
 #SetMain{
     display: none;
 }
+.Search .row{
+    display: flex;
+    justify-content: start;
+    align-items: end;
+    justify-content: space-between;
+    
+}
+.SearchItem{
+    display:flex ;
+    justify-content: end;
+    align-items: end;
+    margin-top: 10px;
+}
+.SearchItem input{
+    width: 100%;
+}
+.SearchItem button{
+    margin-left: 5px;
+}
