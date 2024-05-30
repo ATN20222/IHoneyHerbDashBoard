@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { addCategory, AddGroup, AddWellnessQuestion, AssignQuestionProduct, DropDown, EditWellnessQuestion, ListCategories, ListGroups, QuestionById, RemoveAssignQuestionProduct, TestCats, WellnessQuestionProducts } from "../../Services/Api";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const EditQuestion = () => {
   const [QuestionNameEn, setQuestionNameEn] = useState('');
@@ -79,14 +80,35 @@ const EditQuestion = () => {
             const user_id = localStorage.getItem('user_id');
             const response = await RemoveAssignQuestionProduct(auth_key, user_id , id , product_id);
             if(response.status){
-                alert("Product removed successfully");
+                // alert("Product removed successfully");
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "success",
+                  showConfirmButton: false,
+                  timer: 3000
+                });
+                
                 setQuestionProductsLength(QuestionProductsLength - 1);
             }else{
-                alert("Faild to remove product")
+              Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Failed",
+                showConfirmButton: false,
+                timer: 3000
+              });
             }
 
         }catch(error){
-            alert("Faild to remove product")
+            // alert("Faild to remove product")
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Failed",
+              showConfirmButton: false,
+              timer: 3000
+            });
 
         }
     }
@@ -106,7 +128,14 @@ const EditQuestion = () => {
                   
                 );
                 if (!response.status) {
-                  alert("Failed to add product");
+                  // alert("Failed to add product");
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
                   return;
                 }
               }
@@ -114,7 +143,14 @@ const EditQuestion = () => {
         
 
         }catch(error){
-            alert("Failed to add product");
+            // alert("Failed to add product");
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Failed",
+              showConfirmButton: false,
+              timer: 3000
+            });
 
         }
     }
@@ -142,11 +178,25 @@ const EditQuestion = () => {
             }else{
               if(response.msg === "Wrong key"){
                 localStorage.removeItem('token');
-                alert("session exprired ");
-                
-                window.location.href = '/login';
+                Swal.fire({
+                  position: "center",
+                  icon: "error",
+                  title: "session exprired",
+                  showConfirmButton: false,
+                  timer: 3000
+                });
+                setTimeout(() => {
+                  window.location.href = "/login";
+        
+              }, 3000);
               }else{
-                  alert("Faild to add question");
+                Swal.fire({
+                  position: "center",
+                  icon: "error",
+                  title: "Failed",
+                  showConfirmButton: false,
+                  timer: 3000
+                });   
               }
             }
       
@@ -154,6 +204,13 @@ const EditQuestion = () => {
       
           } catch (error) {
             setError('Failed to add question');
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Failed",
+              showConfirmButton: false,
+              timer: 3000
+            });   
             console.error('Error adding question:', error);
           } finally {
             setLoading(false);
@@ -177,18 +234,41 @@ const EditQuestion = () => {
             }else{
               if(response.msg === "Wrong key"){
                 localStorage.removeItem('token');
-                alert("session exprired ");
+                Swal.fire({
+                  position: "center",
+                  icon: "error",
+                  title: "session exprired",
+                  showConfirmButton: false,
+                  timer: 3000
+                });
+                setTimeout(() => {
+                  window.location.href = "/login";
+        
+              }, 3000);
                 
-                window.location.href = '/login';
               }else{
-                  alert("Faild to get products");
+                  // alert("Faild to get products");
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
               }
             }
       
       
       
           } catch (error) {
-            setError('Failed to get productss');
+            setError('Failed to get products');
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Failed",
+              showConfirmButton: false,
+              timer: 3000
+            });
             console.error('Error getting products:', error);
           } finally {
             setLoading(false);
@@ -199,11 +279,27 @@ const EditQuestion = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file && file.type === "image/svg+xml") {
-        alert("SVG files are not allowed.");
+        // alert("SVG files are not allowed.");
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: "SVG files are not allowed.",
+          showConfirmButton: false,
+          timer: 3000
+        });
+        
+        
         e.target.value = null; 
         setQuestionImage(null); 
       } else if (file && file.size > 8 * 1024 * 1024) {
-        alert("File size exceeds the limit of 8MB.");
+        // alert("File size exceeds the limit of 8MB.");
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: "File size exceeds the limit of 8MB.",
+          showConfirmButton: false,
+          timer: 3000
+        });
         e.target.value = null; 
         setQuestionImage(null); 
       } else {
@@ -228,16 +324,45 @@ const EditQuestion = () => {
       const response = await EditWellnessQuestion(auth_key, user_id,id, QuestionNameEn, QuestionNameAr, SelectedGender, SelectedAge, QuestionImage);   
       
       if(response.status){
-        alert('question edited successfully');
-        window.location.reload();
+
+        // alert('Question edited successfully');
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "success",
+          showConfirmButton: false,
+          timer: 3000
+        });
+        setTimeout(() => {
+          window.location.reload();
+
+      }, 3000);
       }else{
         if(response.msg === "Wrong key"){
           localStorage.removeItem('token');
-          alert("session exprired ");
+          // alert("session exprired ");
           
-          window.location.href = '/login';
+          // window.location.href = '/login';
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "session exprired",
+            showConfirmButton: false,
+            timer: 3000
+          });
+          setTimeout(() => {
+            window.location.href = "/login";
+  
+        }, 3000);
         }else{
-            alert("Faild to edit question");
+            // alert("Failed to edit question");
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Failed",
+              showConfirmButton: false,
+              timer: 3000
+            });
         }
       }
 
@@ -245,6 +370,13 @@ const EditQuestion = () => {
 
     } catch (error) {
       setError('Failed to edit question');
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Failed",
+        showConfirmButton: false,
+        timer: 3000
+      });
       console.error('Error editing question:', error);
     } finally {
       setLoading(false);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { addCategory, AddNotifications, ListCategories, TestCats } from "../../Services/Api";
+import Swal from "sweetalert2";
 
 const AddNotification = () => {
   const [notNameEn, setnotNameEn] = useState('');
@@ -29,21 +30,53 @@ const AddNotification = () => {
         console.log(response)
       if(response.status){
 
-        alert('notification has been sent');
-        window.location.href = "/notifications";
+        // alert('notification has been sent');
+
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "success",
+          showConfirmButton: false,
+          timer: 3000
+        });
+        setTimeout(() => {
+          window.location.href = "/notifications";
+
+      }, 3000);
         
       }else{
         if(response.msg === "Wrong key"){
           localStorage.removeItem('token');
-          alert("session exprired ");
-          
-          window.location.href = '/login';
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "session exprired",
+            showConfirmButton: false,
+            timer: 3000
+          });
+          setTimeout(() => {
+            window.location.href = "/login";
+  
+        }, 3000);
+        }else{
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Failed",
+            showConfirmButton: false,
+            timer: 3000
+          });
         }
-      }
-
-
+      } 
     } catch (error) {
       setError('Failed to send notification');
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Failed",
+        showConfirmButton: false,
+        timer: 3000
+      });
       console.error('Error sending notification:', error);
     } finally {
       setLoading(false);
@@ -89,26 +122,26 @@ const AddNotification = () => {
             />
           </div>
           
-          <h3 className="categoryheader">Notification Body</h3>
+          <h3 className="categoryheader">Notification Description</h3>
           <div className="col-lg-6 CategoryFormItem">
             <label htmlFor="">
-              <h6  className="">English Body</h6>
+              <h6  className="">Description En</h6>
             </label>
             <textarea 
               className="col-lg-12 form-control EmailInput" 
-              placeholder="English Body"
+              placeholder="Description En"
               value={NotDescEn}
               onChange={(e) => setNotDescEn(e.target.value)}
             />
           </div>
           <div className="col-lg-6 CategoryFormItem">
             <label htmlFor="">
-              <h6 className="">Arabic Body</h6>
+              <h6 className="">Description Ar</h6>
             </label>
             <textarea 
               className="col-lg-12 form-control EmailInput" 
               
-              placeholder="Arabic Body"
+              placeholder="Description Ar"
               value={NotDescAr}
               onChange={(e) => setNotDescAr(e.target.value)}
             />

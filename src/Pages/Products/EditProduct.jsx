@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { ListCategories, ProductDetails, EditProduct as EditProductApi, uploadImage, listVariation, AddOption, AssignProduct, TestCats, DropDown } from "../../Services/Api";
 import VariationOptions from "./VariatioinOptions";
+import Swal from "sweetalert2";
 
 const EditProduct = () => {
 
@@ -94,14 +95,37 @@ const EditProduct = () => {
 
                 }else{
                     if(response.msg === "Wrong key"){
-                        localStorage.removeItem('token');
-                        alert("session exprired ");
-                        
-                        window.location.href = '/login';
-                      }
-                }
+                      localStorage.removeItem('token');
+                      Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "session exprired",
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+                      setTimeout(() => {
+                        window.location.href = "/login";
+              
+                    }, 3000);
+                    }else{
+                      Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "Failed",
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+                    }
+                  }
             } catch (error) {
-                console.error('Error fetching categories:', error);
+                console.error('Error', error);
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
             }
         };
 
@@ -209,15 +233,35 @@ const EditProduct = () => {
             }
 
             if(flag){
-                alert("added succefully");
+                // alert("added succefully");
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "success",
+                    showConfirmButton: false,
+                    timer: 2500
+                  });
                 setIsApplied(true);
 
             }else{
-                alert("error")
+                // alert("error")
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "error",
+                    showConfirmButton: false,
+                    timer: 2500
+                  });
                 return;
             }
         }catch{
-            alert("error")
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "error",
+                showConfirmButton: false,
+                timer: 2500
+              });            
             return;
         }
         
@@ -487,10 +531,29 @@ const EditProduct = () => {
         }
         setLoading(false);
         if(success){
-            alert("Operation done successfully");
-            window.location.href='/products';
+            // alert("Operation done successfully");
+            // window.location.href='/products';
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Operation done successfully",
+                showConfirmButton: false,
+                timer: 2500
+              });
+            
+            setTimeout(() => {
+                window.location.href='/products';
+      
+            }, 3000);
         }else{
-            alert("Operation faild");
+            // alert("Operation faild");
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Operation faild",
+                showConfirmButton: false,
+                timer: 2500
+              });
 
         }
 
@@ -555,17 +618,39 @@ const EditProduct = () => {
             if (response && response.status && response.categories_list) {
                 setCategories( getCategoryList(response.categories_list));
                 console.log(response.categories_list);
-            } else {
+            } else{
                 if(response.msg === "Wrong key"){
-                    localStorage.removeItem('token');
-                    alert("session exprired ");
-                    
-                    window.location.href = '/login';
-                  }
-                console.error('Invalid response format:', response);
-            }
+                  localStorage.removeItem('token');
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "session exprired",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  setTimeout(() => {
+                    window.location.href = "/login";
+          
+                }, 3000);
+                }else{
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                }
+              }
         } catch (error) {
-            console.error('Error fetching categories:', error);
+            console.error('Error', error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Failed",
+                showConfirmButton: false,
+                timer: 3000
+              });
         }
     };
 
@@ -592,7 +677,14 @@ const EditProduct = () => {
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file && file.size > 8 * 1024 * 1024) {
-            alert("File size exceeds the limit of 8MB.");
+            // alert("File size exceeds the limit of 8MB.");
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "File size exceeds the limit of 8MB.",
+                showConfirmButton: false,
+                timer: 2500
+              });
             e.target.value = null; 
             setProductImage(null); 
         } else {
@@ -614,14 +706,35 @@ const EditProduct = () => {
         try {
             const resp = await uploadImage(productImage);
             if (resp.status === false) {
-                alert("Error Uploading Image");
-                setLoading(false);
+                
                 if(resp.msg === "Wrong key"){
                     localStorage.removeItem('token');
-                    alert("session exprired ");
+                    // alert("session exprired ");
                     
-                    window.location.href = '/login';
-                  }
+                    // window.location.href = '/login';
+
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "session exprired",
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+                      setTimeout(() => {
+                        window.location.href = "/login";
+              
+                    }, 3000);
+                }else{
+                    // alert("Error Uploading Image");
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "Error Uploading Image",
+                        showConfirmButton: false,
+                        timer: 2500
+                      });
+                }
+                setLoading(false);
                 return;
             } else {
                 const image_name = resp.image_name;
@@ -652,14 +765,37 @@ const EditProduct = () => {
                     finalGroups
                 );
                 if (response.status === true) {
-                    alert("Product edited successfully");
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Product edited successfully",
+                        showConfirmButton: false,
+                        timer: 2500
+                      });
+                    // alert("Product edited successfully");
                 } else {
-                    alert("Failed to edit product");
+                    // alert("Failed to edit product");
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "Edit product failed",
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+                      
                 }
             }
         } catch (error) {
             console.error('Failed to edit product:', error);
-            alert("Failed to edit product");
+            // alert("Failed to edit product");
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Edit product failed",
+                showConfirmButton: false,
+                timer: 3000
+              });
+              
         } finally {
             setLoading(false);
         }

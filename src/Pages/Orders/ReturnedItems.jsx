@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faLockOpen, faPen, faPlus, faRecycle, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import {  ListNotifications, ListOrderStatus, ListOrders, ListReturnedItems } from "../../Services/Api"; 
+import Swal from "sweetalert2";
 
 
 const ReturnedItems = () => {
@@ -24,14 +25,37 @@ const ReturnedItems = () => {
                     setOrders(response.return_items);
                 }else{
                     if(response.msg === "Wrong key"){
-                        localStorage.removeItem('token');
-                        alert("session exprired ");
-                        
-                        window.location.href = '/login';
-                      }
-                }
+                      localStorage.removeItem('token');
+                      Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "session exprired",
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+                      setTimeout(() => {
+                        window.location.href = "/login";
+              
+                    }, 3000);
+                    }else{
+                      Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "Failed",
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+                    }
+                  }
             } catch (error) {
-                console.error('Error fetching orders:', error);
+                console.error('Error', error);
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
             }
         };
 

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faLockOpen, faPen, faPlus, faRecycle, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { ListCategories, ListCoupons, RemoveCategory } from "../../Services/Api"; // Importing ListCategories and RemoveCategory functions
+import Swal from "sweetalert2";
 
 
 const Coupons = () => {
@@ -24,9 +25,16 @@ const Coupons = () => {
                 }else{
                     if(response.msg === "Wrong key"){
                         localStorage.removeItem('token');
-                        alert("session exprired ");
-                        
-                        window.location.href = '/login';
+                        Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            title: "session exprired",
+                            showConfirmButton: false,
+                            timer: 3000
+                          });
+                          setTimeout(() => {
+                            window.location.href = '/login';
+                          }, 3000);
                       }
                 }
             } catch (error) {

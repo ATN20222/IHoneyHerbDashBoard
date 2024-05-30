@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { addCategory, ListCategories, TestCats } from "../../Services/Api";
+import Swal from "sweetalert2";
 
 const AddCategory = () => {
   const [catNameEn, setCatNameEn] = useState('');
@@ -64,22 +65,55 @@ const AddCategory = () => {
       const response = await addCategory(auth_key, user_id, catNameEn, catNameAr, parentId, catIcon);   
       if(response.status){
 
-        alert('Category added successfully');
+        // alert('Category added successfully');
 
-        window.location.href = "/categories";
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "success",
+          showConfirmButton: false,
+          timer: 3000
+        });
+        setTimeout(() => {
+          window.location.href = "/categories";
+        }, 3000);
+
         console.log('Category added successfully:', response);
       }else{
         if(response.msg === "Wrong key"){
           localStorage.removeItem('token');
-          alert("session exprired ");
-          
-          window.location.href = '/login';
-        }
+          // alert("session exprired ");
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "session exprired",
+            showConfirmButton: false,
+            timer: 3000
+          });
+          setTimeout(() => {
+            window.location.href = '/login';
+          }, 3000);
+        }else{
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Failed",
+          showConfirmButton: false,
+          timer: 3000
+        });
+      }
       }
 
 
     } catch (error) {
-      setError('Failed to add category');
+      // setError('Failed to add category');
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Failed",
+        showConfirmButton: false,
+        timer: 3000
+      });
       console.error('Error adding category:', error);
     } finally {
       // End loading state

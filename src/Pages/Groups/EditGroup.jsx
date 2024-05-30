@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { addCategory, EditGroups, DropDown, ListCategories, ListGroups, TestCats } from "../../Services/Api";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const EditGroup = () => {
   const [GroupNameEn, setGroupNameEn] = useState('');
@@ -36,13 +37,29 @@ const EditGroup = () => {
         } else {
           if(response.msg === "Wrong key"){
             localStorage.removeItem('token');
-            alert("session exprired ");
-            
-            window.location.href = '/login';
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "session exprired",
+              showConfirmButton: false,
+              timer: 3000
+            });
+            setTimeout(() => {
+              window.location.href = "/login ";
+            }, 3000);
           }
           console.error('Invalid response format:', response);
         }
       } catch (error) {
+
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Failed",
+          showConfirmButton: false,
+          timer: 3000
+        });
+
         console.error('Error fetching group:', error);
       }
     };
@@ -76,21 +93,55 @@ const EditGroup = () => {
       console.log('Group added successfully:', response);
       if(response.status){
         
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "success",
+          showConfirmButton: false,
+          timer: 3000
+        });
+        setTimeout(() => {
+          window.location.href = "/groups";
 
-      alert('Group edited successfully');
+      }, 3000);
 
-      window.location.href = "/groups";
+
+
       }else{
         if(response.msg === "Wrong key"){
           localStorage.removeItem('token');
-          alert("session exprired ");
-          
-          window.location.href = '/login';
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "session exprired",
+            showConfirmButton: false,
+            timer: 3000
+          });
+          setTimeout(() => {
+            window.location.href = "/login";
+  
+        }, 3000);
+        }else{
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Failed",
+            showConfirmButton: false,
+            timer: 3000
+          });
         }
       }
 
     } catch (error) {
       setError('Failed to edit group');
+
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Failed",
+        showConfirmButton: false,
+        timer: 3000
+      });
       console.error('Error editing group:', error);
     } finally {
       // End loading state

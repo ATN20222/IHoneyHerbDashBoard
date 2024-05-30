@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { ListCategories, RemoveCategory } from "../../Services/Api"; // Importing ListCategories and RemoveCategory functions
 
 import DeleteCategory from "./DeleteCategory";
+import Swal from "sweetalert2";
 
 const Categories = () => {
     const [categories, setCategories] = useState([]);
@@ -24,9 +25,21 @@ const Categories = () => {
                 }else{
                     if(response.msg === "Wrong key"){
                         localStorage.removeItem('token');
-                        alert("session exprired ");
+                        // alert("session exprired ");
                         
-                        window.location.href = '/login';
+
+
+                        Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            title: "session exprired",
+                            showConfirmButton: false,
+                            timer: 3000
+                          });
+
+                          setTimeout(() => {
+                            window.location.href = '/login';
+                        }, 3000);
                       }
                 }
             } catch (error) {
@@ -48,17 +61,41 @@ const Categories = () => {
             const user_id = localStorage.getItem('user_id');
             const response = await RemoveCategory(auth_key, user_id, selectedCategoryId);
             if (response.status) {
-                window.location.reload();
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "success",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
+                // window.location.reload();
 
             }else{
                 if(response.msg === "Wrong key"){
                     localStorage.removeItem('token');
-                    alert("session exprired ");
-                    
-                    window.location.href = '/login';
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "session exprired",
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+                      setTimeout(() => {
+                        window.location.href = '/login';
+                      }, 3000);
                   }
             }
         } catch (error) {
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Failed",
+                showConfirmButton: false,
+                timer: 3000
+              });
             console.error('Error deleting category:', error);
         }
     };

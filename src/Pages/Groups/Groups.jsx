@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { ListGroups, RemoveGroup } from "../../Services/Api"; 
 import { useLocation } from "react-router-dom";
 import DeleteGroup from "./DeleteGroup";
+import Swal from "sweetalert2";
 
 const Groups = () => {
     const [groups, setGroups] = useState([]);
@@ -24,12 +25,36 @@ const Groups = () => {
                     setGroups(response.groups_list); 
                 }else{
                     if(response.msg === "Wrong key"){
-                        localStorage.removeItem('token');
-                        
-                        window.location.href = '/login';
-                      }
-                }
+                      localStorage.removeItem('token');
+                      Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "session exprired",
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+                      setTimeout(() => {
+                        window.location.href = "/login";
+              
+                    }, 3000);
+                    }else{
+                      Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "Failed",
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+                    }
+                  }
             } catch (error) {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
                 console.error('Error fetching groups:', error);
             }
         };
@@ -49,17 +74,43 @@ const Groups = () => {
             const response = await RemoveGroup(auth_key, user_id, DeleteGroupId);
             console.log(response);
             if (response.status) {
-                window.location.reload();
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "success",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  setTimeout(() => {
+                    window.location.reload();
+          
+                }, 3000);
             }else{
                 if(response.msg === "Wrong key"){
                     localStorage.removeItem('token');
-                    alert("session exprired ");
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "session exprired",
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+                      setTimeout(() => {
+                        window.location.href = "/login";
+              
+                    }, 3000);
                     
-                    window.location.href = '/login';
                   }
             }
         } catch (error) {
             console.error('Error:', error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Failed",
+                showConfirmButton: false,
+                timer: 3000
+              });
         }
     }
 

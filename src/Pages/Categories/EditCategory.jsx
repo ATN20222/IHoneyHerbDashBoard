@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { addCategory, editCategory, ListCategories, TestCats } from "../../Services/Api";
+import Swal from "sweetalert2";
 
 const EditCategory = () => {
   const [catNameEn, setCatNameEn] = useState('');
@@ -85,14 +86,29 @@ function getCategoryList(data, parentId = '0', prefix = '') {
         } else {
           if(response.msg === "Wrong key"){
             localStorage.removeItem('token');
-            alert("session exprired ");
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "session exprired",
+              showConfirmButton: false,
+              timer: 3000
+            });
+            setTimeout(() => {
+              window.location.href = '/login';
+            }, 3000);
             
-            window.location.href = '/login';
+            // window.location.href = '/login';
           }
           console.error('Invalid response format:', response);
         }
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Failed",
+          showConfirmButton: false,
+          timer: 3000
+        });
       }
     };
 
@@ -113,20 +129,52 @@ function getCategoryList(data, parentId = '0', prefix = '') {
       if(response.status==true){
         
         console.log('Category edited successfully:', response);
-        alert('Category edited successfully');
-        window.location.href = "/categories";
+        // alert('Category edited successfully');
+
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "success",
+          showConfirmButton: false,
+          timer: 3000
+        });
+        setTimeout(() => {
+          window.location.href = "/categories";
+        }, 3000);
       }else{
         if(response.msg === "Wrong key"){
           localStorage.removeItem('token');
-          alert("session exprired ");
-          
-          window.location.href = '/login';
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "session exprired",
+            showConfirmButton: false,
+            timer: 3000
+          });
+          setTimeout(() => {
+            window.location.href = "/login";
+          }, 3000);
+        }else{
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Failed",
+            showConfirmButton: false,
+            timer: 3000
+          });
         }
-        alert('Error editing category');
+        // alert('Error editing category');
       }
 
     } catch (error) {
       setError('Failed to edit category');
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Failed",
+        showConfirmButton: false,
+        timer: 3000
+      });
       console.error('Error editing category:', error);
     } finally {
       setLoading(false);

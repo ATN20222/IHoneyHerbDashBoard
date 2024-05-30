@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { AddAppScreen, addCategory, ListCategories, TestCats } from "../../Services/Api";
+import Swal from "sweetalert2";
 
 const AddScreen = () => {
   const [ScreenTitleEn, setScreenTitleEn] = useState('');
@@ -38,16 +39,33 @@ const AddScreen = () => {
       const response = await AddAppScreen(auth_key, user_id, ScreenTitleEn, ScreenTitleAr, ScreenDescEn , ScreenDescAr, ScreenImage);   
       if(response.status){
 
-        alert('Sscreen added successfully');
-
-        window.location.href = "/screens";
-        console.log('Screen added successfully:', response);
+        // alert('Screen added successfully');
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "success",
+          showConfirmButton: false,
+          timer: 3000
+        });
+        setTimeout(() => {
+          window.location.href = "/screens";
+        }, 3000);
+        // console.log('Screen added successfully:', response);
       }else{
         if(response.msg === "Wrong key"){
           localStorage.removeItem('token');
-          alert("session exprired ");
-          
-          window.location.href = '/login';
+          // alert("session exprired ");
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "session exprired",
+            showConfirmButton: false,
+            timer: 3000
+          });
+          setTimeout(() => {
+            window.location.href = '/login';
+          }, 3000);
+          // window.location.href = '/login';
         }
       }
 

@@ -753,11 +753,13 @@ export const EditCoupons = async (auth_key, user_id,coupon_id,coupon, discount ,
 
 
 //#region Users Api's
-export const ListUsers = async (auth_key, user_id) => {
+export const ListUsers = async (auth_key, user_id ,count , limit) => {
   try {
       const formData = new FormData();
       formData.append('auth_key', auth_key);
       formData.append('user_id', user_id);
+      formData.append('count', count);
+      formData.append('limit', limit);
 
 
       const response = await axios.post(`${BASE_URL}/users/list.php`, formData);
@@ -781,6 +783,21 @@ export const EditUsers = async (auth_key, user_id,email, active ) => {
       throw new Error('Failed'); 
     }
 };
+export const SearchUser = async(auth_key , user_id , keyword)=>{
+  try {
+    const formData = new FormData();
+    formData.append('auth_key', auth_key);
+    formData.append('user_id', user_id);
+    formData.append('keyword', keyword);
+
+
+
+    const response = await axios.post(`${BASE_URL}/users/search.php`, formData);
+    return response.data; 
+  } catch (error) {
+    throw new Error('Failed'); 
+  }
+}
 //#endregoin
 
 //#region Reviews Api's

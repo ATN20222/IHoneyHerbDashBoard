@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import './Products.css'
 import { AddOption, AssignProduct, DropDown, ListCategories, TestCats, addProduct, listVariation, uploadImage } from "../../Services/Api";
+import Swal from "sweetalert2";
 const AddProduct = () =>{
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
     const [isApplied, setIsApplied] = useState(false);
@@ -98,18 +99,40 @@ const AddProduct = () =>{
               setGroups( getGroupsList(response.groups_list));
               // setGroups(response.groups_list)
   
-          } else {
+          }else{
             if(response.msg === "Wrong key"){
-                localStorage.removeItem('token');
-                alert("session exprired ");
-                
-                window.location.href = '/login';
-              }
-            console.error('Invalid response format:', response);
+              localStorage.removeItem('token');
+              Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "session exprired",
+                showConfirmButton: false,
+                timer: 3000
+              });
+              setTimeout(() => {
+                window.location.href = "/login";
+      
+            }, 3000);
+            }else{
+              Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Failed",
+                showConfirmButton: false,
+                timer: 3000
+              });
+            }
           }
-        } catch (error) {
-          console.error('Error fetching group:', error);
-        }
+    } catch (error) {
+        console.error('Error', error);
+        Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Failed",
+            showConfirmButton: false,
+            timer: 3000
+          });
+    }
       };
 
 
@@ -128,14 +151,37 @@ const AddProduct = () =>{
                     
                 }else{
                     if(response.msg === "Wrong key"){
-                        localStorage.removeItem('token');
-                        alert("session exprired ");
-                        
-                        window.location.href = '/login';
-                      }
-                }
+                      localStorage.removeItem('token');
+                      Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "session exprired",
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+                      setTimeout(() => {
+                        window.location.href = "/login";
+              
+                    }, 3000);
+                    }else{
+                      Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "Failed",
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+                    }
+                  }
             } catch (error) {
-                console.error('Error fetching categories:', error);
+                console.error('Error', error);
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
             }
         };
 
@@ -232,16 +278,44 @@ const AddProduct = () =>{
             }
 
             if(flag){
-                alert("added succefully");
+                // alert("added succefully");
+
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "success",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  setTimeout(() => {
+                    window.location.href='/products';
+          
+                }, 3000);
+
                 setIsApplied(true);
-                window.location.href='/products';
 
             }else{
-                alert("error")
+                // alert("error");
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
                 return;
             }
         }catch{
-            alert("error")
+            // alert("error")
+
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Failed",
+                showConfirmButton: false,
+                timer: 3000
+              });
+
             return;
         }
         
@@ -414,7 +488,14 @@ const AddProduct = () =>{
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file && file.size > 8 * 1024 * 1024) {
-            alert("File size exceeds the limit of 8MB.");
+            // alert("File size exceeds the limit of 8MB.");
+            Swal.fire({
+                position: "center",
+                icon: "warning",
+                title: "File size exceeds the limit of 8MB.",
+                showConfirmButton: false,
+                timer: 2500
+              });
             e.target.value = null; 
             setProductImage(null); 
         } else {
@@ -474,7 +555,14 @@ const AddProduct = () =>{
             
             const response = await uploadImage(ProductImage);
             if(response.status==false){
-                alert("Error Uploading Image");
+                // alert("Error Uploading Image");
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Error Uploading Image",
+                    showConfirmButton: false,
+                    timer: 2500
+                  });
                 setLoading(false);
                 return;
             }
@@ -502,13 +590,31 @@ const AddProduct = () =>{
                 setnewProductId(AddProductResponse.products_id);
 
                 
-                alert('Product added successfully');
+                // alert('Product added successfully');
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Product added successfully",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  setTimeout(() => {
+                    if(!isChecked){
+                        window.location.href='/products'
+                    }
+          
+                }, 3000);
 
-                if(!isChecked){
-                    window.location.href='/products'
-                }
+                
             }else{
-                alert('Faild to add product');
+                // alert('Faild to add product');
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed",
+                    showConfirmButton: false,
+                    timer: 2500
+                  });
             }
 
     
@@ -516,7 +622,13 @@ const AddProduct = () =>{
         
         } catch (error) {
         //   setError('Failed to add category');                
-            alert('Faild to add product');
+        Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Failed",
+            showConfirmButton: false,
+            timer: 2500
+          });
 
           console.error('Error adding category:', error);
         } 
@@ -605,10 +717,27 @@ const AddProduct = () =>{
         }
         setLoading(false);
         if(success){
-            alert("Operation done successfully");
-            window.location.href='/products';
+            // alert("Operation done successfully");
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Operation done successfully",
+                showConfirmButton: false,
+                timer: 3000
+              });
+              setTimeout(() => {
+                window.location.href='/products';
+      
+            }, 3000);
         }else{
-            alert("Operation faild");
+            // alert("Operation faild");
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Failed",
+                showConfirmButton: false,
+                timer: 2500
+              });
 
         }
 

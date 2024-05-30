@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { AddAppScreen, addCategory, AddSlides, ListCategories, TestCats } from "../../Services/Api";
+import Swal from "sweetalert2";
 
 const AddSliderImage = () => {
   const [ProductId, setProductId] = useState('');
@@ -14,7 +15,15 @@ const AddSliderImage = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file && file.size > 8 * 1024 * 1024) {
-        alert("File size exceeds the limit of 8MB.");
+        // alert("");
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: "File size exceeds the limit of 8MB.",
+          showConfirmButton: false,
+          timer: 3000
+        });
+        
         e.target.value = null; 
         setScreenImage(null); 
     } else {
@@ -25,8 +34,13 @@ const AddSliderImage = () => {
 const handleFileChange2 = (e) => {
   const file = e.target.files[0];
   if (file && file.size > 8 * 1024 * 1024) {
-      alert("File size exceeds the limit of 8MB.");
-      e.target.value = null; 
+    Swal.fire({
+      position: "center",
+      icon: "warning",
+      title: "File size exceeds the limit of 8MB.",
+      showConfirmButton: false,
+      timer: 3000
+    });      e.target.value = null; 
       setScreenArImage(null); 
   } else {
     setScreenArImage(file);
@@ -49,16 +63,34 @@ const handleFileChange2 = (e) => {
       const response = await AddSlides(auth_key, user_id, ProductId, ScreenImage ,ScreenArImage);   
       if(response.status){
 
-        alert('Sscreen added successfully');
+        // alert('screen added successfully');
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "success",
+          showConfirmButton: false,
+          timer: 3000
+        });
+        setTimeout(() => {
+          window.location.href = "/websiteslider";
 
-        window.location.href = "/websiteslider";
+      }, 3000);
+
         console.log('Screen added successfully:', response);
       }else{
         if(response.msg === "Wrong key"){
           localStorage.removeItem('token');
-          alert("session exprired ");
-          
-          window.location.href = '/login';
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "session exprired",
+            showConfirmButton: false,
+            timer: 3000
+          });
+          setTimeout(() => {
+            window.location.href = "/login";
+  
+        }, 3000);
         }
       }
 

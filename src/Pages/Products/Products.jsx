@@ -5,6 +5,7 @@ import { faPlus, faPen, faTrash, faEye, faClone, faSearch } from "@fortawesome/f
 import ProductImage from '../../Assets/Images/ProductImage.png';
 import { RemoveProduct, SearchProduct, addProduct, listProducts } from "../../Services/Api";
 import DeleteProduct from "./DeleteProduct";
+import Swal from "sweetalert2";
 
 const Products = () => {
     const [products, setProducts] = useState([]);
@@ -22,75 +23,69 @@ const Products = () => {
     const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const auth_key = localStorage.getItem('token');
-                const user_id = localStorage.getItem('user_id');
-                
-                const response = await listProducts(auth_key, user_id, limit, start);
-                console.log("response" , response);
-                if (response && response.status && response.products_list) {
-                    
-                        setProducts(response.products_list);
-                        if(response.products_list[0].total_products>50){
-                            setEnableShowMore(true);
-                        }
-                        
-                } else {
-                    if(response.msg === "Wrong key"){
-                        localStorage.removeItem('token');
-                        alert("session exprired ");
-                        
-                        window.location.href = '/login';
-                      }
-                    console.error('Invalid response format:', response);
-                }
-            } catch (error) {
-                console.error('Error fetching products:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
+        
         fetchData();
     }, [page]);
-
-    const handleShowMore = async () => {
-        // setPage(prevPage => prevPage + 1);
+    const fetchData = async () => {
         try {
             const auth_key = localStorage.getItem('token');
             const user_id = localStorage.getItem('user_id');
-            const newLimit = limit+50;
-            const newStart = start+50;
-            console.log(newLimit);
-            console.log(newStart);
+            console.log(auth_key, user_id, limit, start);
+            const response = await listProducts(auth_key, user_id, limit, start);
             
-            setlimit(newLimit);
-            setstart(newStart);
-            
-            const response = await listProducts(auth_key, user_id, newLimit, newStart);
-            if (response && response.status && response.products_list) {
-                    seTotalProducts(response.products_list[0].total_products);
-                    setProducts(response.products_list);
-                    if(newLimit>TotalProducts){
-                        setIsLastPage(true);
-                        return;
+            console.log("response" , response);
+            if ( response.status ) {
+                
+                    setProducts([...products,...response.products_list]);
+                    if(response.products_list[0].total_products > start+limit ){
+                        setEnableShowMore(true);
+                    }else{
+                        setEnableShowMore(false); 
+
                     }
-            } else {
-                if(response.msg === "Wrong key"){
-                    localStorage.removeItem('token');
-                    alert("session exprired ");
+                    setstart(start + limit );
+                    setlimit(50);
                     
-                    window.location.href = '/login';
-                  }
-                console.error('Invalid response format:', response);
-            }
+            } else{
+                if(response.msg === "Wrong key"){
+                  localStorage.removeItem('token');
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "session exprired",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  setTimeout(() => {
+                    window.location.href = "/login";
+          
+                }, 3000);
+                }else{
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                }
+              }
         } catch (error) {
-            console.error('Error fetching products:', error);
-        } finally {
+            console.error('Error', error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Failed",
+                showConfirmButton: false,
+                timer: 3000
+              });
+        }finally {
             setLoading(false);
         }
-        
+    };
+
+    const handleShowMore = async () => {   
+            fetchData();
     };
 
 
@@ -113,14 +108,37 @@ const Products = () => {
                 window.location.reload();
             }else{
                 if(response.msg === "Wrong key"){
-                    localStorage.removeItem('token');
-                    alert("session exprired ");
-                    
-                    window.location.href = '/login';
-                  }
-            }
+                  localStorage.removeItem('token');
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "session exprired",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  setTimeout(() => {
+                    window.location.href = "/login";
+          
+                }, 3000);
+                }else{
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                }
+              }
         } catch (error) {
-            console.error('Error deleting product:', error);
+            console.error('Error', error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Failed",
+                showConfirmButton: false,
+                timer: 3000
+              });
         }
     };
 
@@ -141,27 +159,64 @@ const Products = () => {
             );
             console.log("Product cloned successfully!",response);
             if (response.status) {
-                alert("Product cloned successfully!");
-                window.location.href=`/editproduct/${response.products_id}`
+                // alert("Product cloned successfully!");
+
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Product cloned successfully!",
+                    showConfirmButton: false,
+                    timer: 2500
+                  });
+
+                  setTimeout(() => {
+                    window.location.href=`/editproduct/${response.products_id}`
+          
+                }, 3000);
 
             }else{
                 if(response.msg === "Wrong key"){
-                    localStorage.removeItem('token');
-                    alert("session exprired ");
-                    
-                    window.location.href = '/login';
-                  }
-            }
+                  localStorage.removeItem('token');
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "session exprired",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  setTimeout(() => {
+                    window.location.href = "/login";
+          
+                }, 3000);
+                }else{
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                }
+              }
         } catch (error) {
-            console.error('Error cloning product:', error);
+            console.error('Error', error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Failed",
+                showConfirmButton: false,
+                timer: 3000
+              });
         }
     }
 
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
+        Filter();
         if(event.target.value==""){
             setSearchProducts([]);
         }
+        
     };
     const Filter = async ()=>{
         // const filteredProducts = products.filter((product) =>
@@ -179,14 +234,37 @@ const Products = () => {
                 
             }else{
                 if(response.msg === "Wrong key"){
-                    localStorage.removeItem('token');
-                    alert("session exprired ");
-                    
-                    window.location.href = '/login';
-                  }
-            }
+                  localStorage.removeItem('token');
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "session exprired",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  setTimeout(() => {
+                    window.location.href = "/login";
+          
+                }, 3000);
+                }else{
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                }
+              }
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error', error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Failed",
+                showConfirmButton: false,
+                timer: 3000
+              });
         }
 
         
@@ -212,7 +290,7 @@ const Products = () => {
                         <div className="col-12 SearchItem">
                         <input 
                         className=" form-control " 
-                        placeholder="Search"
+                        placeholder="Search by name "
                         value={searchQuery} 
                         onChange={handleSearchChange} 
                     />
@@ -338,9 +416,15 @@ const Products = () => {
 
 
                         )}
+                        {(products.length==0||SearchProduct.length==0)&&
+                        <tr>
+                            <td colSpan="8">No data found</td>
+                        </tr>
+
+                        }
                     </tbody>
                 </table>
-                {!loading && !isLastPage&&EnableShowMore && (
+                {!loading &&EnableShowMore && (
                     <div className="text-center">
                         <button className="btn btn-warning" onClick={handleShowMore}>Show More</button>
                     </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { editVariation, listVariation } from "../../Services/Api";
+import Swal from "sweetalert2";
 
 const EditVariation = () => {
   const [variationNameEn, setVariationNameEn] = useState('');
@@ -53,14 +54,41 @@ const EditVariation = () => {
       const response = await editVariation(auth_key, user_id, variation_id, variationNameEn, variationNameAr);   
       if(response.status === true){
         console.log('Variation edited successfully:', response);
-        alert('Variation edited successfully');
-        window.location.href = "/variations";
+        // alert('Variation edited successfully');
+
+
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "success",
+          showConfirmButton: false,
+          timer: 3000
+        });
+        setTimeout(() => {
+          window.location.href = "/variations";
+        }, 3000);
+
+
       } else {
-        alert('Error editing variation');
+        // alert('Error editing variation');
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Failed",
+          showConfirmButton: false,
+          timer: 3000
+        });
       }
 
     } catch (error) {
-      setError('Failed to edit variation');
+      // setError('Failed to edit variation');
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Failed",
+        showConfirmButton: false,
+        timer: 3000
+      });
       console.error('Error editing variation:', error);
     } finally {
       setLoading(false);

@@ -5,6 +5,7 @@ import { faPen, faPlus, faRecycle, faTrash } from "@fortawesome/free-solid-svg-i
 import { Link } from "react-router-dom";
 import { DeleteAppScreen, DeleteSlides, ListScreens, ListSlides } from "../../Services/Api"; 
 import DeleteScreen from "./DeleteScreen.jsx";
+import Swal from "sweetalert2";
 
 
 const WebsiteSlider = () => {
@@ -53,14 +54,37 @@ const WebsiteSlider = () => {
 
             }else{
                 if(response.msg === "Wrong key"){
-                    localStorage.removeItem('token');
-                    alert("session exprired ");
-                    
-                    window.location.href = '/login';
-                  }
-            }
+                  localStorage.removeItem('token');
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "session exprired",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  setTimeout(() => {
+                    window.location.href = "/login";
+          
+                }, 3000);
+                }else{
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                }
+              }
         } catch (error) {
-            console.error('Error deleting screen:', error);
+            console.error('Error', error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Failed",
+                showConfirmButton: false,
+                timer: 3000
+              });
         }
     };
 

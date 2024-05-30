@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { addCategory, AddCoupons, EditCoupons, ListCategories, ListCoupons, TestCats } from "../../Services/Api";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const EditCoupon = () => {
   const [couponName, setCouponName] = useState('');
@@ -25,15 +26,24 @@ const EditCoupon = () => {
                 const cop = response.coupon_list.find(e=>e.id == id);
                 console.log(cop)
                 setCouponName(cop.coupon);
-                setCouponStatus(cop.is_active)
+
+                console.log(cop.is_active);
+                setCouponStatus(parseInt(cop.is_active))
                 setCouponDiscount(cop.discount)
                 
             }else{
                 if(response.msg === "Wrong key"){
                     localStorage.removeItem('token');
-                    alert("session exprired ");
-                    
-                    window.location.href = '/login';
+                    Swal.fire({
+                      position: "center",
+                      icon: "error",
+                      title: "session exprired",
+                      showConfirmButton: false,
+                      timer: 3000
+                    });
+                    setTimeout(() => {
+                      window.location.href = '/login';
+                    }, 3000);
                   }
             }
         } catch (error) {
@@ -58,27 +68,53 @@ const EditCoupon = () => {
       console.log(auth_key, user_id, 
         couponName,
         couponDiscount,
-        couponStatus ? 1 : 0 );
+        couponStatus  );
       const response = await EditCoupons(auth_key, user_id,id, 
         couponName,
         couponDiscount,
-        couponStatus ? 1 : 0 
+        couponStatus  
       );
       console.log(response)
 
       if(response.status) {
-        alert('Coupon edited successfully');
-        window.location.href = "/coupons";
+        // alert('Coupon edited successfully');
+
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "success",
+          showConfirmButton: false,
+          timer: 3000
+        });
+        setTimeout(() => {
+          window.location.href = "/coupons";
+        }, 3000);
+
         console.log('Coupon edited successfully:', response);
       } else {
         if(response.msg === "Wrong key") {
           localStorage.removeItem('token');
-          alert("session expired");
-          window.location.href = '/login';
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "session exprired",
+            showConfirmButton: false,
+            timer: 3000
+          });
+          setTimeout(() => {
+            window.location.href = '/login';
+          }, 3000);
         }
       }
     } catch (error) {
       setError('Failed to add coupon');
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Failed",
+        showConfirmButton: false,
+        timer: 3000
+      });
       console.error('Error editing coupon:', error);
     } finally {
       setLoading(false);
@@ -128,8 +164,8 @@ const EditCoupon = () => {
                 className="form-checkbox"
                 type="checkbox"
                 id="ActiveCopo"
-                checked={couponStatus}
-                onChange={(e) => setCouponStatus(e.target.checked)}
+                checked={parseInt(couponStatus)==1}
+                onChange={(e) => setCouponStatus(e.target.checked?1:0)}
               />
               <label htmlFor="ActiveCopo">Active</label>
             </div>

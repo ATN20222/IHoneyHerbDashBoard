@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { DeleteWellnessQuestion, ListQuestions, RemoveGroup } from "../../Services/Api"; 
 
 import DeleteQuestion from "./DeleteQuestion";
+import Swal from "sweetalert2";
 
 const WellnessQuiz = () => {
     const [questions, setQuestions] = useState([]);
@@ -86,9 +87,17 @@ const WellnessQuiz = () => {
             }else{
                 if(response.msg === "Wrong key"){
                     localStorage.removeItem('token');
-                    alert("session exprired ");
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "session exprired",
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
                     
-                    window.location.href = '/login';
+                    setTimeout(() => {
+                        window.location.href = "/login";
+                    }, 3000);
                   }
             }
         } catch (error) {

@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { AddOption, AddPhotos, AssignProduct, DeleteProductImage, DropDown, EditProductMainImage, ListCategories, ProductDetails, RemoveOption, TestCats, uploadImage } from "../../Services/Api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTrash, faUpload } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 
 const Details= ()=>{
     const [product, setProduct] = useState({});
@@ -298,7 +299,14 @@ const Details= ()=>{
     const handleMainImageChange = (e) => {
         const file = e.target.files[0];
         if (file && file.size > 8 * 1024 * 1024) {
-          alert('File size exceeds the limit of 8MB.');
+        //   alert('File size exceeds the limit of 8MB.');
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "File size exceeds the limit of 8MB.",
+            showConfirmButton: false,
+            timer: 2500
+          });
           e.target.value = null;
           setmainImageFile(null);
         } else {
@@ -318,7 +326,14 @@ const Details= ()=>{
           if (file) {
             const resp = await uploadImage(file);
             if (resp.status === false) {
-              alert('Error Uploading Image');
+            //   alert('Error Uploading Image');
+              Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Error Uploading Image",
+                showConfirmButton: false,
+                timer: 2500
+              });
               setLoading(false);
               return;
             }
@@ -326,20 +341,45 @@ const Details= ()=>{
             const image_name = resp.image_name;
             const response = await EditProductMainImage(auth_key, user_id ,product.id, image_name);
             if (response.status === false) {
-              alert('Error setting main image');
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Error setting main image",
+                    showConfirmButton: false,
+                    timer: 2500
+                  });
+            //   alert('Error setting main image');
               setLoading(false);
               return;
             }
     
             setLoading(false);
             alert('Main image has been changed');
-            window.location.reload();
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Main image has been changed",
+                showConfirmButton: false,
+                timer: 2500
+              });
+              setTimeout(() => {
+                window.location.reload();
+      
+            }, 2500);
+
           } else {
             console.log('image is null');
             setLoading(false);
           }
         } catch (e) {
-          alert('Error setting main image');
+        //   alert('Error setting main image');
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Error setting main image",
+            showConfirmButton: false,
+            timer: 2500
+          });
           setLoading(false);
         }
       };
@@ -355,16 +395,39 @@ const Details= ()=>{
             
             const response = await DeleteProductImage(auth_key , user_id , id);
             if(response.status){
-                alert("Image deleted successfully");
-                window.location.reload();
+                // alert("Image deleted successfully");
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Image deleted successfully",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                setTimeout(() => {
+                    window.location.reload();
+          
+                }, 3000);
             }else{
-                alert("Failed to delete image");
-
+                // alert("Failed to delete image");
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed to delete image",
+                    showConfirmButton: false,
+                    timer: 2500
+                  });
             }
             setLoading(false);
         
         }catch(e){
-            alert("error delete image")
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Error delete image",
+                showConfirmButton: false,
+                timer: 2500
+              });
+            // alert("error delete image")
         }
     }
 
@@ -439,7 +502,14 @@ const Details= ()=>{
                         console.log("Td" , Td);
                         console.log("TableData1" , TableData);
                     }else{
-                        alert("error");
+                        // alert("error");
+                        Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            title: "error",
+                            showConfirmButton: false,
+                            timer: 2500
+                          });
                     }
                   
                     
@@ -457,7 +527,13 @@ const Details= ()=>{
                             console.log("TableData2" , TableData);
 
                         }else{
-                            alert("error");
+                            Swal.fire({
+                                position: "center",
+                                icon: "error",
+                                title: "Error",
+                                showConfirmButton: false,
+                                timer: 2500
+                              });
                         }
                        
 
@@ -479,10 +555,27 @@ const Details= ()=>{
                 }
                 if(flag){
 
-                    alert("Operation done successfully");
-                    window.location.reload();
+                    // alert("Operation done successfully");
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Operation done successfully",
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+                      setTimeout(() => {
+                        window.location.reload();
+              
+                    }, 3000);
                 }else{
-                    alert("error");
+                    // alert("error");
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "Error",
+                        showConfirmButton: false,
+                        timer: 2500
+                      });
                 }
             }
         } catch (error) {

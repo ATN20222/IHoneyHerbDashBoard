@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { addCategory, AddGroup, AddWellnessQuestion, DropDown, ListCategories, ListGroups, TestCats } from "../../Services/Api";
+import Swal from "sweetalert2";
 
 const AddQuestion = () => {
   const [QuestionNameEn, setQuestionNameEn] = useState('');
@@ -49,11 +50,24 @@ const AddQuestion = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file && file.type === "image/svg+xml") {
-        alert("SVG files are not allowed.");
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "SVG files are not allowed.",
+        showConfirmButton: false,
+        timer: 3000
+      });
+      
         e.target.value = null; 
         setQuestionImage(null); 
       } else if (file && file.size > 8 * 1024 * 1024) {
-        alert("File size exceeds the limit of 8MB.");
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: "File size exceeds the limit of 8MB.",
+          showConfirmButton: false,
+          timer: 3000
+        });
         e.target.value = null; 
         setQuestionImage(null); 
       } else {
@@ -76,16 +90,43 @@ const AddQuestion = () => {
       const response = await AddWellnessQuestion(auth_key, user_id, QuestionNameEn, QuestionNameAr, SelectedGender, SelectedAge, QuestionImage);   
 
       if(response.status){
-        window.location.href = "/wellnessquiz";
-        alert('question added successfully');
+        // alert('question added successfully');
+
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "success",
+          showConfirmButton: false,
+          timer: 3000
+        });
+        setTimeout(() => {
+          window.location.href = "/wellnessquiz";
+
+      }, 3000);
+
       }else{
         if(response.msg === "Wrong key"){
           localStorage.removeItem('token');
-          alert("session exprired ");
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "session exprired",
+            showConfirmButton: false,
+            timer: 3000
+          });
+          setTimeout(() => {
+            window.location.href = "/login";
+  
+        }, 3000);
           
-          window.location.href = '/login';
         }else{
-            alert("Faild to add question");
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Failed",
+            showConfirmButton: false,
+            timer: 3000
+          });        
         }
       }
 
@@ -93,6 +134,13 @@ const AddQuestion = () => {
 
     } catch (error) {
       setError('Failed to add question');
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Failed",
+        showConfirmButton: false,
+        timer: 3000
+      });  
       console.error('Error adding question:', error);
     } finally {
       setLoading(false);

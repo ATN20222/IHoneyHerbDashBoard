@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faL, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { addCategory, EditOrder, ListCategories, ListOrders, ListOrderStatus, OrderById, TestCats, UpdateItemStatus } from "../../Services/Api";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const EditOrders = () => {
     const [order, setOrder] = useState([]);
@@ -43,14 +44,37 @@ const EditOrders = () => {
 
                 }else{
                     if(response.msg === "Wrong key"){
-                        localStorage.removeItem('token');
-                        alert("session exprired ");
-                        
-                        window.location.href = '/login';
-                      }
-                }
+                      localStorage.removeItem('token');
+                      Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "session exprired",
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+                      setTimeout(() => {
+                        window.location.href = "/login";
+              
+                    }, 3000);
+                    }else{
+                      Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "Failed",
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+                    }
+                  }
             } catch (error) {
-                console.error('Error fetching order data:', error);
+                console.error('Error', error);
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
             }
         };
 
@@ -74,8 +98,17 @@ const EditOrders = () => {
       const user_id = localStorage.getItem('user_id');
       for(const item in changedStatuses){
         const response = await UpdateItemStatus(auth_key , user_id ,  id,changedStatuses[item].id , changedStatuses[item].status)
-        if(!response.status)
-            alert(`error editing Item ID : ${changedStatuses[item].id}`)
+        if(!response.status){
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Failed",
+                showConfirmButton: false,
+                timer: 3000
+              });
+        }
+            // alert(`error editing Item ID : ${changedStatuses[item].id}`)
+        
 
     }
     
@@ -88,24 +121,56 @@ const EditOrders = () => {
       const response = await EditOrder(auth_key , user_id , id , selectedState ,date );   
       if(response.status){
 
-        alert('Order Edited successfully');
+        // alert('Order Edited successfully');
 
-        window.location.href = "/orders";
+
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "success",
+            showConfirmButton: false,
+            timer: 3000
+          });
+          setTimeout(() => {
+            window.location.href = "/orders";
+  
+        }, 3000);
+
         console.log('Order Edited successfully:', response);
       }else{
         if(response.msg === "Wrong key"){
           localStorage.removeItem('token');
-          alert("session exprired ");
-          
-          window.location.href = '/login';
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "session exprired",
+            showConfirmButton: false,
+            timer: 3000
+          });
+          setTimeout(() => {
+            window.location.href = "/login";
+  
+        }, 3000);
+        }else{
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Failed",
+            showConfirmButton: false,
+            timer: 3000
+          });
         }
       }
-
-
-    } catch (error) {
-      setError('Failed to edit order');
-      console.error('Error editing order:', error);
-    } finally {
+} catch (error) {
+    console.error('Error', error);
+    Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Failed",
+        showConfirmButton: false,
+        timer: 3000
+      });
+} finally {
       // End loading state
       setLoading(false);
     }
@@ -119,36 +184,42 @@ const EditOrders = () => {
 
 
 const ChangeState =(e)=>{
-    if(e=='3')
+    if(e == '3')
         SetApply(true);
     else
         SetApply(false);
 
     setselectedState(e);
+    order.order_items.forEach((item)=>{
+        ChangeItemStatus(e , item.id)
+    });
+    
 }
 const ChangeItemStatus = (status, itemId) => {
-    var orderItem = order ;
-    orderItem.order_items.find(i=>i.id === itemId).status = status;
+    var orderItem = order;
+    orderItem.order_items.find(i => i.id === itemId).status = status;
     setOrder(orderItem);
-    
-    const updatedItemStatuses = itemStatuses.map(item => 
+
+    const updatedItemStatuses = itemStatuses.map(item =>
         item.id === itemId ? { ...item, status: status } : item
     );
-    
+
     setItemStatuses(updatedItemStatuses);
-    if(changedStatuses.find(i=>i.id === itemId)){
-        setChangedStatuses(changedStatuses.find(i=>i.id === itemId).status = status);
-    }else{
-        var item = changedStatuses;
-        
-        item.push({
-            id:itemId,
-            status : status
-        })
-        setChangedStatuses(item);
-    }
+
+    setChangedStatuses(prevStatuses => {
+        const index = prevStatuses.findIndex(i => i.id === itemId);
+        if (index !== -1) {
+            const updatedStatuses = [...prevStatuses];
+            updatedStatuses[index] = { id: itemId, status: status };
+            return updatedStatuses;
+        } else {
+            return [...prevStatuses, { id: itemId, status: status }];
+        }
+    });
+
     console.log(changedStatuses);
-}
+};
+
   return (
     <div className="col-lg-10 col-md-9 col-sm-9 MainCol HomeCol CategoriesCol">
       <div className="CategoriesHeader">

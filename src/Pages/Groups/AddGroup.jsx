@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { addCategory, AddGroup, DropDown, ListCategories, ListGroups, TestCats } from "../../Services/Api";
+import Swal from "sweetalert2";
 
 const AddGroups = () => {
   const [GroupNameEn, setGroupNameEn] = useState('');
@@ -66,14 +67,35 @@ const AddGroups = () => {
       const response = await AddGroup(auth_key, user_id, GroupNameEn, GroupNameAr, parentId, GroupIcon);   
 
       if(response.status){
-        window.location.href = "/groups";
-        alert('Group added successfully');
+        // alert('Group added successfully');
+
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "success",
+          showConfirmButton: false,
+          timer: 3000
+        });
+        setTimeout(() => {
+          window.location.href = "/groups";
+
+      }, 3000);
+
+
       }else{
         if(response.msg === "Wrong key"){
           localStorage.removeItem('token');
-          alert("session exprired ");
-          
-          window.location.href = '/login';
+        
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "session exprired",
+            showConfirmButton: false,
+            timer: 3000
+          });
+          setTimeout(() => {
+            window.location.href = '/login';
+          }, 3000);
         }
       }
 
@@ -81,6 +103,13 @@ const AddGroups = () => {
 
     } catch (error) {
       setError('Failed to add group');
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Failed",
+        showConfirmButton: false,
+        timer: 3000
+      });
       console.error('Error adding group:', error);
     } finally {
       // End loading state

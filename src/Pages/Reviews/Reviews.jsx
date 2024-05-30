@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faLock, faLockOpen, faPen, faPlus, faRecycle, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { EditReviews, ListCategories, ListCoupons, ListReviews, RemoveCategory } from "../../Services/Api"; 
+import Swal from "sweetalert2";
 
 
 const Reviews = () => {
@@ -49,22 +50,52 @@ const Reviews = () => {
             console.log(response);
             if(response.status){
                 
-                alert("Success"); 
-                window.location.reload();
+                // alert("Success"); 
+                
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "success",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  setTimeout(() => {
+                    window.location.reload();
+          
+                }, 3000);
             }else{
                 if(response.msg === "Wrong key"){
-                    localStorage.removeItem('token');
-                    alert("session exprired ");
-                    
-                    window.location.href = '/login';
-                  }else{
-                    alert("Faild"); 
-
-                  }
-
-            }
+                  localStorage.removeItem('token');
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "session exprired",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  setTimeout(() => {
+                    window.location.href = "/login";
+          
+                }, 3000);
+                }else{
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                }
+              }
         } catch (error) {
-            console.error('Error fetching reviews:', error);
+            console.error('Error', error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Failed",
+                showConfirmButton: false,
+                timer: 3000
+              });
         }
     }
 

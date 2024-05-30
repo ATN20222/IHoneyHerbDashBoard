@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 
-const DeleteScreen = ({onClick , onConfirmDelete })=>{
+const DeleteScreen = ({onClose , onConfirmDelete })=>{
     const [showDetails, setShowDetails] = useState(false);
     const handleDetailsClick= ()=>{
         setShowDetails(!showDetails);
@@ -12,11 +12,11 @@ const DeleteScreen = ({onClick , onConfirmDelete })=>{
         event.stopPropagation();
     }
     return(
-        <div className="Overlay" onClick={() => onClick(handleDetailsClick)} >
+        <div className="Overlay" onClick={() => onClose(handleDetailsClick)} >
             <div className="container">
                 <div className="row  Center">
-                    <div className=" col-lg-5 col-md-7 col-sm-9 col-10 card OrderDetailsCard "onClick={handleDetailsCardClick}   >
-                        <div className="CloseDetailsItem"  onClick={() => onClick(handleDetailsClick)} >
+                    <div className=" col-lg-5 col-md-7 col-sm-9 col-10 card OrderDetailsCard  "onClick={handleDetailsCardClick}   >
+                        <div className="CloseDetailsItem"  onClick={() => onClose(handleDetailsClick)} >
                             <FontAwesomeIcon icon={faClose}/>
                         </div>
                         <div className="col-lg-9 DeleteLocationTitle" >
@@ -27,7 +27,7 @@ const DeleteScreen = ({onClick , onConfirmDelete })=>{
                         <div className="col-lg-12 ConfirmDeleteBtns">
 
                             <div className="col-lg-4 Center ">
-                                <button className="btn btn-warning col-12 LoginBtn" onClick={() => onClick(handleDetailsClick)}>
+                                <button className="btn btn-warning col-12 LoginBtn" onClick={() => onClose(handleDetailsClick)}>
                                     <span className="Login"> No </span>
                                 </button>
                             </div>

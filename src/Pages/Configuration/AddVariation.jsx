@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { addVariation } from "../../Services/Api";
+import Swal from "sweetalert2";
 
 const AddVariation = () => {
   const [nameEn, setNameEn] = useState('');
@@ -21,17 +22,43 @@ const AddVariation = () => {
       if(response.status==true){
         console.log('Variation added successfully:', response);
 
-        alert('Variation added successfully');
-        window.location.href='/variations';
+        // alert('Variation added successfully');
+
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "success",
+          showConfirmButton: false,
+          timer: 3000
+        });
+        setTimeout(() => {
+          window.location.href='/variations';
+        }, 3000);
+
+
         setNameEn('');
         setNameAr('');
       }else{
-        alert('Field to add variation');
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Failed",
+          showConfirmButton: false,
+          timer: 3000
+        });
+        
 
       }
 
     } catch (error) {
       setError('Failed to add variation');
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Failed",
+        showConfirmButton: false,
+        timer: 3000
+      });
       console.error('Error adding variation:', error);
     } finally {
       // End loading state

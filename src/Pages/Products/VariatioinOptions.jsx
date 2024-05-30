@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { listVariation } from "../../Services/Api";
+import Swal from "sweetalert2";
 
 const VariationOptions = ({ Variations, onApply }) => {
   const [options, setOptions] = useState([]);
@@ -57,9 +58,17 @@ const VariationOptions = ({ Variations, onApply }) => {
                 if(!response.status){
                   if(response.msg === "Wrong key"){
                     localStorage.removeItem('token');
-                    alert("session exprired ");
-                    
-                    window.location.href = '/login';
+                    Swal.fire({
+                      position: "center",
+                      icon: "error",
+                      title: "session exprired",
+                      showConfirmButton: false,
+                      timer: 3000
+                    });
+                    setTimeout(() => {
+                      window.location.href = "/login";
+            
+                  }, 3000);
                   }
                 }
                 console.log(Variations);

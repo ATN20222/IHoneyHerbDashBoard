@@ -4,6 +4,7 @@ import Logo from '../../Assets/Images/I_H_H_LOGO.png'
 import ReportCard from "../../Components/ReportCards/ReportCard";
 import { faUser , faUserSlash , faTruckFast , faBox,faLayerGroup } from "@fortawesome/free-solid-svg-icons";
 import { ListActivities, ListCategoriesOrders, ListOrdersStatus, ListProducts } from "../../Services/Api";
+import Swal from "sweetalert2";
 
 const Home = ()=>{
     const [Users , setUsers] = useState({});
@@ -29,14 +30,37 @@ const Home = ()=>{
                 
             }else{
                 if(response.msg === "Wrong key"){
-                    localStorage.removeItem('token');
-                    alert("session exprired ");
-                    
-                    window.location.href = '/login';
-                  }
-            }
+                  localStorage.removeItem('token');
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "session exprired",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  setTimeout(() => {
+                    window.location.href = "/login";
+          
+                }, 3000);
+                }else{
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                }
+              }
         } catch (error) {
             console.error('Error', error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Failed",
+                showConfirmButton: false,
+                timer: 3000
+              });
         }
     }
 
@@ -50,14 +74,37 @@ const Home = ()=>{
                 setOrders(response.order_status_report)
             }else{
                 if(response.msg === "Wrong key"){
-                    localStorage.removeItem('token');
-                    alert("session exprired ");
-                    
-                    window.location.href = '/login';
-                  }
-            }
+                  localStorage.removeItem('token');
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "session exprired",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  setTimeout(() => {
+                    window.location.href = "/login";
+          
+                }, 3000);
+                }else{
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                }
+              }
         } catch (error) {
             console.error('Error', error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Failed",
+                showConfirmButton: false,
+                timer: 3000
+              });
         }
     }
     const getProducts = async ()=>{
@@ -70,14 +117,37 @@ const Home = ()=>{
                 setProducts(response.category_product_count);
             }else{
                 if(response.msg === "Wrong key"){
-                    localStorage.removeItem('token');
-                    alert("session exprired ");
-                    
-                    window.location.href = '/login';
-                  }
-            }
+                  localStorage.removeItem('token');
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "session exprired",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  setTimeout(() => {
+                    window.location.href = "/login";
+          
+                }, 3000);
+                }else{
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                }
+              }
         } catch (error) {
             console.error('Error', error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Failed",
+                showConfirmButton: false,
+                timer: 3000
+              });
         }
     }
     const getCatsOrders = async ()=>{
@@ -90,14 +160,37 @@ const Home = ()=>{
                 setCatsOrders(response.order_category_count);
             }else{
                 if(response.msg === "Wrong key"){
-                    localStorage.removeItem('token');
-                    alert("session exprired ");
-                    
-                    window.location.href = '/login';
-                  }
-            }
+                  localStorage.removeItem('token');
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "session exprired",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  setTimeout(() => {
+                    window.location.href = "/login";
+          
+                }, 3000);
+                }else{
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Failed",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                }
+              }
         } catch (error) {
             console.error('Error', error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Failed",
+                showConfirmButton: false,
+                timer: 3000
+              });
         }
     }
 

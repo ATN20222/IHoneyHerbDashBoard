@@ -5,6 +5,7 @@ import { faPen, faPlus, faRecycle, faTrash } from "@fortawesome/free-solid-svg-i
 import { Link } from "react-router-dom";
 import { DeleteAppScreen, ListScreens } from "../../Services/Api"; 
 import DeleteScreen from "./DeleteScreen";
+import Swal from "sweetalert2";
 
 
 const Screens = () => {
@@ -25,9 +26,16 @@ const Screens = () => {
                 }else{
                     if(response.msg === "Wrong key"){
                         localStorage.removeItem('token');
-                        alert("session exprired ");
-                        
-                        window.location.href = '/login';
+                        Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            title: "session exprired",
+                            showConfirmButton: false,
+                            timer: 3000
+                          });
+                          setTimeout(() => {
+                            window.location.href = '/login';
+                          }, 3000);
                       }
                 }
             } catch (error) {
@@ -44,23 +52,56 @@ const Screens = () => {
     };
 
     const confirmDeleteScreen = async () => {
+        setShowDeleteModal(false)
         try {
             const auth_key = localStorage.getItem('token');
             const user_id = localStorage.getItem('user_id');
             const response = await DeleteAppScreen(auth_key, user_id, selectedScreenId);
             if (response.status) {
-                window.location.reload();
-
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "success",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
+                
             }else{
                 if(response.msg === "Wrong key"){
                     localStorage.removeItem('token');
-                    alert("session exprired ");
-                    
-                    window.location.href = '/login';
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "session exprired",
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+                      setTimeout(() => {
+                        window.location.href = '/login';
+                      }, 3000);
+                  }else{
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "Failed",
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+
                   }
             }
         } catch (error) {
             console.error('Error deleting screen:', error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Failed",
+                showConfirmButton: false,
+                timer: 3000
+              });
         }
     };
 
