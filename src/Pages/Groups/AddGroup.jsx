@@ -158,6 +158,7 @@ const AddGroups = () => {
               <h6  className="">English Name</h6>
             </label>
             <input 
+            required
               className="col-lg-12 form-control EmailInput" 
               placeholder="Name in English"
               value={GroupNameEn}
@@ -170,6 +171,7 @@ const AddGroups = () => {
               <h6 className="">Arabic Name</h6>
             </label>
             <input 
+            required
               className="col-lg-12 form-control EmailInput" 
               placeholder="Name in Arabic"
               value={GroupNameAr}

@@ -103,7 +103,8 @@ const AddNotification = () => {
             <label htmlFor="">
               <h6  className="">English Title</h6>
             </label>
-            <input 
+            <input
+            required 
               className="col-lg-12 form-control EmailInput" 
               placeholder="Title in English"
               value={notNameEn}
@@ -114,7 +115,8 @@ const AddNotification = () => {
             <label htmlFor="">
               <h6 className="">Arabic Title</h6>
             </label>
-            <input 
+            <input
+            required 
               className="col-lg-12 form-control EmailInput" 
               placeholder="Title in Arabic"
               value={NotNameAr}
@@ -127,7 +129,8 @@ const AddNotification = () => {
             <label htmlFor="">
               <h6  className="">Description En</h6>
             </label>
-            <textarea 
+            <textarea
+            required 
               className="col-lg-12 form-control EmailInput" 
               placeholder="Description En"
               value={NotDescEn}
@@ -139,6 +142,7 @@ const AddNotification = () => {
               <h6 className="">Description Ar</h6>
             </label>
             <textarea 
+            required
               className="col-lg-12 form-control EmailInput" 
               
               placeholder="Description Ar"

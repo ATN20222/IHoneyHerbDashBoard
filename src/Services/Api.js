@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://ihoneyherb.com/admin-test/'; 
+const BASE_URL = 'https://ihoneyherb.com/admin-test'; 
 
 //#region Login Api's
 export const login = async (username, password) => {

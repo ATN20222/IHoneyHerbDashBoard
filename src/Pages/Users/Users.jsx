@@ -132,13 +132,13 @@ const Users = () => {
     
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
-        Filter();
+        Filter(event.target.value);
         if(event.target.value==""){
             setSearchedUsers([]);
         }
         
     };
-    const Filter = async ()=>{
+    const Filter = async (value)=>{
         // const filteredProducts = products.filter((product) =>
         //     product.name_en.toLowerCase().includes(searchQuery.toLowerCase()) ||
         //     product.name_ar.toLowerCase().includes(searchQuery.toLowerCase())
@@ -147,10 +147,11 @@ const Users = () => {
             const auth_key = localStorage.getItem('token');
             const user_id = localStorage.getItem('user_id');
             
-            const response = await SearchUser(auth_key, user_id, searchQuery);
+            const response = await SearchUser(auth_key, user_id, value);
             console.log(response);
             if (response.status) {
                 setSearchedUsers(response.users);
+                setEnableShowMore(false);
                 
             }else{
                 if(response.msg === "Wrong key"){
@@ -211,7 +212,7 @@ const Users = () => {
                     <div className="col-12 SearchItem">
                         <input 
                         className=" form-control " 
-                        placeholder="Search by User ID"
+                        placeholder="Search by User ID or Email"
                         value={searchQuery} 
                         onChange={handleSearchChange} 
                     />
@@ -259,7 +260,7 @@ const Users = () => {
                             <td>{user.name}</td>
                             <td>{user.email}</td> 
                             <td>{user.phone}</td> 
-                            <td>{user.points}</td> 
+                            <td>{user.points==null?0:user.points}</td> 
                             
                             <td>
                                 <button 
@@ -283,7 +284,7 @@ const Users = () => {
                             <td>{user.name}</td>
                             <td>{user.email}</td> 
                             <td>{user.phone}</td> 
-                            <td>{user.points}</td> 
+                            <td>{user.points==null?0:user.points}</td> 
                             
                             <td>
                                 <button 

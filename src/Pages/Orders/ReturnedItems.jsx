@@ -19,10 +19,11 @@ const ReturnedItems = () => {
                 const user_id = localStorage.getItem('user_id');
                 const response = await ListReturnedItems(auth_key, user_id);
                 
-                
+                console.log(response)
                 if(response.status ){
                     
                     setOrders(response.return_items);
+                    
                 }else{
                     if(response.msg === "Wrong key"){
                       localStorage.removeItem('token');
@@ -99,7 +100,7 @@ const ReturnedItems = () => {
                                 <td>
                                     <Link 
                                         className="btn btn-warning" 
-                                        to={`/editorder/${order.id}`}
+                                        to={`/editorder/${order.order_id}`}
                                     >
                                         <FontAwesomeIcon icon={faPen}/>
                                     </Link>

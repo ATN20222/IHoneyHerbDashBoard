@@ -4,6 +4,7 @@ import Logo from '../../Assets/Images/I_H_H_LOGO.png';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faBox, faBoxArchive, faBullhorn, faComment, faComments, faCubesStacked, faDoorOpen, faGear, faHand, faHome, faImages, faLayerGroup, faMobile, faQuestion, faScrewdriverWrench, faTicket, faTruckFast, faUser } from "@fortawesome/free-solid-svg-icons";
+import ConfirmLogout from "./confirmLogout";
 
 const SideBar = () =>{
     const [ShowSideBar, setShowSideBar] = useState(false);
@@ -17,8 +18,11 @@ const SideBar = () =>{
     const handleLinkClick = () => {
         setShowSideBar(!ShowSideBar);
     };
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    
     return(
         <div className={`col-lg-2 col-md-3 col-sm-3 SideMenu ${!ShowSideBar ? 'ShowSideBar' : ''}`}>
+            
             <div className="InsideMenu ">
                 <div className="LogoContainer">
                     <img src={Logo} alt="" width="50px"/> 
@@ -94,12 +98,14 @@ const SideBar = () =>{
 
 
                         <li className="list-item">
-                            <Link  className="LinkItem" onClick={Logout} > <FontAwesomeIcon icon={faDoorOpen}/>  logout </Link>
+                            <Link  className="LinkItem" onClick={()=>setShowDeleteModal(true)} > <FontAwesomeIcon icon={faDoorOpen}/>  logout </Link>
                         </li>
                         
                     </ul>
                 </div>
-
+                {showDeleteModal && (
+                <ConfirmLogout onClose={() => setShowDeleteModal(false)} onConfirmDelete={Logout} />
+                )}
 
 
             </div>

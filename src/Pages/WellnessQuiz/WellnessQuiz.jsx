@@ -53,6 +53,7 @@ const WellnessQuiz = () => {
                 const auth_key = localStorage.getItem('token');
                 const user_id = localStorage.getItem('user_id');
                 const response = await ListQuestions(auth_key, user_id);
+                console.log(response)
                 if(response.status){
 
                     setQuestions(response.list); 

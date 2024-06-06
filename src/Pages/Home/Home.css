@@ -5,6 +5,10 @@
     padding-top: 40px;
     /* background-color: #eee; */
 }
+.ReportRow{
+  display: flex;
+  justify-content: center;
+}
 .WelcomeText {
     background:  linear-gradient( to right , #fbd203  , #cc9a25 , #7a7a7a00);
 

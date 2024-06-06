@@ -100,6 +100,7 @@ const AddScreen = () => {
               <h6  className="">English Title</h6>
             </label>
             <input 
+            required
               className="col-lg-12 form-control EmailInput" 
               placeholder="Title in English"
               value={ScreenTitleEn}
@@ -111,6 +112,7 @@ const AddScreen = () => {
               <h6 className="">Arabic Title</h6>
             </label>
             <input 
+              required
               className="col-lg-12 form-control EmailInput" 
               placeholder="Title in Arabic"
               value={ScreenTitleAr}
@@ -125,6 +127,7 @@ const AddScreen = () => {
               <h6  className="">English Description</h6>
             </label>
             <input 
+            required
               className="col-lg-12 form-control EmailInput" 
               placeholder="Description in English"
               value={ScreenDescEn}
@@ -136,6 +139,7 @@ const AddScreen = () => {
               <h6 className="">Arabic Description</h6>
             </label>
             <input 
+            required
               className="col-lg-12 form-control EmailInput" 
               placeholder="Description in Arabic"
               value={ScreenDescAr}

@@ -493,7 +493,7 @@ const EditQuestion = () => {
                                         <th>Product ID</th>
                                         <th>Delete</th>
                                         </tr>
-                                       
+                                      
                                     </thead>
                                         <tbody>
                                     
@@ -528,7 +528,7 @@ const EditQuestion = () => {
                                         ))}
 
 
-                                       
+                                      
 
                                         </tbody>
                                 </table>
@@ -540,7 +540,7 @@ const EditQuestion = () => {
                                             </div>
                                             
                                         
-                            </div>
+          </div>
 
 
 

@@ -139,6 +139,7 @@ const EditCoupon = () => {
               <h6 className="">Coupon Code</h6>
             </label>
             <input
+            required
               className="col-lg-12 form-control EmailInput"
               placeholder="Code"
               value={couponName}
@@ -150,6 +151,7 @@ const EditCoupon = () => {
               <h6 className="">Coupon Discount</h6>
             </label>
             <input
+            required
               className="col-lg-12 form-control EmailInput"
               type="number"
               placeholder="Discount"
@@ -161,6 +163,7 @@ const EditCoupon = () => {
           <div className="col-lg-12 CategoryFormItem">
             <div className="CheckBoxes col-lg-1 col-md-2 col-sm-3 col-3">
               <input
+              
                 className="form-checkbox"
                 type="checkbox"
                 id="ActiveCopo"

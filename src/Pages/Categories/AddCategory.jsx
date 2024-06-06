@@ -171,7 +171,8 @@ function getCategoryList(data, parentId = '0', prefix = '') {
             <label htmlFor="">
               <h6 className="">Arabic name</h6>
             </label>
-            <input 
+            <input
+            required 
               className="col-lg-12 form-control EmailInput" 
               placeholder="Name in Arabic"
               value={catNameAr}
@@ -184,7 +185,8 @@ function getCategoryList(data, parentId = '0', prefix = '') {
             <label htmlFor="">
               <h6  className="">Parent Name</h6>
             </label>
-            <select 
+            <select
+            required 
               className="col-lg-12 form-select EmailInput"
               value={parentId}
               onChange={(e) => setParentId(e.target.value)}

@@ -201,6 +201,7 @@ function getCategoryList(data, parentId = '0', prefix = '') {
               <h6  className="">English Name</h6>
             </label>
             <input 
+            required
               className="col-lg-12 form-control EmailInput" 
               placeholder="Name in English"
               value={catNameEn}
@@ -212,7 +213,8 @@ function getCategoryList(data, parentId = '0', prefix = '') {
             <label htmlFor="">
               <h6 className="">Arabic Name</h6>
             </label>
-            <input 
+            <input
+            required 
               className="col-lg-12 form-control EmailInput" 
               placeholder="Name in Arabic"
               value={catNameAr}

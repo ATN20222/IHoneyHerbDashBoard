@@ -231,6 +231,7 @@ const Products = () => {
             console.log(response);
             if (response.status) {
                 setSearchProducts(response.products);
+                setEnableShowMore(false);
                 
             }else{
                 if(response.msg === "Wrong key"){
@@ -416,7 +417,7 @@ const Products = () => {
 
 
                         )}
-                        {(products.length==0||SearchProduct.length==0)&&
+                        {(products.length==0||SearchProduct.length==0)&&!loading&&
                         <tr>
                             <td colSpan="8">No data found</td>
                         </tr>
