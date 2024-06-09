@@ -68,6 +68,8 @@ const Groups = () => {
     };
 
     async function removeGroupRequest() {
+        setShowDeleteGroup(false); 
+
         try {
             const auth_key = localStorage.getItem('token');
             const user_id = localStorage.getItem('user_id');

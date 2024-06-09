@@ -199,6 +199,7 @@ const Home = ()=>{
             <div className="container">
                 <div className="row ReportRow">
                     <h3 className="categoryheader">Users</h3>
+                    <div className="row">
                     <ReportCard 
                         Icon={faUser}
                         color="green" 
@@ -211,8 +212,11 @@ const Home = ()=>{
                         text="Inactive Users"
                         count={Users.inactive_users}
                         />
+                    </div>
+                    
 
                     <h3 className="categoryheader">Orders status</h3>
+                    <div className="row">
                     {Orders.map((order , index)=>(
                         <ReportCard 
                         Icon={faTruckFast}
@@ -225,8 +229,11 @@ const Home = ()=>{
                         />
                     ))}
                     
+                    </div>
+                    
                     
                     <h3 className="categoryheader">Categories Products</h3>
+                    <div className="row">
                     {Products.map((product , index)=>(
                         <ReportCard 
                         Icon={faLayerGroup}
@@ -235,9 +242,12 @@ const Home = ()=>{
                         count={product.product_count}
                         />
                     ))}
+                    </div>
+                    
                     
                     
                     <h3 className="categoryheader">Categories Orders</h3>
+                    <div className="row">
                     {CatsOrders.map((order , index)=>(
                         <ReportCard 
                         Icon={faBox}
@@ -246,6 +256,8 @@ const Home = ()=>{
                         count={order.order_count}
                         />
                     ))}
+                    </div>
+                    
                     
                 </div>
             </div>

@@ -27,6 +27,8 @@
 .orange{
     color: orange;
 }
-.col-lg-5Resp{
-    width: 48% !important;
+@media (min-width:1268px) {
+    .col-lg-5Resp{
+        width: 48% !important;
+    }
 }

@@ -97,6 +97,7 @@ const Products = () => {
 
 
     const confirmDeleteProduct = async () => {
+        setShowDeleteProduct(false);
         
         try {
             const auth_key = localStorage.getItem('token');
@@ -105,7 +106,17 @@ const Products = () => {
             const response = await RemoveProduct(auth_key, user_id, selectedProductId);
             console.log(response);
             if (response.status) {
-                window.location.reload();
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "success",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  setTimeout(() => {
+                    window.location.reload();          
+                }, 3000);
+               
             }else{
                 if(response.msg === "Wrong key"){
                   localStorage.removeItem('token');
@@ -231,6 +242,7 @@ const Products = () => {
             console.log(response);
             if (response.status) {
                 setSearchProducts(response.products);
+
                 setEnableShowMore(false);
                 
             }else{

@@ -78,13 +78,26 @@ const WellnessQuiz = () => {
     };
 
     async function removeQuestionRequest() {
+        setShowDeleteQuestion(false); 
+
         try {
             const auth_key = localStorage.getItem('token');
             const user_id = localStorage.getItem('user_id');
             const response = await DeleteWellnessQuestion(auth_key, user_id, DeleteQuestionId);
             console.log(response);
             if (response.status) {
-                window.location.reload();
+
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "success",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                  setTimeout(() => {
+                    window.location.reload();
+          
+                }, 3000);
             }else{
                 if(response.msg === "Wrong key"){
                     localStorage.removeItem('token');

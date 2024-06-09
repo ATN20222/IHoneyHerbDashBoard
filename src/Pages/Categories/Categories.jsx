@@ -56,6 +56,8 @@ const Categories = () => {
     };
 
     const confirmDeleteCategory = async () => {
+        setShowDeleteModal(false);
+
         try {
             const auth_key = localStorage.getItem('token');
             const user_id = localStorage.getItem('user_id');
