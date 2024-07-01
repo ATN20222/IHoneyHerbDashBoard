@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 const AddCoupon = () => {
   const [couponName, setCouponName] = useState('');
   const [couponDiscount, setCouponDiscount] = useState('');
+  const [ExpDate, setExpDate] = useState(null);
   const [couponStatus, setCouponStatus] = useState(false); 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -17,6 +18,7 @@ const AddCoupon = () => {
     try {
       if (loading) return;
 
+
       setLoading(true);
 
       const auth_key = localStorage.getItem('token');
@@ -24,11 +26,15 @@ const AddCoupon = () => {
       console.log(auth_key, user_id, 
         couponName,
         couponDiscount,
-        couponStatus ? 1 : 0 );
+        couponStatus ? 1 : 0 ,
+        ExpDate
+        );
+        // return;
       const response = await AddCoupons(auth_key, user_id, 
         couponName,
         couponDiscount,
-        couponStatus ? 1 : 0 
+        couponStatus ? 1 : 0 ,
+        ExpDate=="0000-00-00"?null:ExpDate
       );
       console.log(response)
 
@@ -116,6 +122,21 @@ const AddCoupon = () => {
               onChange={(e) => setCouponDiscount(e.target.value)}
             />
           </div>
+
+          <div className="col-lg-12 CategoryFormItem">
+            <label htmlFor="">
+              <h6 className="">Coupon Expiry Date</h6>
+            </label>
+            <input
+            
+              className="col-lg-12 form-control EmailInput"
+              type="Date"
+              placeholder="Discount"
+              value={ExpDate}
+              onChange={(e) => setExpDate(e.target.value)}
+            />
+          </div>
+          
           <h3 className="categoryheader">Coupon Status</h3>
           <div className="col-lg-12 CategoryFormItem">
             <div className="CheckBoxes col-lg-1 col-md-2 col-sm-3 col-3">

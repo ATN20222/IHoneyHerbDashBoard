@@ -65,6 +65,7 @@ const Coupons = () => {
                             <th>#</th>
                             <th>Coupon</th>
                             <th>Discount</th>
+                            <th>Expiry Date</th>
                             <th>Edit</th>
                            
                         </tr>
@@ -76,6 +77,7 @@ const Coupons = () => {
                                 
                                 <td>{coupon.coupon}</td>
                                 <td>{coupon.discount}</td> 
+                                <td>{(coupon.expiry_date=="0000-00-00"||coupon.expiry_date==null)?"_______":coupon.expiry_date}</td> 
                                 
                                 <td>
                                     <Link 

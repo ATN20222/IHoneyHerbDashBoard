@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://ihoneyherb.com/admin-test'; 
+const BASE_URL = 'https://admin.ihoneyherb.com/'; 
 
 //#region Login Api's
 export const login = async (username, password) => {
@@ -716,7 +716,7 @@ export const ListCoupons = async (auth_key, user_id) => {
     }
 };
 
-export const AddCoupons = async (auth_key, user_id,coupon, discount , status) => {
+export const AddCoupons = async (auth_key, user_id,coupon, discount , status , expiry_date) => {
   try {
     const formData = new FormData();
     formData.append('auth_key', auth_key);
@@ -724,6 +724,7 @@ export const AddCoupons = async (auth_key, user_id,coupon, discount , status) =>
     formData.append('coupon', coupon);
     formData.append('discount', discount);
     formData.append('is_active', status);
+    formData.append('expiry_date', expiry_date);
 
 
     const response = await axios.post(`${BASE_URL}/coupons/add.php`, formData);
@@ -732,7 +733,7 @@ export const AddCoupons = async (auth_key, user_id,coupon, discount , status) =>
     throw new Error('Failed to add coupon'); 
   }
 };
-export const EditCoupons = async (auth_key, user_id,coupon_id,coupon, discount , status) => {
+export const EditCoupons = async (auth_key, user_id,coupon_id,coupon, discount , status , expiry_date) => {
   try {
     const formData = new FormData();
     formData.append('auth_key', auth_key);
@@ -741,6 +742,7 @@ export const EditCoupons = async (auth_key, user_id,coupon_id,coupon, discount ,
     formData.append('coupon', coupon);
     formData.append('discount', discount);
     formData.append('is_active', status);
+    formData.append('expiry_date', expiry_date);
 
 
     const response = await axios.post(`${BASE_URL}/coupons/edit.php`, formData);

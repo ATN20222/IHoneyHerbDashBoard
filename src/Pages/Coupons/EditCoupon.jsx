@@ -10,6 +10,8 @@ const EditCoupon = () => {
   const [couponDiscount, setCouponDiscount] = useState('');
   const [couponStatus, setCouponStatus] = useState(false); 
   const [error, setError] = useState('');
+  const [ExpDate, setExpDate] = useState(null);
+
   const [loading, setLoading] = useState(false);
   const {id} = useParams();
 
@@ -30,6 +32,7 @@ const EditCoupon = () => {
                 console.log(cop.is_active);
                 setCouponStatus(parseInt(cop.is_active))
                 setCouponDiscount(cop.discount)
+                setExpDate(cop.expiry_date);
                 
             }else{
                 if(response.msg === "Wrong key"){
@@ -72,7 +75,8 @@ const EditCoupon = () => {
       const response = await EditCoupons(auth_key, user_id,id, 
         couponName,
         couponDiscount,
-        couponStatus  
+        couponStatus ,
+        ExpDate=="0000-00-00"?null:ExpDate 
       );
       console.log(response)
 
@@ -146,6 +150,8 @@ const EditCoupon = () => {
               onChange={(e) => setCouponName(e.target.value)}
             />
           </div>
+
+          
           <div className="col-lg-6 CategoryFormItem">
             <label htmlFor="">
               <h6 className="">Coupon Discount</h6>
@@ -157,6 +163,19 @@ const EditCoupon = () => {
               placeholder="Discount"
               value={couponDiscount}
               onChange={(e) => setCouponDiscount(e.target.value)}
+            />
+          </div>
+          <div className="col-lg-12 CategoryFormItem">
+            <label htmlFor="">
+              <h6 className="">Coupon Expiry Date</h6>
+            </label>
+            <input
+            
+              className="col-lg-12 form-control EmailInput"
+              type="Date"
+              placeholder="Discount"
+              value={ExpDate}
+              onChange={(e) => setExpDate(e.target.value)}
             />
           </div>
           <h3 className="categoryheader">Coupon Status</h3>
