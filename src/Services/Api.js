@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://admin.ihoneyherb.com/'; 
+const BASE_URL = 'https://ihoneyherb.com/admin-test/'; 
 
 //#region Login Api's
 export const login = async (username, password) => {
@@ -1063,3 +1063,50 @@ export const DeleteSlides = async (auth_key, user_id , slider_id) => {
     }
 };
 //#endregion
+
+// #region FAQ
+export const ListFaq = async (auth_key, user_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+
+
+      const response = await axios.post(`${BASE_URL}/FAQ/list.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed'); 
+    }
+};
+export const AddFaq = async (auth_key, user_id ,question_en , question_ar , answer_en , answer_ar ) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('question_en', question_en);
+      formData.append('question_ar', question_ar);
+      formData.append('answer_en', answer_en);
+      formData.append('answer_ar', answer_ar);
+
+
+      const response = await axios.post(`${BASE_URL}/FAQ/add.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed'); 
+    }
+};
+export const DeleteFaq = async (auth_key, user_id ,id ) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('id', id);
+
+
+      const response = await axios.post(`${BASE_URL}/FAQ/delete.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed'); 
+    }
+};
+// #endregion

@@ -37,6 +37,8 @@ import EditOrders from './Pages/Orders/EditOrders.jsx';
 import ReturnedItems from './Pages/Orders/ReturnedItems.jsx';
 import WebsiteSlider from './Pages/WebsiteSlider/WebsiteSlider.jsx';
 import AddSliderImage from './Pages/WebsiteSlider/AddSliderImage.jsx';
+import FAQ from './Pages/FAQ/FAQ.jsx';
+import AddFAQ from './Pages/FAQ/AddFAQ.jsx';
 
 function App() {
   const isLoggedIn = localStorage.getItem('token');
@@ -86,6 +88,9 @@ function App() {
               <Route path="/returnrequests" element={isLoggedIn ? <ReturnedItems /> : <Navigate to="/login" />} /> 
 
 
+
+
+
               <Route path="/products" element={isLoggedIn ? <Products /> : <Navigate to="/login" />} />
               <Route path="/addproduct" element={isLoggedIn ? <AddProduct /> : <Navigate to="/login" />} />
               <Route path="/editproduct/:id" element={isLoggedIn ? <EditProduct /> : <Navigate to="/login" />} />
@@ -97,6 +102,13 @@ function App() {
 
               <Route path="/home" element={isLoggedIn ? <Home /> : <Navigate to="/login" />} />
               <Route path="/editcategory/:categoryId"  element={isLoggedIn ? <EditCategory /> : <Navigate to="/login" />} />
+
+
+
+              <Route path="/faq" element={isLoggedIn ? <FAQ /> : <Navigate to="/login" />} /> 
+              <Route path="/addfaq" element={isLoggedIn ? <AddFAQ /> : <Navigate to="/login" />} /> 
+
+
             </Routes>
           </div>
         </section>

@@ -44,3 +44,12 @@ thead{
 .OrderstTh{
     padding-bottom: 15px !important;
 }
+.ItemStatus{
+    min-width:200px !important;
+}
+.DescriptionOrderItem{
+    display: block;
+    max-height: 100px !important;
+    overflow: hidden;
+    text-overflow: ellipsis !important;
+}

@@ -396,7 +396,6 @@ const ChangeItemStatus = (status, itemId) => {
                             <th className="OrderstTh">Ar Name</th>
                             <th className="OrderstTh">En Description</th>
                             <th className="OrderstTh">Ar Description</th>
-                            
                             <th className="OrderstTh">Order Item Status</th>
                             
                            
@@ -410,9 +409,21 @@ const ChangeItemStatus = (status, itemId) => {
                                 <td>{order.product_id}</td>
                                 <td>{order.product_name_en}</td> 
                                 <td>{order.product_name_ar}</td> 
-                                <td>{order.product_description_en}</td> 
-                                <td>{order.product_description_ar}</td> 
-                                <td>
+                                <td >
+                                    <span className="DescriptionOrderItem">
+
+                                        {order.product_description_en}
+                                    </span>
+                                    
+                                </td> 
+                                <td className="" >
+                                    <span className="DescriptionOrderItem">
+
+                                        {order.product_description_ar}
+                                    </span>
+                                    
+                                </td> 
+                                <td className="ItemStatus">
 
                                 <select 
                                 
