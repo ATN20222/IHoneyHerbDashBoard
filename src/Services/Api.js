@@ -1110,3 +1110,72 @@ export const DeleteFaq = async (auth_key, user_id ,id ) => {
     }
 };
 // #endregion
+
+
+// #region Region
+export const ListRegions = async (auth_key, user_id) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+
+
+      const response = await axios.post(`${BASE_URL}/regions/list.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed'); 
+    }
+};
+export const AddRegions = async (auth_key, user_id ,emirate_en , emirate_ar , region_en , region_ar , shipping_cost ) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('emirate_en', emirate_en);
+      formData.append('emirate_ar', emirate_ar);
+      formData.append('region_en', region_en);
+      formData.append('region_ar', region_ar);
+      formData.append('shipping_cost', shipping_cost);
+
+
+      const response = await axios.post(`${BASE_URL}/regions/add.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed'); 
+    }
+};
+
+export const EditRegions = async (auth_key, user_id,id ,emirate_en , emirate_ar , region_en , region_ar , shipping_cost ) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('id', id);
+      formData.append('emirate_en', emirate_en);
+      formData.append('emirate_ar', emirate_ar);
+      formData.append('region_en', region_en);
+      formData.append('region_ar', region_ar);
+      formData.append('shipping_cost', shipping_cost);
+
+
+      const response = await axios.post(`${BASE_URL}/regions/edit.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed'); 
+    }
+};
+export const DeleteRegions = async (auth_key, user_id ,id ) => {
+  try {
+      const formData = new FormData();
+      formData.append('auth_key', auth_key);
+      formData.append('user_id', user_id);
+      formData.append('id', id);
+
+
+      const response = await axios.post(`${BASE_URL}/regions/delete.php`, formData);
+    return response.data; 
+    } catch (error) {
+      throw new Error('Failed'); 
+    }
+};
+// #endregion

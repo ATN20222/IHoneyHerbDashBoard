@@ -40,6 +40,10 @@ import AddSliderImage from './Pages/WebsiteSlider/AddSliderImage.jsx';
 import FAQ from './Pages/FAQ/FAQ.jsx';
 import AddFAQ from './Pages/FAQ/AddFAQ.jsx';
 
+import Regions from './Pages/Regions/Regions.jsx';
+import AddRegion from './Pages/Regions/AddRegion.jsx';
+import EditRegion from './Pages/Regions/EditRegion.jsx';
+
 function App() {
   const isLoggedIn = localStorage.getItem('token');
 
@@ -107,6 +111,10 @@ function App() {
 
               <Route path="/faq" element={isLoggedIn ? <FAQ /> : <Navigate to="/login" />} /> 
               <Route path="/addfaq" element={isLoggedIn ? <AddFAQ /> : <Navigate to="/login" />} /> 
+
+              <Route path="/regions" element={isLoggedIn ? <Regions /> : <Navigate to="/login" />} /> 
+              <Route path="/addregion" element={isLoggedIn ? <AddRegion /> : <Navigate to="/login" />} /> 
+              <Route path="/editregion/:id"  element={isLoggedIn ? <EditRegion /> : <Navigate to="/login" />} />
 
 
             </Routes>

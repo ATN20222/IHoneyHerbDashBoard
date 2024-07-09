@@ -3,7 +3,7 @@ import './SideBar.css';
 import Logo from '../../Assets/Images/I_H_H_LOGO.png';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell, faBox, faBoxArchive, faBullhorn, faCircleQuestion, faComment, faComments, faCubesStacked, faDoorOpen, faGear, faHand, faHome, faImages, faLayerGroup, faMobile, faQuestion, faScrewdriverWrench, faTicket, faTruckFast, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faBox, faBoxArchive, faBullhorn, faCircleQuestion, faComment, faComments, faCubesStacked, faDoorOpen, faFlag, faGear, faHand, faHome, faImages, faLayerGroup, faMobile, faQuestion, faScrewdriverWrench, faTicket, faTruckFast, faUser } from "@fortawesome/free-solid-svg-icons";
 import ConfirmLogout from "./confirmLogout";
 
 const SideBar = () =>{
@@ -100,6 +100,9 @@ const SideBar = () =>{
                             <Link disabled onClick={handleLinkClick} className="LinkItem" to="/faq"> <FontAwesomeIcon icon={faCircleQuestion}/>  FAQ </Link>
                         </li>
 
+                        <li className="list-item">
+                            <Link disabled onClick={handleLinkClick} className="LinkItem" to="/regions"> <FontAwesomeIcon icon={faFlag}/>  Regions </Link>
+                        </li>
 
                         <li className="list-item">
                             <Link  className="LinkItem" onClick={()=>setShowDeleteModal(true)} > <FontAwesomeIcon icon={faDoorOpen}/>  logout </Link>
