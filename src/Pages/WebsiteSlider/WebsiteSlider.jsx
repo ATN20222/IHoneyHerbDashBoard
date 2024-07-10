@@ -119,7 +119,8 @@ const WebsiteSlider = () => {
                     <thead className="table-dark">
                         <tr>
                             <th>#</th>
-                            <th>Image</th>
+                            <th>Image Web</th>
+                            <th>Image App</th>
                             <th>Product ID</th>
                             <th>Delete</th>
                         </tr>
@@ -129,6 +130,10 @@ const WebsiteSlider = () => {
                             <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>
+                                    <img src={screen.image_web_en} width="40px" alt="" /> 
+                                </td>
+                                <td>
+
                                     <img src={screen.image_en} width="40px" alt="" /> 
                                 </td>
                                 

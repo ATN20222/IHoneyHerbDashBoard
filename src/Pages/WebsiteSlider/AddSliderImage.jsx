@@ -8,6 +8,11 @@ const AddSliderImage = () => {
   const [ProductId, setProductId] = useState('');
   const [ScreenImage, setScreenImage] = useState(null);
   const [ScreenArImage, setScreenArImage] = useState(null);
+
+  const [WebScreenImage, setWebScreenImage] = useState(null);
+  const [WebScreenArImage, setWebScreenArImage] = useState(null);
+
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -47,6 +52,42 @@ const handleFileChange2 = (e) => {
   }
 };
 
+const handleFileChange3 = (e) => {
+  const file = e.target.files[0];
+  if (file && file.size > 8 * 1024 * 1024) {
+      // alert("");
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "File size exceeds the limit of 8MB.",
+        showConfirmButton: false,
+        timer: 3000
+      });
+      
+      e.target.value = null; 
+      setWebScreenImage(null); 
+  } else {
+    setWebScreenImage(file);
+  }
+};
+
+const handleFileChange4 = (e) => {
+const file = e.target.files[0];
+if (file && file.size > 8 * 1024 * 1024) {
+  Swal.fire({
+    position: "center",
+    icon: "warning",
+    title: "File size exceeds the limit of 8MB.",
+    showConfirmButton: false,
+    timer: 3000
+  });      e.target.value = null; 
+  setWebScreenArImage(null); 
+} else {
+  setWebScreenArImage(file);
+}
+};
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,7 +101,9 @@ const handleFileChange2 = (e) => {
 
       const auth_key = localStorage.getItem('token');
       const user_id = localStorage.getItem('user_id');
-      const response = await AddSlides(auth_key, user_id, ProductId, ScreenImage ,ScreenArImage);   
+      console.log(auth_key, user_id, ProductId, ScreenImage ,ScreenArImage ,WebScreenImage,WebScreenArImage)
+      const response = await AddSlides(auth_key, user_id, ProductId, ScreenImage ,ScreenArImage ,WebScreenImage,WebScreenArImage );
+      console.log(response)   
       if(response.status){
 
         // alert('screen added successfully');
@@ -107,7 +150,7 @@ const handleFileChange2 = (e) => {
 
   const CancelHadel =(e)=>{
     e.preventDefault();
-    window.location.href = "/screens";
+    window.location.href = "/websiteslider";
 }
 
 
@@ -135,10 +178,36 @@ const handleFileChange2 = (e) => {
           </div>
         
           
-          <h3 className="categoryheader">Slide Image</h3>
+          <h3 className="categoryheader">Web Slide Image</h3>
           <div className="col-lg-6 CategoryFormItem">
             <label htmlFor="">
-              <h6  className="">Image En</h6>
+              <h6  className="">Web Image En</h6>
+            </label>
+                        <input 
+                            required
+                            className="col-lg-12 form-control EmailInput" 
+                            type="file" 
+                            placeholder="name in english"
+                            onChange={handleFileChange3} 
+                        />
+          </div>
+
+          <div className="col-lg-6 CategoryFormItem">
+            <label htmlFor="">
+              <h6  className="">Web Image Ar</h6>
+            </label>
+                        <input 
+                            required
+                            className="col-lg-12 form-control EmailInput" 
+                            type="file" 
+                            placeholder="name in english"
+                            onChange={handleFileChange4} 
+                        />
+          </div>
+          <h3 className="categoryheader">App Slide Image</h3>
+          <div className="col-lg-6 CategoryFormItem">
+            <label htmlFor="">
+              <h6  className="">App Image En</h6>
             </label>
                         <input 
                             required
@@ -151,7 +220,7 @@ const handleFileChange2 = (e) => {
 
           <div className="col-lg-6 CategoryFormItem">
             <label htmlFor="">
-              <h6  className="">Image Ar</h6>
+              <h6  className="">App Image Ar</h6>
             </label>
                         <input 
                             required
@@ -161,6 +230,9 @@ const handleFileChange2 = (e) => {
                             onChange={handleFileChange2} 
                         />
           </div>
+
+
+
           
           {error && <div className="col-lg-12 text-danger">{error}</div>}
           <div className="col-lg-12 LoginWithCol CategoryFormBtns">

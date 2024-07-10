@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://ihoneyherb.com/admin-test/'; 
+const BASE_URL = 'https://admin.ihoneyherb.com/'; 
 
 //#region Login Api's
 export const login = async (username, password) => {
@@ -1030,7 +1030,7 @@ export const ListSlides = async (auth_key, user_id) => {
       throw new Error('Failed'); 
     }
 };
-export const AddSlides = async (auth_key, user_id , product_id , image_en,image_ar) => {
+export const AddSlides = async (auth_key, user_id , product_id , image_en,image_ar , image_web_en , image_web_ar) => {
   try {
       const formData = new FormData();
       formData.append('auth_key', auth_key);
@@ -1038,6 +1038,8 @@ export const AddSlides = async (auth_key, user_id , product_id , image_en,image_
       formData.append('product_id', product_id);
       formData.append('image_en', image_en);
       formData.append('image_ar', image_ar);
+      formData.append('image_web_en', image_web_en);
+      formData.append('image_web_ar', image_web_ar);
 
 
 
